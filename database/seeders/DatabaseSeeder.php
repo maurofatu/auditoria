@@ -18,5 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call(DimPoliticalPartySeeder::class);
         $this->call(DimIdentificationSeeder::class);
         $this->call(DimPersonSeeder::class);
+        $this->call(RoleSeeder::class);
+        $this->call(AplicationTableSeeder::class);
+        $this->call(UserRolePermitsSeeder::class);
     }
 }
