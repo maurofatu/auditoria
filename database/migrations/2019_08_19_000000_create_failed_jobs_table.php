@@ -14,6 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('failed_jobs', function (Blueprint $table) {
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_unicode_ci';
+            $table->engine = 'InnoDB';
+            
             $table->id();
             $table->string('uuid')->unique();
             $table->text('connection');

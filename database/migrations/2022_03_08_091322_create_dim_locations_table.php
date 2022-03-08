@@ -13,17 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('dim_people', function (Blueprint $table) {
+        Schema::create('dim_locations', function (Blueprint $table) {
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
             $table->engine = 'InnoDB';
             
             $table->id();
-            $table->string('first_name');
-            $table->string('second_name')->nullable();
-            $table->string('first_last_name');
-            $table->string('second_last_name')->nullable();
-            
+            $table->string('description')->unique();
+            $table->string('address');
+
             $table->softDeletes();
             $table->timestamps();
         });
@@ -36,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dim_people');
+        Schema::dropIfExists('dim_locations');
     }
 };
