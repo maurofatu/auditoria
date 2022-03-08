@@ -28,6 +28,8 @@ return new class extends Migration
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
 
+            $table->unique(['fk_users', 'fk_fact_polling_stations'], 'fact_permits');
+
             $table->softDeletes();
             $table->timestamps();
         });

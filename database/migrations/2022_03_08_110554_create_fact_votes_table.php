@@ -13,30 +13,28 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('fact_polling_stations', function (Blueprint $table) {
+        Schema::create('fact_votes', function (Blueprint $table) {
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
             $table->engine = 'InnoDB';
             
             $table->id();
-            $table->foreignId('fk_dim_cities')
-                ->references('id')->on('dim_cities')
+            $table->foreignId('fk_fact_polling_stations')
+                ->references('id')->on('fact_polling_stations')
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
-            $table->foreignId('fk_dim_communes')
-                ->references('id')->on('dim_communes')
+            $table->foreignId('fk_fact_candidates')
+                ->references('id')->on('fact_candidates')
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
-            $table->foreignId('fk_dim_locations')
-                ->references('id')->on('dim_locations')
-                ->cascadeOnUpdate()
-                ->restrictOnDelete();
-            $table->foreignId('fk_dim_tables')
-                ->references('id')->on('dim_tables')
+            $table->string('ip');
+            $table->integer('amount');
+            $table->foreignId('fk_users')
+                ->references('id')->on('users')
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
 
-            $table->unique(['fk_dim_cities', 'fk_dim_communes', 'fk_dim_locations', 'fk_dim_tables'], 'fact_polling_stations_uq');
+            $table->unique(['fk_fact_polling_stations', 'fk_fact_candidates'], 'fact_votes_uq');
 
             $table->softDeletes();
             $table->timestamps();
@@ -50,6 +48,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fact_polling_stations');
+        Schema::dropIfExists('fact_votes');
     }
 };

@@ -33,6 +33,8 @@ return new class extends Migration
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
 
+            $table->unique(['fk_dim_political_parties', 'fk_dim_identifications', 'fk_dim_people'], 'fact_candidates_uq');
+
             $table->softDeletes();
             $table->timestamps();
         });
