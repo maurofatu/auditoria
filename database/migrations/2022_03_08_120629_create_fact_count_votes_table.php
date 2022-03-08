@@ -13,27 +13,22 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('fact_candidates', function (Blueprint $table) {
+        Schema::create('fact_count_votes', function (Blueprint $table) {
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
             $table->engine = 'InnoDB';
             
             $table->id();
-            
-            $table->foreignId('fk_dim_political_parties')
-                ->references('id')->on('dim_political_parties')
+            $table->foreignId('fk_fact_polling_stations')
+                ->references('id')->on('fact_polling_stations')
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
-            $table->foreignId('fk_dim_identifications')
-                ->references('id')->on('dim_identifications')
+            $table->string('ip');
+            $table->integer('amount');
+            $table->foreignId('fk_users')
+                ->references('id')->on('users')
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
-            $table->foreignId('fk_dim_people')
-                ->references('id')->on('dim_people')
-                ->cascadeOnUpdate()
-                ->restrictOnDelete();
-
-            $table->unique(['fk_dim_political_parties', 'fk_dim_identifications', 'fk_dim_people'], 'fact_candidates_uq');
 
             $table->softDeletes();
             $table->timestamps();
@@ -47,6 +42,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fact_candidates');
+        Schema::dropIfExists('fact_count_votes');
     }
 };
