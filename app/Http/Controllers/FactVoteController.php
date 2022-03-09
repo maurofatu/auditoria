@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\FactVoteRequest;
-use Illuminate\Support\Facades\Auth;
 
 class FactVoteController extends Controller
 {
