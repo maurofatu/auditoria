@@ -32,7 +32,7 @@
                                         onchange="searchLocation(event)" required>
                                         <option value="" selected>Seleccione...</option>
                                         @foreach ($data['dim_cities'] as $dim_city)
-                                            <option value="{{ $dim_city->id }}"> {{ $dim_city->description }} </option>
+                                            <option value="{{ $dim_city->value }}"> {{ $dim_city->label }} </option>
                                         @endforeach
                                     </select>
                                     @error('munvot')
