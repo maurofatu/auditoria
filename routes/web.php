@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\FactVoteController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -26,11 +28,8 @@ Auth::routes();
 
 
 Route::group(['middleware' => 'auth'], function () {
-    
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('/facvote', [App\Http\Controllers\FactVoteController::class, 'create'])->name('facvote');
-
-    Route::get('/searchlocation/{id}', 'App\Http\Controllers\FactvoteController@searchlocation')->name('facvote.searchlocation');
-
-    Route::get('/searchtable/{id}', 'App\Http\Controllers\FactvoteController@searchtable')->name('facvote.searchtable');
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/facvote', [FactVoteController::class, 'create'])->name('facvote');
+    Route::get('/searchlocation/{id}', [FactvoteController::class, 'searchlocation'])->name('facvote.searchlocation');
+    Route::get('/searchtable/{id}', [FactvoteController::class, 'searchtable'])->name('facvote.searchtable');
 });
