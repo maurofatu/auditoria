@@ -21,11 +21,16 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Auth::routes(['register' => false]);
+Auth::routes();
+// Auth::routes(['register' => false]);
 
 
 Route::group(['middleware' => 'auth'], function () {
     
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/facvote', [App\Http\Controllers\FactVoteController::class, 'create'])->name('facvote');
+
+    Route::get('/searchlocation/{id}', 'App\Http\Controllers\FactvoteController@searchlocation')->name('facvote.searchlocation');
+
+    Route::get('/searchtable/{id}', 'App\Http\Controllers\FactvoteController@searchtable')->name('facvote.searchtable');
 });

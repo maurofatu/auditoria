@@ -24,39 +24,16 @@
                               Datos
                             </h3>
                 
-                            <div class="row">
-                                <div class="col-md-3">
-                                  <div class="form-group">
-                                    <label for="depvot">Departamento Votación</label>
-                                    <select class="form-control js-example-basic-single" id="depvot" name="depvot"
-                                        onchange="" required>
-                                        <option value="" selected>Seleccione...</option>
-                                        <option value="ARAUCA">ARAUCA</option>
-                                        <option value="TAME">TAME</option>
-                                        <option value="TAME">RTAME</option>
-                                        <option value="TAME">XTAME</option>
-                                        {{-- @foreach ($data['capitaneslist'] as $iitem)
-                                            <option value="{{ $iitem->cedula }}"> {{ $iitem->nombres }} </option>
-                                        @endforeach --}}
-                                    </select>
-                                    @error('depvot')
-                                      <small style="color: #FF0000"> {{ $message }} </small>
-                                    @enderror
-                                  </div>
-                                </div>
-                                <div class="col-md-3">
+                            <div class="row justify-content-center">
+                                <div class="col-md-2">
                                   <div class="form-group">
                                     <label for="munvot">Municipio Votación</label>
-                                    <select class="form-control js-example-basic-single" id="munvot" name="depvot"
-                                        onchange="" required>
+                                    <select class="form-control js-example-basic-single" id="munvot" name="munvot"
+                                        onchange="searchLocation(event)" required>
                                         <option value="" selected>Seleccione...</option>
-                                        <option value="ARAUCA">ARAUCA</option>
-                                        <option value="TAME">TAME</option>
-                                        <option value="TAME">RTAME</option>
-                                        <option value="TAME">XTAME</option>
-                                        {{-- @foreach ($data['capitaneslist'] as $iitem)
-                                            <option value="{{ $iitem->cedula }}"> {{ $iitem->nombres }} </option>
-                                        @endforeach --}}
+                                        @foreach ($data['dim_cities'] as $dim_city)
+                                            <option value="{{ $dim_city->id }}"> {{ $dim_city->description }} </option>
+                                        @endforeach
                                     </select>
                                     @error('munvot')
                                       <small style="color: #FF0000"> {{ $message }} </small>
@@ -67,7 +44,7 @@
                                   <div class="form-group">
                                     <label for="lugvot">Lugar Votación</label>
                                     <select class="form-control js-example-basic-single" id="lugvot" name="lugvot"
-                                        onchange="" required>
+                                        onchange="searchTable(event)" required>
                                         <option value="" selected>Seleccione...</option>
                                         <option value="ARAUCA">ARAUCA</option>
                                         <option value="TAME">TAME</option>
