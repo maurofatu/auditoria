@@ -34,6 +34,7 @@ return new class extends Migration
                 ->restrictOnDelete();
 
             $table->boolean('select')->default(false);
+            $table->boolean('insert')->default(false);
             $table->boolean('update')->default(false);
             $table->boolean('delete')->default(false);
 

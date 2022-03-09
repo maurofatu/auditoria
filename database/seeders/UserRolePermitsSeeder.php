@@ -15,9 +15,73 @@ class UserRolePermitsSeeder extends Seeder
             'fk_users' => null,
             'fk_aplication_tables' => [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
             'select' => true,
+            'insert' => true,
             'update' => true,
             'delete' => true
-        ]
+        ],
+        [
+            'fk_roles' => 2,
+            'fk_users' => null,
+            'fk_aplication_tables' => [1,2,3,4,5,6,7,8,10,11,13,14,15],
+            'select' => true,
+            'insert' => false,
+            'update' => false,
+            'delete' => false
+        ],
+        [
+            'fk_roles' => 2,
+            'fk_users' => null,
+            'fk_aplication_tables' => [12],
+            'select' => true,
+            'insert' => true,
+            'update' => true,
+            'delete' => false
+        ],
+        [
+            'fk_roles' => 3,
+            'fk_users' => null,
+            'fk_aplication_tables' => [1,2,3,4,5,6,7,8,10,11,13,14,15],
+            'select' => true,
+            'insert' => false,
+            'update' => false,
+            'delete' => false
+        ],
+        [
+            'fk_roles' => 3,
+            'fk_users' => null,
+            'fk_aplication_tables' => [9],
+            'select' => true,
+            'insert' => true,
+            'update' => true,
+            'delete' => false
+        ],
+        [
+            'fk_roles' => 4,
+            'fk_users' => null,
+            'fk_aplication_tables' => [1,2,3,4,5,6,7,8,10,11,13,14,15],
+            'select' => true,
+            'insert' => false,
+            'update' => false,
+            'delete' => false
+        ],
+        [
+            'fk_roles' => 4,
+            'fk_users' => null,
+            'fk_aplication_tables' => [9, 12],
+            'select' => true,
+            'insert' => true,
+            'update' => true,
+            'delete' => false
+        ],
+        [
+            'fk_roles' => 5,
+            'fk_users' => null,
+            'fk_aplication_tables' => [1,2,3,4,5,6,7,8,9,11,12,13,14,15],
+            'select' => true,
+            'insert' => false,
+            'update' => false,
+            'delete' => false
+        ],
     ];
 
     /**
