@@ -99,5 +99,25 @@
             @yield('content')
         </main>
     </div>
+    @if (session('message') == 'Success')
+        <script>
+            swal({
+                title: "Buen Trabajo!",
+                text: "Se guardó con éxito!",
+                icon: "success",
+                button: "Continuar",
+            });
+        </script>
+    @endif
+    @if (session('message') == 'Error')
+        <script>
+            swal({
+                title: "Error",
+                text: "Algo salio mal! {{ session('Code') }}",
+                icon: "error",
+                button: "Continuar",
+            });
+        </script>
+    @endif
 </body>
 </html>

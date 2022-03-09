@@ -8,6 +8,8 @@ use App\Models\FactPollingStation;
 use App\Models\FactVote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\FactVoteRequest;
+use Illuminate\Support\Facades\Auth;
 
 class FactVoteController extends Controller
 {
@@ -42,9 +44,51 @@ class FactVoteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(FactVoteRequest $request)
     {
         //
+        $validado = $request->validated();
+
+        DB::beginTransaction();
+
+        try{
+
+        FactVote::create([
+            'fk_fact_polling_stations' => $validado['mesvot'],
+            'fk_fact_candidates' => 1,
+            'ip' => request()->ip(),
+            'amount' => $validado['l101'],
+            'fk_users' => Auth::user()->id
+        ]); 
+
+        FactVote::create([
+            'fk_fact_polling_stations' => $validado['mesvot'],
+            'fk_fact_candidates' => 2,
+            'ip' => request()->ip(),
+            'amount' => $validado['l102'],
+            'fk_users' => Auth::user()->id
+        ]); 
+
+        FactVote::create([
+            'fk_fact_polling_stations' => $validado['mesvot'],
+            'fk_fact_candidates' => 3,
+            'ip' => request()->ip(),
+            'amount' => $validado['l103'],
+            'fk_users' => Auth::user()->id
+        ]); 
+
+
+        // $facvote = FactVote::create($validate);
+
+        DB::commit();
+
+        return redirect()->route('facvote')->with(['message'=>'Success']);
+
+    } catch (\Exception $e){
+        DB::rollback();
+        return redirect()->route('facvote')->with(['message'=>'Error', 'Code' => $e->getMessage()]);
+    }
+
     }
 
     /**

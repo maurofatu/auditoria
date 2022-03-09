@@ -5,12 +5,14 @@ function searchLocation(e) {
         return false;
     }
     const lugar = $("#lugvot");
+    const mesa = $("#mesvot")
     $.ajax({
         method: "GET",
         url: "/searchlocation/" + dimlocation,
         success: function (response) {
 
             $("#lugvot").empty().append('<option value="" selected>Seleccione...</option>');
+            $("#mesvot").empty().append('<option value="" selected>Seleccione...</option>');
 
             response.forEach((item) => {
                 lugar.append(

@@ -23,8 +23,8 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Auth::routes();
-// Auth::routes(['register' => false]);
+// Auth::routes();
+Auth::routes(['register' => false]);
 
 
 Route::group(['middleware' => 'auth'], function () {
@@ -32,4 +32,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/facvote', [FactVoteController::class, 'create'])->name('facvote');
     Route::get('/searchlocation/{id}', [FactvoteController::class, 'searchlocation'])->name('facvote.searchlocation');
     Route::get('/searchtable/{id}', [FactvoteController::class, 'searchtable'])->name('facvote.searchtable');
+    Route::post('/factvote', [FactvoteController::class, 'store'])->name('factvote.store');
 });

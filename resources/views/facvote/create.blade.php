@@ -15,7 +15,7 @@
                     @endif
 
                             
-                          <form action="#" method="POST" name="formulariol" id="formulariol">
+                          <form action="{{ route('factvote.store') }}" method="post" name="factvote" id="factvote">
                             @csrf
                 
                            
@@ -46,13 +46,6 @@
                                     <select class="form-control js-example-basic-single" id="lugvot" name="lugvot"
                                         onchange="searchTable(event)" required>
                                         <option value="" selected>Seleccione...</option>
-                                        <option value="ARAUCA">ARAUCA</option>
-                                        <option value="TAME">TAME</option>
-                                        <option value="TAME">RTAME</option>
-                                        <option value="TAME">XTAME</option>
-                                        {{-- @foreach ($data['capitaneslist'] as $iitem)
-                                            <option value="{{ $iitem->cedula }}"> {{ $iitem->nombres }} </option>
-                                        @endforeach --}}
                                     </select>
                                     @error('lugvot')
                                       <small style="color: #FF0000"> {{ $message }} </small>
@@ -65,13 +58,6 @@
                                     <select class="form-control js-example-basic-single" id="mesvot" name="mesvot"
                                         onchange="" required>
                                         <option value="" selected>Seleccione...</option>
-                                        <option value="ARAUCA">ARAUCA</option>
-                                        <option value="TAME">TAME</option>
-                                        <option value="TAME">RTAME</option>
-                                        <option value="TAME">XTAME</option>
-                                        {{-- @foreach ($data['capitaneslist'] as $iitem)
-                                            <option value="{{ $iitem->cedula }}"> {{ $iitem->nombres }} </option>
-                                        @endforeach --}}
                                     </select>
                                     @error('mesvot')
                                       <small style="color: #FF0000"> {{ $message }} </small>
@@ -84,7 +70,7 @@
                                   
                                 <div class="col-md-2" style="align-self: center;text-align: right;">
                                     <div class="form-group">
-                                      <label for="nombre">L101</label>
+                                      <label for="l101">L101</label>
                                     </div>
                                   </div>
                                 <div class="col-md-2">
@@ -100,13 +86,13 @@
                               <div class="row justify-content-center mt-3">
                                 <div class="col-md-2" style="align-self: center;text-align: right;">
                                     <div class="form-group">
-                                        <label for="nombre">L102</label>
+                                        <label for="l102">L102</label>
                                     </div>
                                   </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                      <input class="form-control" type="number" name="l101" id="l101" required/>
-                                      @error('l101')
+                                      <input class="form-control" type="number" name="l102" id="l102" required/>
+                                      @error('l102')
                                         <small style="color: #FF0000"> {{ $message }} </small>
                                       @enderror
                                     </div>
@@ -116,13 +102,13 @@
                               <div class="row justify-content-center mt-3">
                                 <div class="col-md-2" style="align-self: center;text-align: right;">
                                     <div class="form-group">
-                                        <label for="nombre">L103</label>
+                                        <label for="l103">L103</label>
                                     </div>
                                   </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                      <input class="form-control" type="number" name="l101" id="l101" required/>
-                                      @error('l101')
+                                      <input class="form-control" type="number" name="l103" id="l103" required/>
+                                      @error('l103')
                                         <small style="color: #FF0000"> {{ $message }} </small>
                                       @enderror
                                     </div>
