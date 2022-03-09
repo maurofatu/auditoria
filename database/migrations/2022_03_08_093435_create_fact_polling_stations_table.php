@@ -23,7 +23,7 @@ return new class extends Migration
                 ->references('id')->on('dim_cities')
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
-            $table->foreignId('fk_dim_communes')
+            $table->foreignId('fk_dim_communes')->nullable()
                 ->references('id')->on('dim_communes')
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
