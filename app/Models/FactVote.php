@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class FactVote extends Model
 {
     use HasFactory;
+    protected $table = 'fact_votes';
+    protected $guarded = [];
 }

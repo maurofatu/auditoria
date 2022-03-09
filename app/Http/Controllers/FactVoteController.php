@@ -24,7 +24,7 @@ class FactVoteController extends Controller
     */
    public function create()
    {
-       //
+    return view('facvote.create');
    }
 
    /**
