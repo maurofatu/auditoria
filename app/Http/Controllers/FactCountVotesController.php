@@ -83,7 +83,7 @@ class FactCountVotesController extends Controller
     {
         try {
 
-            $dim_locations = DB::select('SELECT DISTINCT dl.id as value, dl.description as label 
+            $dim_locations = DB::select('SELECT DISTINCT fps.id as value, dl.description as label 
                 from fact_polling_stations fps
                 join dim_cities dc on ( fps.fk_dim_cities = dc.id )
                 join dim_locations dl on ( fps.fk_dim_locations = dl.id )
