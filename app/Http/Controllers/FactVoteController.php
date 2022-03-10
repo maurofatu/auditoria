@@ -158,10 +158,9 @@ class FactVoteController extends Controller
             $dim_locations = DB::select('
                 SELECT DISTINCT dl.id as value, dl.description as label 
                 from fact_polling_stations fps
-                    inner join dim_cities dc on ( fps.fk_dim_cities = dc.id )
                     inner join dim_locations dl on ( fps.fk_dim_locations = dl.id )
                     inner join fact_permits fp on ( fps.id = fp.fk_fact_polling_stations )
-                where dc.id = ?
+                where fps.fk_dim_cities = ?
                     and fp.fk_users = ? ;
             ', [$id, Auth::user()->id]);
 
