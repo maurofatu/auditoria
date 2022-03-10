@@ -31,7 +31,7 @@ class HomeController extends Controller
     {
         try {
 
-            $count_votes = DB::select('SELECT format(sum(amount),0) as votes,fk_fact_candidates as candidate FROM fact_votes
+            $count_votes = DB::select('SELECT sum(amount) as votes,fk_fact_candidates as candidate FROM fact_votes
             GROUP BY (fk_fact_candidates)');
 
             if ($count_votes) {

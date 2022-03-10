@@ -52,14 +52,9 @@
 
 
             <!-- CONTENT -->
-            <div class="col-md-6 mt-5">
-                <canvas id="grafica"></canvas>
+            <div class="col-md-9 mt-3" id="graphic">
+                
             </div>
-
-            <div class="col-md-6 mt-5">
-                <canvas id="graficados"></canvas>
-            </div>
-            <!-- CONTENT -->
 
         </div>
     </div>
@@ -69,7 +64,7 @@
     <script>
         $(document).ready(function() {
             
-
+            searchVotes();
             let intervalTime;
 
             function getVotes() {

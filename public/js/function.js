@@ -66,10 +66,16 @@ function searchVotes() {
         method: "GET",
         url: "/searchvotes/",
         success: function (response) {
-
+            let l101 = response[0].votes;
+            let l102 = response[1].votes;
+            let l103 = response[2].votes;
             response.forEach((item) => {
                 document.getElementById("span10" + item.candidate).innerHTML = item.votes + " Votos";
+                
             });
+
+            graphics(l101,l102,l103);
+
 
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
