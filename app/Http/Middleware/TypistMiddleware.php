@@ -26,17 +26,14 @@ class TypistMiddleware
          * 5) Monitor
          */
 
-        switch(Auth::user()->fk_roles){
-            case 1:
-            case 2:
-                return $next($request);
-
-            case 3:
-            case 4:
-                return redirect()->route('factvote');
-
-            case 5:
-                return redirect()->route('home');            
+        if( in_array( Auth::user()->fk_roles, [1,2,4] ) ){
+            return $next($request);
+        }elseif( in_array( Auth::user()->fk_roles, [3] ) ){
+            return redirect()->route('factvote');
+        }elseif( in_array( Auth::user()->fk_roles, [5] ) ){
+            return redirect()->route('home');
+        }else{
+            return view('errors.403');
         }
     }
 }
