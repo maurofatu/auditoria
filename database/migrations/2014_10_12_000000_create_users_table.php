@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->foreignId('fk_roles')->default(1)
+            $table->foreignId('fk_roles')->default(5)
                 ->references('id')->on('roles')
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
