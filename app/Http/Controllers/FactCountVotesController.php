@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\DB;
 
 class FactCountVotesController extends Controller
 {
+
+    public function __construct()
+    {
+        // $this->middleware('role.typist');
+    }
+
     /** Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
