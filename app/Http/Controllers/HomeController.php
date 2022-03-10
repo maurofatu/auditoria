@@ -48,4 +48,16 @@ class HomeController extends Controller
         }
     }
 
+    public function CitiesRequest(){
+
+        $cities_request = DB::select('SELECT fv.fk_fact_candidates as candidate,fps.fk_dim_cities as city, sum(fv.amount) as votes 
+        FROM fact_votes fv
+        INNER JOIN fact_polling_stations fps on fps.id = fv.fk_fact_polling_stations
+        GROUP BY fps.fk_dim_cities, fv.fk_fact_candidates
+        ORDER BY city');
+
+        return $cities_request;
+
+    }
+
 }

@@ -154,3 +154,24 @@ function searchTableFcv(e) {
     });
 }
 
+function citiesVotes() {
+    
+    $.ajax({
+        method: "GET",
+        url: "/citiesrequest/",
+        success: function (response) {
+
+            graphicscities(response);
+
+
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swal({
+                title: XMLHttpRequest.statusText,
+                text: XMLHttpRequest.responseJSON.message,
+                icon: "error",
+            });
+        },
+    });
+}
+
