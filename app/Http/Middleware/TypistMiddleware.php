@@ -26,7 +26,7 @@ class TypistMiddleware
          * 5) Monitor
          */
 
-        switch(Auth::user()->role){
+        switch(Auth::user()->fk_roles){
             case 1:
             case 2:
                 return $next($request);

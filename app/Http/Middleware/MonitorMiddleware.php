@@ -25,8 +25,7 @@ class MonitorMiddleware
          * 4) Digitador + Cuenta Votos
          * 5) Monitor
          */
-
-         switch(Auth::user()->role){
+         switch(Auth::user()->fk_roles){
             case 1:
             case 5:
                 return $next($request);

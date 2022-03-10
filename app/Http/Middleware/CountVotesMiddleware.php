@@ -26,7 +26,7 @@ class CountVotesMiddleware
          * 5) Monitor
          */
 
-        switch(Auth::user()->role){
+        switch(Auth::user()->fk_roles){
             case 1:
             case 3:
             case 4:
