@@ -26,18 +26,14 @@ class CountVotesMiddleware
          * 5) Monitor
          */
 
-        switch(Auth::user()->fk_roles){
-            case 1:
-            case 3:
-            case 4:
-                return $next($request);
-
-            case 2:
-                return redirect()->route('factvote');
-
-            case 5:
-                return redirect()->route('home');
-
-         }
+        if( in_array( Auth::user()->fk_roles, [1,3,4] ) ){
+            return $next($request);
+        }elseif( in_array( Auth::user()->fk_roles, [2] ) ){
+            return redirect()->route('factvote');
+        }elseif( in_array( Auth::user()->fk_roles, [5] ) ){
+            return redirect()->route('home');
+        }else{
+            return view('errors.403');
+        }
     }
 }

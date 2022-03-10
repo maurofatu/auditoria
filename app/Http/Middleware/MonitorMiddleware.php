@@ -25,17 +25,14 @@ class MonitorMiddleware
          * 4) Digitador + Cuenta Votos
          * 5) Monitor
          */
-         switch(Auth::user()->fk_roles){
-            case 1:
-            case 5:
-                return $next($request);
-
-            case 2:
-            case 4:
-                return redirect()->route('factvote');
-                
-            case 3:
-                return redirect()->route('factcountvote.create');
-         }
+        if( in_array( Auth::user()->fk_roles, [1,5] ) ){
+            return $next($request);
+        }elseif( in_array( Auth::user()->fk_roles, [2,4] ) ){
+            return redirect()->route('factvote');
+        }elseif( in_array( Auth::user()->fk_roles, [3] ) ){
+            return redirect()->route('factcountvote.create');
+        }else{
+            return view('errors.403');
+        }
     }
 }
