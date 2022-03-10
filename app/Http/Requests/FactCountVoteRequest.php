@@ -13,7 +13,7 @@ class FactCountVoteRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,9 +24,9 @@ class FactCountVoteRequest extends FormRequest
     public function rules()
     {
         return [
-            'munvot' => 'required',
-            'lugvot' => 'required',
-            'mesvot' => 'required',
+            'munvotfcv' => 'required',
+            'lugvotfcv' => 'required',
+            'mesvotfcv' => 'required',
             'countvotes' => 'required|integer|min:0',
         ];
     }

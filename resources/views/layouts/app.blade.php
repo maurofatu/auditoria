@@ -130,6 +130,26 @@
             });
         </script>
     @endif
+    @if (session('messagefcv') == 'Success')
+        <script>
+            swal({
+                title: "Buen Trabajo!",
+                text: "Se guardó con éxito!",
+                icon: "success",
+                button: "Continuar",
+            });
+        </script>
+    @endif
+    @if (session('messagefcv') == 'Error')
+        <script>
+            swal({
+                title: "Error",
+                text: "Algo salio mal! {{ session('Codefcv') }}",
+                icon: "error",
+                button: "Continuar",
+            });
+        </script>
+    @endif
 </body>
 
 </html>

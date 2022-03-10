@@ -54,34 +54,27 @@ class FactCountVotesController extends Controller
      */
     public function store(FactCountVoteRequest $request)
     {
-        //
-        $validado = $request->validated();
+        $data = $request->validated();
 
         DB::beginTransaction();
 
         try{
 
-            // FactCountVotes::create([
-            //     'fk_fact_polling_stations' => $validado['mesvot'],
-            //     'fk_fact_candidates' => 1,
-            //     'ip' => request()->ip(),
-            //     'amount' => $validado['l101'],
-            //     'fk_users' => Auth::user()->id
-            // ]);
-
-            // fk_fact_polling_stations
-            // ip
-            // amount
-            // fk_users
+            FactCountVotes::create([
+                'fk_fact_polling_stations' => $data['mesvotfcv'],
+                'ip' => request()->ip(),
+                'amount' => $data['countvotes'],
+                'fk_users' => Auth::user()->id
+            ]);
 
 
         DB::commit();
 
-        return redirect()->route('factcountvote')->with(['message'=>'Success']);
+        return redirect()->route('factcountvote.create')->with(['messagefcv'=>'Success']);
 
     } catch (\Exception $e){
         DB::rollback();
-        return redirect()->route('factcountvote')->with(['message'=>'Error', 'Code' => $e->getMessage()]);
+        return redirect()->route('factcountvote.create')->with(['messagefcv'=>'Error', 'Codefcv' => $e->getMessage()]);
     }
 
     }

@@ -38,5 +38,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/factcountvote', [FactCountVotesController::class, 'create'])->name('factcountvote.create');
     Route::get('/searchlocationfcv/{id}', [FactCountVotesController::class, 'searchlocationfcv'])->name('factcountvote.searchlocationfcv');
     Route::get('/searchtablefcv/{id}', [FactCountVotesController::class, 'searchtablefcv'])->name('factcountvote.searchtablefcv');
-    Route::post('/factcountvoterequest', [FactCountVotesController::class, 'store'])->name('factcountvote.store');
+    Route::post('/factcountvote', [FactCountVotesController::class, 'store'])->name('factcountvote.store');
 });
