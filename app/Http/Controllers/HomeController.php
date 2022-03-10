@@ -32,13 +32,16 @@ class HomeController extends Controller
     {
         try {
 
-            $count_votes = DB::select('SELECT sum(amount) as votes,fk_fact_candidates as candidate FROM fact_votes
-            GROUP BY (fk_fact_candidates)');
+            $count_votes = DB::select('SELECT sum(fv.amount) as votes, fc.id as candidate FROM fact_votes fv
+            right join fact_candidates fc on fc.id = fv.fk_fact_candidates 
+            GROUP BY (fc.id)');
+
+            return $count_votes;
 
             if ($count_votes) {
                 return response()->json($count_votes, 200);
             } else {
-                return response()->json(['message' => 'No se encontró votos'], 404);
+                return response()->json(['message' => 'No se encontró votos imbecil'], 404);
             }
         } catch (\Illuminate\Database\QueryException $e) {
             return response()->json(['message' => $e->getMessage()], 500);

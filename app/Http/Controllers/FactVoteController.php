@@ -66,42 +66,40 @@ class FactVoteController extends Controller
 
         DB::beginTransaction();
 
-        try{
+        try {
 
-        FactVote::create([
-            'fk_fact_polling_stations' => $validado['mesvot'],
-            'fk_fact_candidates' => 1,
-            'ip' => request()->ip(),
-            'amount' => $validado['l101'],
-            'fk_users' => Auth::user()->id
-        ]); 
+            FactVote::create([
+                'fk_fact_polling_stations' => $validado['mesvot'],
+                'fk_fact_candidates' => 1,
+                'ip' => request()->ip(),
+                'amount' => $validado['l101'],
+                'fk_users' => Auth::user()->id
+            ]);
 
-        FactVote::create([
-            'fk_fact_polling_stations' => $validado['mesvot'],
-            'fk_fact_candidates' => 2,
-            'ip' => request()->ip(),
-            'amount' => $validado['l102'],
-            'fk_users' => Auth::user()->id
-        ]); 
+            FactVote::create([
+                'fk_fact_polling_stations' => $validado['mesvot'],
+                'fk_fact_candidates' => 2,
+                'ip' => request()->ip(),
+                'amount' => $validado['l102'],
+                'fk_users' => Auth::user()->id
+            ]);
 
-        FactVote::create([
-            'fk_fact_polling_stations' => $validado['mesvot'],
-            'fk_fact_candidates' => 3,
-            'ip' => request()->ip(),
-            'amount' => $validado['l103'],
-            'fk_users' => Auth::user()->id
-        ]); 
+            FactVote::create([
+                'fk_fact_polling_stations' => $validado['mesvot'],
+                'fk_fact_candidates' => 3,
+                'ip' => request()->ip(),
+                'amount' => $validado['l103'],
+                'fk_users' => Auth::user()->id
+            ]);
 
 
-        DB::commit();
+            DB::commit();
 
-        return redirect()->route('factvote')->with(['message'=>'Success']);
-
-    } catch (\Exception $e){
-        DB::rollback();
-        return redirect()->route('factvote')->with(['message'=>'Error', 'Code' => $e->getMessage()]);
-    }
-
+            return redirect()->route('factvote')->with(['message' => 'Success']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->route('factvote')->with(['message' => 'Error', 'Code' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -153,12 +151,6 @@ class FactVoteController extends Controller
     {
         try {
 
-            // $dim_locations = DB::select('SELECT DISTINCT dl.id as value, dl.description as label 
-            //     from fact_polling_stations fps
-            //     join dim_cities dc on ( fps.fk_dim_cities = dc.id )
-            //     join dim_locations dl on ( fps.fk_dim_locations = dl.id )
-            // where dc.id = ?', [$id]);
-
             $dim_locations = DB::select('
                 SELECT DISTINCT dl.id as value, dl.description as label 
                 from fact_polling_stations fps
@@ -181,11 +173,6 @@ class FactVoteController extends Controller
     public function SearchTable($id)
     {
         try {
-
-            // $dim_tables = DB::select('SELECT dt.id as value, dt.description as label from fact_polling_stations fps
-            // join dim_locations dl on ( fps.fk_dim_locations = dl.id )   
-            // join dim_tables dt on ( fps.fk_dim_tables = dt.id )
-            // where dl.id = ?', [$id]);
 
             $dim_tables = DB::select('
             SELECT fps.id as value, dt.description as label from fact_polling_stations fps 

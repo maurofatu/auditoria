@@ -21,7 +21,7 @@
                            
                             <!-- Datos Votacion -->
                             <h3 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-                              Datos
+                              E-14
                             </h3>
                 
                             <div class="row justify-content-center">

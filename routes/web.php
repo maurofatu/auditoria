@@ -19,8 +19,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     if (Auth::check()) {
-		return redirect()->route('home');
-	}
+        return redirect()->route('home');
+    }
     return view('auth.login');
 });
 
@@ -36,4 +36,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/factvote', [FactvoteController::class, 'store'])->name('factvote.store');
     Route::get('/searchvotes', [HomeController::class, 'searchvotes'])->name('home.searchvotes');
     Route::get('/factcountvote', [FactCountVotesController::class, 'create'])->name('factcountvote.create');
+    Route::get('/searchlocationfcv/{id}', [FactCountVotesController::class, 'searchlocationfcv'])->name('factcountvote.searchlocationfcv');
+    Route::get('/searchtablefcv/{id}', [FactCountVotesController::class, 'searchtablefcv'])->name('factcountvote.searchtablefcv');
+    Route::post('/factcountvoterequest', [FactCountVotesController::class, 'store'])->name('factcountvote.store');
 });
