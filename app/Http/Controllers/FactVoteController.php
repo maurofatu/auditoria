@@ -156,10 +156,9 @@ class FactVoteController extends Controller
             $dim_locations = DB::select('
                 SELECT DISTINCT dl.id as value, dl.description as label 
                 from fact_polling_stations fps
-                    inner join dim_cities dc on ( fps.fk_dim_cities = dc.id )
                     inner join dim_locations dl on ( fps.fk_dim_locations = dl.id )
                     inner join fact_permits fp on ( fps.id = fp.fk_fact_polling_stations )
-                where dc.id = ?
+                where fps.fk_dim_cities = ?
                     and fp.fk_users = ? ;
             ', [$id, Auth::user()->id]);
 
@@ -183,13 +182,10 @@ class FactVoteController extends Controller
             // where dl.id = ?', [$id]);
 
             $dim_tables = DB::select('
-            SELECT DISTINCT dt.id as value, dt.description as label 
-            from fact_polling_stations fps
-                inner join dim_cities dc on ( fps.fk_dim_cities = dc.id )
-                inner join dim_locations dl on ( fps.fk_dim_locations = dl.id )
+            SELECT fps.id as value, dt.description as label from fact_polling_stations fps 
                 inner join fact_permits fp on ( fps.id = fp.fk_fact_polling_stations )
                 inner join dim_tables dt on ( fps.fk_dim_tables = dt.id )
-            where dl.id = ?
+            where fk_dim_locations = ?
                 and fk_fact_polling_stations not in ( select fk_fact_polling_stations from fact_votes )
                 and fp.fk_users = ?;
             ', [$id, Auth::user()->id]);
