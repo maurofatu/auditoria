@@ -13,7 +13,7 @@ class FactCountVotesController extends Controller
 
     public function __construct()
     {
-        // $this->middleware('role.typist');
+        $this->middleware('role.countvotes');
     }
 
     /** Display a listing of the resource.
