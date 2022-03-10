@@ -13,6 +13,12 @@ use App\Http\Requests\FactVoteRequest;
 
 class FactVoteController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('role.typist');
+    }
+
     /** Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
