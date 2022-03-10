@@ -39,4 +39,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/searchlocationfcv/{id}', [FactCountVotesController::class, 'searchlocationfcv'])->name('factcountvote.searchlocationfcv');
     Route::get('/searchtablefcv/{id}', [FactCountVotesController::class, 'searchtablefcv'])->name('factcountvote.searchtablefcv');
     Route::post('/factcountvote', [FactCountVotesController::class, 'store'])->name('factcountvote.store');
+
+    Route::get('/citiesrequest', [HomeController::class, 'citiesrequest'])->name('home.citiesrequest');
 });

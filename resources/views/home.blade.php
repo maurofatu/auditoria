@@ -51,10 +51,11 @@
             </div>
 
 
-            <!-- CONTENT -->
-            <div class="col-md-9 mt-3" id="graphic">
-                
-            </div>
+            <!-- CONTENT GRAPHIC 1 -->
+            <div class="col-md-9 mt-3" id="graphic"></div>
+
+            <!-- CONTENT GRAPHIC 1 -->
+            <div class="col-md-12 mt-5" id="graphicCities"></div>
 
         </div>
     </div>
@@ -65,6 +66,7 @@
         $(document).ready(function() {
             
             searchVotes();
+            citiesVotes();
             let intervalTime;
 
             function getVotes() {
