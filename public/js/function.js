@@ -59,3 +59,25 @@ function searchTable(e) {
         },
     });
 }
+
+function searchVotes() {
+    
+    $.ajax({
+        method: "GET",
+        url: "/searchvotes/",
+        success: function (response) {
+
+            response.forEach((item) => {
+                document.getElementById("span10" + item.candidate).innerHTML = item.votes + " Votos";
+            });
+
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swal({
+                title: XMLHttpRequest.statusText,
+                text: XMLHttpRequest.responseJSON.message,
+                icon: "error",
+            });
+        },
+    });
+}

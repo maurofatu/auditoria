@@ -23,6 +23,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
     <!-- Sweet Alert -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -66,10 +67,10 @@
                             @endif
                         @else
                         <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('home') }}">{{ __('Datos') }}</a>
+                                    <a class="nav-link" href="{{ route('factvote') }}">{{ __('E-14') }}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('home') }}">{{ __('Consultas') }}</a>
+                                    <a class="nav-link" href="{{ route('factcountvote.create') }}">{{ __('Cuenta Votos') }}</a>
                                 </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

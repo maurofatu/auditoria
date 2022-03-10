@@ -44,7 +44,7 @@ class FactVoteController extends Controller
             'dim_cities' => $dim_cities,
             'status' => 200
         ];
-        return view('facvote/create', ["data" => $data]);
+        return view('factvote/create', ["data" => $data]);
     }
 
     /**
@@ -87,15 +87,13 @@ class FactVoteController extends Controller
         ]); 
 
 
-        // $facvote = FactVote::create($validate);
-
         DB::commit();
 
-        return redirect()->route('facvote')->with(['message'=>'Success']);
+        return redirect()->route('factvote')->with(['message'=>'Success']);
 
     } catch (\Exception $e){
         DB::rollback();
-        return redirect()->route('facvote')->with(['message'=>'Error', 'Code' => $e->getMessage()]);
+        return redirect()->route('factvote')->with(['message'=>'Error', 'Code' => $e->getMessage()]);
     }
 
     }

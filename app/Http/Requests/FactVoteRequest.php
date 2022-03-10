@@ -27,9 +27,9 @@ class FactVoteRequest extends FormRequest
             'munvot' => 'required',
             'lugvot' => 'required',
             'mesvot' => 'required',
-            'l101' => 'required|min:0',
-            'l102' => 'required|min:0',
-            'l103' => 'required|min:0',
+            'l101' => 'required|integer|min:0',
+            'l102' => 'required|integer|min:0',
+            'l103' => 'required|integer|min:0',
         ];
     }
 }
