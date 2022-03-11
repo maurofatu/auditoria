@@ -57,8 +57,6 @@ function graphicscities(response) {
     $("#graphicCities").html('<canvas id="graficaciudades"></canvas>');
     // Obtener una referencia al elemento canvas del DOM
     const $graficaciudades = document.querySelector("#graficaciudades");
-    
-    console.log(response);
 
     //Creamos un nuevo objeto donde vamos a almacenar por ciudades. 
     let nuevoObjeto = {}
@@ -78,16 +76,14 @@ function graphicscities(response) {
     
     })
 
-    console.log(nuevoObjeto);
-    //console.log(nuevoObjeto[5]?nuevoObjeto[5][0].votes:0);
-
-    // 1	Arauca
-    // 2	Arauquita
-    // 3	Cravo Norte
-    // 4	Fortul
-    // 5	Puerto Rondon
-    // 6	Saravena
-    // 7	Tame
+    for(i=1;i<=7;i++){
+        let l101 = returnDataCity(nuevoObjeto[i], 0);
+        document.getElementById(i + "l101").innerHTML = l101;
+        let l102 = returnDataCity(nuevoObjeto[i], 1);
+        document.getElementById(i + "l102").innerHTML = l102;
+        let l103 = returnDataCity(nuevoObjeto[i], 2);
+        document.getElementById(i + "l103").innerHTML = l103;
+    }
 
     // Las etiquetas son las que van en el eje X.
     const etiquetas = ["Arauca","Arauquita","Cravo Norte","Fortul","Puerto Rondon","Saravena","Tame"];

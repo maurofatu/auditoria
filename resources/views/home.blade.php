@@ -61,6 +61,35 @@
                 </div>
             </div>
 
+            @for ($i=1;$i<=7;$i++)
+                
+            <div class="col-xl-3 col-lg-6 mt-3">
+                <div class="card card-stats mb-4 mb-xl-0" style="border-color: salmon">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-center text-muted mb-0">{{ $data['cities'][$i] }}</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="h5 text-center col-4">L101</div>
+                            <div class="h5 text-center col-4">L102</div>
+                            <div class="h5 text-center col-4">L103</div>
+                            <div class="h5 text-center col-4" id="{{ $i }}l101"> -- </div>
+                            <div class="h5 text-center col-4" id="{{ $i }}l102"> -- </div>
+                            <div class="h5 text-center col-4" id="{{ $i }}l103"> -- </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            @endfor
+
+            
+
+
             <!-- CONTENT GRAPHIC 1 -->
             <div class="col-md-12 mt-3" id="graphicCities"></div>
 
