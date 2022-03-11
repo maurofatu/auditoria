@@ -5,14 +5,14 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header text-center">{{ __('Resultados') }}</div>
+                    <div class="card-header text-center"><h2><b>{{ __('Resultados Generales') }}</b></h2></div>
 
                 </div>
             </div>
 
 
             <div class="col-xl-3 col-lg-6 mt-3">
-                <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card card-stats mb-4 mb-xl-0" style="border-color: rgb(105, 192, 192, 1);">
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
@@ -25,7 +25,7 @@
             </div>
 
             <div class="col-xl-3 col-lg-6 mt-3">
-                <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card card-stats mb-4 mb-xl-0" style="border-color: rgba(255, 99, 103, 1);">
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
@@ -38,7 +38,7 @@
             </div>
 
             <div class="col-xl-3 col-lg-6 mt-3">
-                <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card card-stats mb-4 mb-xl-0" style="border-color: rgba(54, 162, 235, 1)">
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
@@ -54,8 +54,15 @@
             <!-- CONTENT GRAPHIC 1 -->
             <div class="col-md-9 mt-3" id="graphic"></div>
 
+            <div class="col-md-12 mt-5">
+                <div class="card">
+                    <div class="card-header text-center"><h2><b>{{ __('Resultados por Municipio') }}</b></h2></div>
+
+                </div>
+            </div>
+
             <!-- CONTENT GRAPHIC 1 -->
-            <div class="col-md-12 mt-5" id="graphicCities"></div>
+            <div class="col-md-12 mt-3" id="graphicCities"></div>
 
         </div>
     </div>
