@@ -5,14 +5,14 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Camara de Representantes L102') }}</div>
+                <div class="card-header">{{ __('Inicio Sesion') }}</div>
 
                 {{-- <div class="card-header align-content-center"> <img src="{{ asset('/img/galaxiacolor.png') }}" alt="" style="width: 200px; height:auto; "> </div> --}}
 
                 <div class="card-body">
-                    <div class="text-center mb-5">
+                    {{-- <div class="text-center mb-5">
                         <img src="{{ asset('/img/galaxiacolor.png') }}" alt="" style="width: 200px; height:auto; ">
-                    </div>
+                    </div> --}}
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 

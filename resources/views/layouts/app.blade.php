@@ -41,7 +41,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Grupo Galaxia
+                    <img src="{{ asset('/img/galaxiacolor.png') }}" alt="" style="width: 150px; height:auto; ">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
