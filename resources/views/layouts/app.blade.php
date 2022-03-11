@@ -71,16 +71,22 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('home') }}">{{ __('Monitor') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('factvote') }}">{{ __('E-14') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                    href="{{ route('factcountvote.create') }}">{{ __('Cuenta Votos') }}</a>
-                            </li>
+                            @if (in_array(Auth::user()->fk_roles, [1, 5]))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('home') }}">{{ __('Monitor') }}</a>
+                                </li>
+                            @endif
+                            @if (in_array(Auth::user()->fk_roles, [1, 2, 4]))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('factvote') }}">{{ __('E-14') }}</a>
+                                </li>
+                            @endif
+                            @if (in_array(Auth::user()->fk_roles, [1, 3, 4]))
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                        href="{{ route('factcountvote.create') }}">{{ __('Cuenta Votos') }}</a>
+                                </li>
+                            @endif
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -89,7 +95,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();">
+                                                             document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
@@ -99,13 +105,11 @@
                                     </form>
                                 </div>
                             </li>
-
                         @endguest
                     </ul>
                 </div>
             </div>
         </nav>
-
         <main class="py-4">
             @yield('content')
         </main>
