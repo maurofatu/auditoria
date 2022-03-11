@@ -25,7 +25,23 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+
+        $cities = array(
+            '1' => 'Arauca',
+            '2' => 'Arauquita',
+            '3' => 'Cravo Norte',
+            '4' => 'Fortul',
+            '5' => 'Puerto Rondon',
+            '6' => 'Saravena',
+            '7' => 'Tame',
+        );
+        
+        $data = [
+            'cities' => $cities,
+            'status' => 200
+        ];
+
+        return view('home', ["data" => $data]);
     }
 
     public function SearchVotes()
