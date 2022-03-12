@@ -19,12 +19,8 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             
             $table->id();
-            $table->foreignId('fk_dim_cities')
-                ->references('id')->on('dim_cities')
-                ->cascadeOnUpdate()
-                ->restrictOnDelete();
-            $table->foreignId('fk_dim_locations')
-                ->references('id')->on('dim_locations')
+            $table->foreignId('fk_fact_polling_stations')
+                ->references('id')->on('fact_polling_stations')
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
             $table->string('ip');
@@ -34,7 +30,7 @@ return new class extends Migration
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
 
-            $table->unique(['fk_dim_cities', 'fk_dim_locations'], 'fact_potential_voters_uq');
+            $table->unique(['fk_fact_polling_stations', 'fk_fact_candidates'], 'fact_potential_voters_uq');
 
             $table->softDeletes();
             $table->timestamps();
