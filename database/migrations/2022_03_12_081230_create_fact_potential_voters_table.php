@@ -30,7 +30,7 @@ return new class extends Migration
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
 
-            $table->unique(['fk_fact_polling_stations', 'fk_fact_candidates'], 'fact_potential_voters_uq');
+            $table->unique(['fk_fact_polling_stations'], 'fact_potential_voters_uq');
 
             $table->softDeletes();
             $table->timestamps();
