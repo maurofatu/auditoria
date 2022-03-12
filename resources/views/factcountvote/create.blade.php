@@ -75,7 +75,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-2">
-                                    <div class="form-group">
+                                    <div class="form-group" id="potentialVot">
                                         <input class="form-control" type="number" name="potentialvotes"
                                             id="potentialvotes" required />
                                         @error('potentialvotes')

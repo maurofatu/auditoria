@@ -202,6 +202,10 @@ function searchPotential(e) {
             if (response) {
                 $("#divPotentialVotes").hide(500);
                 document.getElementById("potentialvotes").remove();
+            }else{
+                $("#divPotentialVotes").show(500);
+                let div = document.getElementById("potentialVot");
+                div.innerHTML = '<input class="form-control" type="number" name="potentialvotes" id="potentialvotes" required />';
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
