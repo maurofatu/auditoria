@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FactCountVoteRequest;
 use App\Models\FactCountVotes;
+use App\Models\FactPotentialVoter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,8 +21,8 @@ class FactCountVotesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
-
+    public function index()
+    {
     }
 
     /**
@@ -37,7 +38,7 @@ class FactCountVotesController extends Controller
             from fact_polling_stations fps
                 inner join dim_cities dc on ( fps.fk_dim_cities = dc.id )', []);
 
-            
+
 
         $data = [
             'dim_cities' => $dim_cities,
@@ -55,10 +56,10 @@ class FactCountVotesController extends Controller
     public function store(FactCountVoteRequest $request)
     {
         $data = $request->validated();
-
+        
         DB::beginTransaction();
 
-        try{
+        try {
 
             FactCountVotes::create([
                 'fk_fact_polling_stations' => $data['mesvotfcv'],
@@ -67,16 +68,24 @@ class FactCountVotesController extends Controller
                 'fk_users' => Auth::user()->id
             ]);
 
+            if (isset($data['potentialvotes'])) {
 
-        DB::commit();
+                FactPotentialVoter::create([
+                    'fk_fact_polling_stations' => $data['mesvotfcv'],
+                    'ip' => request()->ip(),
+                    'amount' => $data['potentialvotes'],
+                    'fk_users' => Auth::user()->id
+                ]);
+            }
 
-        return redirect()->route('factcountvote.create')->with(['messagefcv'=>'Success']);
 
-    } catch (\Exception $e){
-        DB::rollback();
-        return redirect()->route('factcountvote.create')->with(['messagefcv'=>'Error', 'Codefcv' => $e->getMessage()]);
-    }
+            DB::commit();
 
+            return redirect()->route('factcountvote.create')->with(['messagefcv' => 'Success']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->route('factcountvote.create')->with(['messagefcv' => 'Error', 'Codefcv' => $e->getMessage()]);
+        }
     }
 
     public function SearchLocationFcv($id)
@@ -119,5 +128,20 @@ class FactCountVotesController extends Controller
         }
     }
 
+    public function searchPotential($id)
+    {
+        try {
 
+            $potential = DB::select('SELECT * FROM fact_potential_voters 
+            WHERE fk_fact_polling_stations = ?', [$id]);
+
+            if ($potential) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
 }

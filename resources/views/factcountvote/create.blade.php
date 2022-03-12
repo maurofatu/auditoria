@@ -57,7 +57,7 @@
                                     <div class="form-group">
                                         <label for="mesvotfcv">Mesa de Votación</label>
                                         <select class="form-control js-example-basic-single" id="mesvotfcv" name="mesvotfcv"
-                                            onchange="" required>
+                                            onchange="searchPotential(event)" required>
                                             <option value="" selected>Seleccione...</option>
                                         </select>
                                         @error('mesvotfcv')
@@ -76,8 +76,8 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <input class="form-control" type="number" name="potentialvotes" id="potentialvotes"
-                                            required />
+                                        <input class="form-control" type="number" name="potentialvotes"
+                                            id="potentialvotes" required />
                                         @error('potentialvotes')
                                             <small style="color: #FF0000"> {{ $message }} </small>
                                         @enderror
@@ -87,21 +87,21 @@
 
                             <div class="row justify-content-center mt-3">
 
-                              <div class="col-md-2" style="align-self: center;text-align: right;">
-                                  <div class="form-group">
-                                      <label for="countvotes">Cantidad Votos</label>
-                                  </div>
-                              </div>
-                              <div class="col-md-2">
-                                  <div class="form-group">
-                                      <input class="form-control" type="number" name="countvotes" id="countvotes"
-                                          required />
-                                      @error('countvotes')
-                                          <small style="color: #FF0000"> {{ $message }} </small>
-                                      @enderror
-                                  </div>
-                              </div>
-                          </div>
+                                <div class="col-md-2" style="align-self: center;text-align: right;">
+                                    <div class="form-group">
+                                        <label for="countvotes">Cantidad Votos</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input class="form-control" type="number" name="countvotes" id="countvotes"
+                                            required />
+                                        @error('countvotes')
+                                            <small style="color: #FF0000"> {{ $message }} </small>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="col-md-12 mt-4 text-center">
 
@@ -128,9 +128,6 @@
     <script>
         $(document).ready(function() {
             $('.js-example-basic-single').select2();
-            // $('#divPotentialVotes').hide();
-            // document.getElementById('potentialvotes').removeAttribute('required');
-            
         });
     </script>
 @endsection

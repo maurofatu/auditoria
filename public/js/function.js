@@ -5,18 +5,25 @@ function searchLocation(e) {
         return false;
     }
     const lugar = $("#lugvot");
-    const mesa = $("#mesvot")
+    const mesa = $("#mesvot");
     $.ajax({
         method: "GET",
         url: "/searchlocation/" + dimlocation,
         success: function (response) {
-
-            $("#lugvot").empty().append('<option value="" selected>Seleccione...</option>');
-            $("#mesvot").empty().append('<option value="" selected>Seleccione...</option>');
+            $("#lugvot")
+                .empty()
+                .append('<option value="" selected>Seleccione...</option>');
+            $("#mesvot")
+                .empty()
+                .append('<option value="" selected>Seleccione...</option>');
 
             response.forEach((item) => {
                 lugar.append(
-                    '<option value=" ' + item.value + ' "> ' + item.label  + '  </option>  '
+                    '<option value=" ' +
+                        item.value +
+                        ' "> ' +
+                        item.label +
+                        "  </option>  "
                 );
             });
         },
@@ -41,12 +48,17 @@ function searchTable(e) {
         method: "GET",
         url: "/searchtable/" + dimtable,
         success: function (response) {
-
-            $("#mesvot").empty().append('<option value="" selected>Seleccione...</option>');
+            $("#mesvot")
+                .empty()
+                .append('<option value="" selected>Seleccione...</option>');
 
             response.forEach((item) => {
                 mesa.append(
-                    '<option value=" ' + item.value + ' "> ' + item.label  + '  </option>  '
+                    '<option value=" ' +
+                        item.value +
+                        ' "> ' +
+                        item.label +
+                        "  </option>  "
                 );
             });
         },
@@ -61,7 +73,6 @@ function searchTable(e) {
 }
 
 function searchVotes() {
-    
     $.ajax({
         method: "GET",
         url: "/searchvotes/",
@@ -71,13 +82,11 @@ function searchVotes() {
             let l103 = response[2].votes === null ? 0 : response[2].votes;
             response.forEach((item) => {
                 let countvote = item.votes === null ? 0 : item.votes;
-                document.getElementById("span10" + item.candidate).innerHTML = countvote + " Votos";
-                
+                document.getElementById("span10" + item.candidate).innerHTML =
+                    countvote + " Votos";
             });
 
-            graphics(l101,l102,l103);
-
-
+            graphics(l101, l102, l103);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             swal({
@@ -89,7 +98,6 @@ function searchVotes() {
     });
 }
 
-
 // FUNCTION FOR COUNT VOTES
 
 function searchLocationFcv(e) {
@@ -99,18 +107,25 @@ function searchLocationFcv(e) {
         return false;
     }
     const lugar = $("#lugvotfcv");
-    const mesa = $("#mesvotfcv")
+    const mesa = $("#mesvotfcv");
     $.ajax({
         method: "GET",
         url: "/searchlocationfcv/" + dimlocation,
         success: function (response) {
-
-            $("#lugvotfcv").empty().append('<option value="" selected>Seleccione...</option>');
-            $("#mesvotfcv").empty().append('<option value="" selected>Seleccione...</option>');
+            $("#lugvotfcv")
+                .empty()
+                .append('<option value="" selected>Seleccione...</option>');
+            $("#mesvotfcv")
+                .empty()
+                .append('<option value="" selected>Seleccione...</option>');
 
             response.forEach((item) => {
                 lugar.append(
-                    '<option value=" ' + item.value + ' "> ' + item.label  + '  </option>  '
+                    '<option value=" ' +
+                        item.value +
+                        ' "> ' +
+                        item.label +
+                        "  </option>  "
                 );
             });
         },
@@ -135,12 +150,17 @@ function searchTableFcv(e) {
         method: "GET",
         url: "/searchtablefcv/" + dimtable,
         success: function (response) {
-
-            $("#mesvotfcv").empty().append('<option value="" selected>Seleccione...</option>');
+            $("#mesvotfcv")
+                .empty()
+                .append('<option value="" selected>Seleccione...</option>');
 
             response.forEach((item) => {
                 mesa.append(
-                    '<option value=" ' + item.value + ' "> ' + item.label  + '  </option>  '
+                    '<option value=" ' +
+                        item.value +
+                        ' "> ' +
+                        item.label +
+                        "  </option>  "
                 );
             });
         },
@@ -155,15 +175,11 @@ function searchTableFcv(e) {
 }
 
 function citiesVotes() {
-    
     $.ajax({
         method: "GET",
         url: "/citiesrequest/",
         success: function (response) {
-
             graphicscities(response);
-
-
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             swal({
@@ -175,3 +191,25 @@ function citiesVotes() {
     });
 }
 
+function searchPotential(e) {
+    let mesvot = e.target.value;
+    $.ajax({
+        method: "GET",
+        url: "/searchpotential/" + mesvot,
+        success: function (response) {
+            console.log(response);
+
+            if (response) {
+                $("#divPotentialVotes").hide(500);
+                document.getElementById("potentialvotes").remove();
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swal({
+                title: XMLHttpRequest.statusText,
+                text: XMLHttpRequest.responseJSON.message,
+                icon: "error",
+            });
+        },
+    });
+}
