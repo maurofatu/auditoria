@@ -104,13 +104,19 @@
             searchVotes();
             citiesVotes();
             let intervalTime;
+            let intervalTimeTwo;
 
             function getVotes() {
                 intervalTime = setInterval(searchVotes, 5000);
             }
 
+            function getVotescities() {
+                intervalTimetwo = setInterval(citiesVotes, 5000);
+            }
+
 
             getVotes();
+            getVotescities();
 
         });
     </script>
