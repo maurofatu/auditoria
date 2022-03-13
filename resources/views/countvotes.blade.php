@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header text-center">
-                        <h2><b>{{ __('Resultados Cuenta Votos') }}</b></h2>
+                        <h2><b>{{ __('Faltantes E-14') }}</b></h2>
                     </div>
 
                 </div>

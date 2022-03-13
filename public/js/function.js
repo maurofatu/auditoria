@@ -227,39 +227,36 @@ function countVotesRequest() {
             // console.log(response);
             // return;
 
-            let codeCity = 0;
-
-            let totalvoter = 0;
-            let totalpotential = 0;
+            let codeCity = 'City';
 
             //Recorremos el arreglo
             response.forEach((x) => {
                 //Creamos un nuevo objeto donde vamos a almacenar por ciudades.
-                
-                potentialVoters(x.idLocation); 
 
-                if(codeCity != x.idCity){
+                if (codeCity != x.city) {
 
-                    $('#count').append('<div class="col-md-12"><h3> ' +
-                    x.city +' </h3></div>');
-                    codeCity = x.idCity
+                            $("#count").append(
+                        '<div class="col-md-8 mt-3"><h3> ' +
+                            x.city +
+                            ' </h3></div><div class="col-md-2"></div><div class="col-md-2" "></div>'
+                    );
+                    codeCity = x.city;
+                    
+                    
                 }
 
-                $('#count').append('<div class="col-md-8"><h5> ' +
-                    x.location + ' </h5></div><div class="col-md-2" id="potent' + x.idLocation +'"></div><div class="col-md-2"><h5>CV: ' +
-                    x.cant + ' </h5></div>');
+                $("#count").append(
+                    '<div class="col-md-8"><h5> ' +
+                        x.location +
+                        ' </h5></div><div class="col-md-2" id="potent' +
+                        x.mesa +
+                        '"></div><div class="col-md-2"><h5>' +
+                        x.mesa +
+                        " </h5></div>"
+                );
 
-                    totalvoter += parseFloat(x.cant);
-
-
-                                               
-
-                
-                
             });
-            $('#count').append('<hr><div class="col-md-8"><h5> Totales </h5></div><div class="col-md-2" id="totalpotential"><h5>' +
-                    totalpotential + ' </h5></div><div class="col-md-2"><h5>' +
-                    totalvoter + ' </h5></div>');
+
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             swal({
@@ -278,8 +275,9 @@ function potentialVoters(id) {
         url: "/potentialvotersrequest/" + id,
         success: function (response) {
             // console.log(response);
-            let div = document.getElementById('potent'+id);
-            div.innerHTML = '<h5 id="potent' + id +'">PV: '+ response.cant +' </h5>';
+            let div = document.getElementById("potent" + id);
+            div.innerHTML =
+                '<h5 id="potent' + id + '">PV: ' + response.cant + " </h5>";
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             swal({

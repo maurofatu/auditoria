@@ -74,7 +74,7 @@
                             @if (in_array(Auth::user()->fk_roles, [1, 5]))
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                        href="{{ route('countvotes') }}">{{ __('Info Cuenta Votos') }}</a>
+                                        href="{{ route('countvotes') }}">{{ __('Faltantes E-14') }}</a>
                                 </li>
                             @endif
                             @if (in_array(Auth::user()->fk_roles, [1, 5]))

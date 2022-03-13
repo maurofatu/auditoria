@@ -83,18 +83,26 @@ class HomeController extends Controller
 
     public function CountVotesRequest(){
 
-        $countVotesRequest = DB::select('SELECT  idCity, city, idLocation, location, sum(cantidad) as cant FROM (
-                SELECT dc.id as idCity, dc.description as city,dl.id as idLocation, dl.description as location, fcv.fk_fact_polling_stations as mesa, 
-                max(amount) as cantidad 
-                FROM fact_count_votes fcv 
-                INNER JOIN fact_polling_stations fps on ( fcv.fk_fact_polling_stations = fps.id )
-                INNER JOIN dim_locations dl on ( fps.fk_dim_locations = dl.id )
-                INNER JOIN dim_cities dc on ( fps.fk_dim_cities = dc.id) 
-                group by fk_fact_polling_stations 
-        ) as result
-        GROUP by idCity,city,idLocation, location order by idCity');
+        // $countVotesRequest = DB::select('SELECT  idCity, city, idLocation, location, sum(cantidad) as cant FROM (
+        //         SELECT dc.id as idCity, dc.description as city,dl.id as idLocation, dl.description as location, fcv.fk_fact_polling_stations as mesa, 
+        //         max(amount) as cantidad 
+        //         FROM fact_count_votes fcv 
+        //         INNER JOIN fact_polling_stations fps on ( fcv.fk_fact_polling_stations = fps.id )
+        //         INNER JOIN dim_locations dl on ( fps.fk_dim_locations = dl.id )
+        //         INNER JOIN dim_cities dc on ( fps.fk_dim_cities = dc.id) 
+        //         group by fk_fact_polling_stations 
+        // ) as result
+        // GROUP by idCity,city,idLocation, location order by idCity');
 
-        return $countVotesRequest;
+        $falt = DB::select('SELECT dc.description as city, dl.description as location, dt.description as mesa 
+        from fact_polling_stations fps 
+            inner join dim_cities dc ON (fps.fk_dim_cities=dc.id)
+            inner join dim_locations dl on (fps.fk_dim_locations=dl.id)
+            inner join dim_tables dt ON (fps.fk_dim_tables=dt.id)
+            where fps.id not in (SELECT DISTINCT fk_fact_polling_stations from fact_votes)
+        order by fps.id');
+
+        return $falt;
 
     }
 
