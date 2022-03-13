@@ -229,6 +229,9 @@ function countVotesRequest() {
 
             let codeCity = 0;
 
+            let totalvoter = 0;
+            let totalpotential = 0;
+
             //Recorremos el arreglo
             response.forEach((x) => {
                 //Creamos un nuevo objeto donde vamos a almacenar por ciudades.
@@ -246,12 +249,17 @@ function countVotesRequest() {
                     x.location + ' </h5></div><div class="col-md-2" id="potent' + x.idLocation +'"></div><div class="col-md-2"><h5>CV: ' +
                     x.cant + ' </h5></div>');
 
+                    totalvoter += parseFloat(x.cant);
+
 
                                                
 
                 
                 
             });
+            $('#count').append('<hr><div class="col-md-8"><h5> Totales </h5></div><div class="col-md-2" id="totalpotential"><h5>' +
+                    totalpotential + ' </h5></div><div class="col-md-2"><h5>' +
+                    totalvoter + ' </h5></div>');
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             swal({
