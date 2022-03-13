@@ -245,38 +245,38 @@ function countVotesRequest() {
                     idlocation: x.idLocation,
                     cant: x.cant,
                 });
-            });
 
-            ciudad: "Arauca";
-            locacion: "CONC.ESCOLAR DIVINO NIÑO";
-            cant: "40";
-
-            // console.log(nuevoObjeto[3]);
-
-            for (i = 1; i <= 7; i++) {
-                if (nuevoObjeto[i]) {
-                    // console.log(nuevoObjeto);
-                    let div = document.getElementById(i);
-                    div.innerHTML =
-                        '<h2 class="text-center mt-3"> ' +
-                        nuevoObjeto[i][0].city +
-                        " </h2>";
-
-                        
-
-                    for (j = 0; j < nuevoObjeto[i].length; j++) {
-
-                        // console.log(nuevoObjeto[i][j].idlocation);
-                        
-                        let potent = potentialVoters(nuevoObjeto[i][j].idlocation);
-                        
-                        
-                        console.log(potent);
+                for (i = 1; i <= 7; i++) {
+                    if (nuevoObjeto[i]) {
+                        // console.log(nuevoObjeto);
+                        let div = document.getElementById(i);
                         div.innerHTML =
-                            '<div class="col-md-4"><h3> '+ nuevoObjeto[i][j].city +' </h3><h5> '+ nuevoObjeto[i][j].location +' </h5> <h5>Potencial Votantes: '+ potent +' </h5><h5>Cuenta Votos: '+ nuevoObjeto[i][j].cant +' </h5></div>';
+                            '<h2 class="text-center mt-3"> ' +
+                            nuevoObjeto[i][0].city +
+                            " </h2>";
+
+                        for (j = 0; j < nuevoObjeto[i].length; j++) {
+                            // console.log(nuevoObjeto[i][j].idlocation);
+
+                            let potent = potentialVoters(
+                                nuevoObjeto[i][j].idlocation
+                            );
+
+                            console.log(potent);
+                            div.innerHTML =
+                                '<div class="col-md-4"><h3> ' +
+                                nuevoObjeto[i][j].city +
+                                " </h3><h5> " +
+                                nuevoObjeto[i][j].location +
+                                " </h5> <h5>Potencial Votantes: " +
+                                potent +
+                                " </h5><h5>Cuenta Votos: " +
+                                nuevoObjeto[i][j].cant +
+                                " </h5></div>";
+                        }
                     }
                 }
-            }
+            });
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             swal({
@@ -289,7 +289,6 @@ function countVotesRequest() {
 }
 
 function potentialVoters(id) {
-
     console.log(id);
     $.ajax({
         method: "GET",
