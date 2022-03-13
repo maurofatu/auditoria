@@ -44,6 +44,11 @@ class HomeController extends Controller
         return view('home', ["data" => $data]);
     }
 
+    public function CountVotes()
+    {
+        return view('countvotes');
+    }
+
     public function SearchVotes()
     {
         try {
@@ -73,6 +78,34 @@ class HomeController extends Controller
         ORDER BY city');
 
         return $cities_request;
+
+    }
+
+    public function CountVotesRequest(){
+
+        $countVotesRequest = DB::select('SELECT  idCity, city, idLocation, location, sum(cantidad) as cant 
+        FROM (
+                SELECT dc.id as idCity, dc.description as city,dl.id as idLocation, dl.description as location, fcv.fk_fact_polling_stations as mesa, 
+                max(amount) as cantidad 
+                FROM fact_count_votes fcv 
+                INNER JOIN fact_polling_stations fps on ( fcv.fk_fact_polling_stations = fps.id )
+                INNER JOIN dim_locations dl on ( fps.fk_dim_locations = dl.id )
+                INNER JOIN dim_cities dc on ( fps.fk_dim_cities = dc.id) 
+                group by fk_fact_polling_stations 
+        ) as result
+        GROUP by city, location');
+
+        return $countVotesRequest;
+
+    }
+
+    public function PotentialVotersRequest($id){
+        
+        $potentialvoters = DB::select('select sum(fpv.amount) as cant from fact_potential_voters fpv
+        inner join fact_polling_stations fps ON fps.id = fpv.fk_fact_polling_stations
+       where fps.fk_dim_locations = ?', [$id]);
+
+       return $potentialvoters[0];
 
     }
 

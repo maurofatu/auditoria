@@ -73,6 +73,12 @@
                         @else
                             @if (in_array(Auth::user()->fk_roles, [1, 5]))
                                 <li class="nav-item">
+                                    <a class="nav-link"
+                                        href="{{ route('countvotes') }}">{{ __('Info Cuenta Votos') }}</a>
+                                </li>
+                            @endif
+                            @if (in_array(Auth::user()->fk_roles, [1, 5]))
+                                <li class="nav-item">
                                     <a class="nav-link" href="{{ route('home') }}">{{ __('Monitor') }}</a>
                                 </li>
                             @endif
@@ -95,7 +101,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                             document.getElementById('logout-form').submit();">
+                                                                 document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 

@@ -42,4 +42,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/factcountvote', [FactCountVotesController::class, 'store'])->name('factcountvote.store');
 
     Route::get('/citiesrequest', [HomeController::class, 'citiesrequest'])->name('home.citiesrequest');
+
+    Route::get('/countvotesrequest', [HomeController::class, 'countvotesrequest'])->name('home.countvotesrequest');
+
+    Route::get('/countvotes', [HomeController::class, 'countvotes'])->name('countvotes');
+
+    Route::get('/potentialvotersrequest/{id}', [HomeController::class, 'potentialvotersrequest'])->name('potentialvotersrequest');
 });
