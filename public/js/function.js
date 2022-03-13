@@ -227,71 +227,29 @@ function countVotesRequest() {
             // console.log(response);
             // return;
 
+            let codeCity = 0;
+
             //Recorremos el arreglo
             response.forEach((x) => {
                 //Creamos un nuevo objeto donde vamos a almacenar por ciudades.
-                // let nuevoObjeto = {};
+                
+                potentialVoters(x.idLocation); 
 
-                //     //Si la ciudad no existe en nuevoObjeto entonces
-                //     //la creamos e inicializamos el arreglo de profesionales.
-                //     if (!nuevoObjeto.hasOwnProperty(x.idCity)) {
-                //         nuevoObjeto[x.idCity] = [];
-                //     }
+                if(codeCity != x.idCity){
 
-                //     //Agregamos los datos de profesionales.
-                //     nuevoObjeto[x.idCity].push({
-                //         idcity: x.idCity,
-                //         city: x.city,
-                //         location: x.location,
-                //         idlocation: x.idLocation,
-                //         cant: x.cant,
-                //     });
+                    $('#count').append('<div class="col-md-12"><h3> ' +
+                    x.city +' </h3></div>');
+                    codeCity = x.idCity
+                }
 
-                // for (let i = 1; i <= 7; i++) {
+                $('#count').append('<div class="col-md-8"><h5> ' +
+                    x.location + ' </h5></div><div class="col-md-2" id="potent' + x.idLocation +'"></div><div class="col-md-2"><h5>CV: ' +
+                    x.cant + ' </h5></div>');
 
-                //     console.log(nuevoObjeto[i]);
 
-                //     if (nuevoObjeto[i]) {
-                //         // console.log(nuevoObjeto);
-                //         let div = document.getElementById(i);
-                //         div.innerHTML =
-                //             '<h2 class="text-center mt-3"> ' +
-                //             nuevoObjeto[i][0].city +
-                //             " </h2>";
+                                               
 
-                //         for (let j = 0; j < nuevoObjeto[i].length; j++) {
-                //             // console.log(nuevoObjeto[i][j].idlocation);
-
-                //             let potent = potentialVoters(
-                //                 nuevoObjeto[i][j].idlocation
-                //             );
-
-                //             // console.log(potent);
-                //             div.innerHTML =
-                //                 '<div class="col-md-4"><h3> ' +
-                //                 nuevoObjeto[i][j].city +
-                //                 " </h3><h5> " +
-                //                 nuevoObjeto[i][j].location +
-                //                 " </h5> <h5>Potencial Votantes: " +
-                //                 potent +
-                //                 " </h5><h5>Cuenta Votos: " +
-                //                 nuevoObjeto[i][j].cant +
-                //                 " </h5></div>";
-                //         }
-                //     }
-                // }
-
-                console.log(x);
-
-                potentialVoters(x.idLocation);                                
-
-                $('#count').append('<div class="col-md-4"><h3> ' +
-                        x.city +
-                        ' </h3><h5> ' +
-                        x.location +
-                        ' </h5> <h5 id="potent' + x.idLocation +'">Potencial Votantes: -- </h5><h5>Cuenta Votos: ' +
-                        x.cant +
-                        ' </h5></div>');
+                
                 
             });
         },
@@ -313,7 +271,7 @@ function potentialVoters(id) {
         success: function (response) {
             // console.log(response);
             let div = document.getElementById('potent'+id);
-            div.innerHTML = '<h5 id="potent' + id +'">Potencial Votantes: '+ response.cant +' </h5>';
+            div.innerHTML = '<h5 id="potent' + id +'">PV: '+ response.cant +' </h5>';
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             swal({

@@ -5,21 +5,15 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header text-center"><h2><b>{{ __('Resultados Cuenta Votos') }}</b></h2></div>
+                    <div class="card-header text-center">
+                        <h2><b>{{ __('Resultados Cuenta Votos') }}</b></h2>
+                    </div>
 
                 </div>
             </div>
 
+            <div class="row" id="count"></div>
 
-        <div id="count"></div>
-        {{-- <div id="1"></div>
-        <div id="2"></div>
-        <div id="3"></div>
-        <div id="4"></div>
-        <div id="5"></div>
-        <div id="6"></div>
-        <div id="7"></div> --}}
-   
 
 
         </div>
@@ -31,7 +25,7 @@
         $(document).ready(function() {
 
             countVotesRequest();
-            
+
             // searchVotes();
             // citiesVotes();
             // let intervalTime;
