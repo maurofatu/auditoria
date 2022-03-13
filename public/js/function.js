@@ -281,15 +281,17 @@ function countVotesRequest() {
                 //     }
                 // }
 
-                
+                console.log(x);
+
+                potentialVoters(x.idLocation);                                
 
                 $('#count').append('<div class="col-md-4"><h3> ' +
                         x.city +
-                        " </h3><h5> " +
+                        ' </h3><h5> ' +
                         x.location +
-                        " </h5> <h5>Potencial Votantes: -- </h5><h5>Cuenta Votos: " +
+                        ' </h5> <h5 id="potent' + x.idLocation +'">Potencial Votantes: -- </h5><h5>Cuenta Votos: ' +
                         x.cant +
-                        " </h5></div>");
+                        ' </h5></div>');
                 
             });
         },
@@ -310,7 +312,8 @@ function potentialVoters(id) {
         url: "/potentialvotersrequest/" + id,
         success: function (response) {
             // console.log(response);
-            return response;
+            let div = document.getElementById('potent'+id);
+            div.innerHTML = '<h5 id="potent' + id +'">Potencial Votantes: '+ response.cant +' </h5>';
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             swal({
