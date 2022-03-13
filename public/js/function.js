@@ -227,55 +227,70 @@ function countVotesRequest() {
             // console.log(response);
             // return;
 
-            //Creamos un nuevo objeto donde vamos a almacenar por ciudades.
-            let nuevoObjeto = {};
             //Recorremos el arreglo
             response.forEach((x) => {
-                //Si la ciudad no existe en nuevoObjeto entonces
-                //la creamos e inicializamos el arreglo de profesionales.
-                if (!nuevoObjeto.hasOwnProperty(x.idCity)) {
-                    nuevoObjeto[x.idCity] = [];
-                }
+                //Creamos un nuevo objeto donde vamos a almacenar por ciudades.
+                // let nuevoObjeto = {};
 
-                //Agregamos los datos de profesionales.
-                nuevoObjeto[x.idCity].push({
-                    idcity: x.idCity,
-                    city: x.city,
-                    location: x.location,
-                    idlocation: x.idLocation,
-                    cant: x.cant,
-                });
+                //     //Si la ciudad no existe en nuevoObjeto entonces
+                //     //la creamos e inicializamos el arreglo de profesionales.
+                //     if (!nuevoObjeto.hasOwnProperty(x.idCity)) {
+                //         nuevoObjeto[x.idCity] = [];
+                //     }
 
-                for (i = 1; i <= 7; i++) {
-                    if (nuevoObjeto[i]) {
-                        // console.log(nuevoObjeto);
-                        let div = document.getElementById(i);
-                        div.innerHTML =
-                            '<h2 class="text-center mt-3"> ' +
-                            nuevoObjeto[i][0].city +
-                            " </h2>";
+                //     //Agregamos los datos de profesionales.
+                //     nuevoObjeto[x.idCity].push({
+                //         idcity: x.idCity,
+                //         city: x.city,
+                //         location: x.location,
+                //         idlocation: x.idLocation,
+                //         cant: x.cant,
+                //     });
 
-                        for (j = 0; j < nuevoObjeto[i].length; j++) {
-                            // console.log(nuevoObjeto[i][j].idlocation);
+                // for (let i = 1; i <= 7; i++) {
 
-                            let potent = potentialVoters(
-                                nuevoObjeto[i][j].idlocation
-                            );
+                //     console.log(nuevoObjeto[i]);
 
-                            console.log(potent);
-                            div.innerHTML =
-                                '<div class="col-md-4"><h3> ' +
-                                nuevoObjeto[i][j].city +
-                                " </h3><h5> " +
-                                nuevoObjeto[i][j].location +
-                                " </h5> <h5>Potencial Votantes: " +
-                                potent +
-                                " </h5><h5>Cuenta Votos: " +
-                                nuevoObjeto[i][j].cant +
-                                " </h5></div>";
-                        }
-                    }
-                }
+                //     if (nuevoObjeto[i]) {
+                //         // console.log(nuevoObjeto);
+                //         let div = document.getElementById(i);
+                //         div.innerHTML =
+                //             '<h2 class="text-center mt-3"> ' +
+                //             nuevoObjeto[i][0].city +
+                //             " </h2>";
+
+                //         for (let j = 0; j < nuevoObjeto[i].length; j++) {
+                //             // console.log(nuevoObjeto[i][j].idlocation);
+
+                //             let potent = potentialVoters(
+                //                 nuevoObjeto[i][j].idlocation
+                //             );
+
+                //             // console.log(potent);
+                //             div.innerHTML =
+                //                 '<div class="col-md-4"><h3> ' +
+                //                 nuevoObjeto[i][j].city +
+                //                 " </h3><h5> " +
+                //                 nuevoObjeto[i][j].location +
+                //                 " </h5> <h5>Potencial Votantes: " +
+                //                 potent +
+                //                 " </h5><h5>Cuenta Votos: " +
+                //                 nuevoObjeto[i][j].cant +
+                //                 " </h5></div>";
+                //         }
+                //     }
+                // }
+
+                
+
+                $('#count').append('<div class="col-md-4"><h3> ' +
+                        x.city +
+                        " </h3><h5> " +
+                        x.location +
+                        " </h5> <h5>Potencial Votantes: -- </h5><h5>Cuenta Votos: " +
+                        x.cant +
+                        " </h5></div>");
+                
             });
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -289,12 +304,12 @@ function countVotesRequest() {
 }
 
 function potentialVoters(id) {
-    console.log(id);
+    // console.log(id);
     $.ajax({
         method: "GET",
         url: "/potentialvotersrequest/" + id,
         success: function (response) {
-            console.log(response);
+            // console.log(response);
             return response;
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {

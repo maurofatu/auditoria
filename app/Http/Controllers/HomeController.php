@@ -92,7 +92,7 @@ class HomeController extends Controller
                 INNER JOIN dim_cities dc on ( fps.fk_dim_cities = dc.id) 
                 group by fk_fact_polling_stations 
         ) as result
-        GROUP by idCity,city,idLocation, location');
+        GROUP by idCity,city,idLocation, location order by idCity');
 
         return $countVotesRequest;
 

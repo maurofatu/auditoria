@@ -11,14 +11,14 @@
             </div>
 
 
-        
-        <div id="1"></div>
+        <div id="count"></div>
+        {{-- <div id="1"></div>
         <div id="2"></div>
         <div id="3"></div>
         <div id="4"></div>
         <div id="5"></div>
         <div id="6"></div>
-        <div id="7"></div>
+        <div id="7"></div> --}}
    
 
 
