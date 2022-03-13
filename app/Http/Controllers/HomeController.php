@@ -83,8 +83,7 @@ class HomeController extends Controller
 
     public function CountVotesRequest(){
 
-        $countVotesRequest = DB::select('SELECT  idCity, city, idLocation, location, sum(cantidad) as cant 
-        FROM (
+        $countVotesRequest = DB::select('SELECT  idCity, city, idLocation, location, sum(cantidad) as cant FROM (
                 SELECT dc.id as idCity, dc.description as city,dl.id as idLocation, dl.description as location, fcv.fk_fact_polling_stations as mesa, 
                 max(amount) as cantidad 
                 FROM fact_count_votes fcv 
@@ -93,7 +92,7 @@ class HomeController extends Controller
                 INNER JOIN dim_cities dc on ( fps.fk_dim_cities = dc.id) 
                 group by fk_fact_polling_stations 
         ) as result
-        GROUP by city, location');
+        GROUP by idCity,city,idLocation, location');
 
         return $countVotesRequest;
 
