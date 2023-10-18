@@ -71,26 +71,26 @@
                                 </li>
                             @endif
                         @else
-                            @if (in_array(Auth::user()->fk_roles, [1, 5]))
+                            @if (in_array(Auth::user()->fk_roles, [1, 3, 4]))
                                 <li class="nav-item">
-                                    <a class="nav-link"
-                                        href="{{ route('countvotes') }}">{{ __('Faltantes E-14') }}</a>
-                                </li>
-                            @endif
-                            @if (in_array(Auth::user()->fk_roles, [1, 5]))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('home') }}">{{ __('Monitor') }}</a>
-                                </li>
-                            @endif
-                            @if (in_array(Auth::user()->fk_roles, [1, 2, 4]))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('factvote') }}">{{ __('E-14') }}</a>
+                                    <a class="nav-link" href="{{ route('home') }}">{{ __('Inicio') }}</a>
                                 </li>
                             @endif
                             @if (in_array(Auth::user()->fk_roles, [1, 3, 4]))
                                 <li class="nav-item">
                                     <a class="nav-link"
                                         href="{{ route('factcountvote.create') }}">{{ __('Cuenta Votos') }}</a>
+                                </li>
+                            @endif
+                            @if (in_array(Auth::user()->fk_roles, [1, 2, 4]))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('format') }}">{{ __('E-14') }}</a>
+                                </li>
+                            @endif
+                            @if (in_array(Auth::user()->fk_roles, [1, 5]))
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                        href="{{ route('countvotes') }}">{{ __('Faltantes E-14') }}</a>
                                 </li>
                             @endif
                             <li class="nav-item dropdown">

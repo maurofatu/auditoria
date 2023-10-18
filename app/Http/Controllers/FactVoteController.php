@@ -208,4 +208,29 @@ class FactVoteController extends Controller
             return response()->json(['message' => $e->getMessage()], 500);
         }
     }
+
+    public function VotesAlcaldia(){
+
+        $data = [
+            "Egdumar Chavez Arana",
+            "Juan Alfredo Quenza",
+            "Camilo Andres Gonzalez",
+            "Wilson Hernando Perez",
+            "Yomar Asdrubal Reyes",
+            "William Paul Leon Roa",
+            "Jose Hernando Gonzalez",
+            "Oscar Mariño Montaño",
+            "Andres Padilla Avila",
+            "Ehiana Galeano Reyes",
+            "Roger Alcides Cisneros",
+            "Dumar Jose Quintero",
+            "Juan Carlos Castañeda",
+            "Votos en Blanco",
+            "Votos Nulos",
+            "Votos No Marcados"
+        ];
+
+        return view('factvote.votesalcaldia',["data" => $data]);
+
+    }
 }

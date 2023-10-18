@@ -202,6 +202,7 @@ function searchPotential(e) {
             if (response) {
                 $("#divPotentialVotes").hide(500);
                 document.getElementById("potentialvotes").remove();
+                 $("#ndivPotentialVotes").show();
             } else {
                 $("#divPotentialVotes").show(500);
                 let div = document.getElementById("potentialVot");

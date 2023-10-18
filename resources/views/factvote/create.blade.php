@@ -99,21 +99,7 @@
                                   </div>
                               </div>
 
-                              <div class="row justify-content-center mt-3">
-                                <div class="col-md-2" style="align-self: center;text-align: right;">
-                                    <div class="form-group">
-                                        <label for="l103">L103</label>
-                                    </div>
-                                  </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                      <input class="form-control" type="number" name="l103" id="l103" required/>
-                                      @error('l103')
-                                        <small style="color: #FF0000"> {{ $message }} </small>
-                                      @enderror
-                                    </div>
-                                  </div>
-                              </div>
+                              
                 
                                 
                               <div class="col-md-12 mt-4 text-center">
@@ -134,7 +120,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> <!-- CONTAINER -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="{{ asset('js/function.js') }}"></script>
 

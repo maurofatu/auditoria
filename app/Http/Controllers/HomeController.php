@@ -44,6 +44,11 @@ class HomeController extends Controller
         return view('home', ["data" => $data]);
     }
 
+    public function Format(){
+
+        return view('format');
+    }
+
     public function CountVotes()
     {
         return view('countvotes');
