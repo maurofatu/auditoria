@@ -32,8 +32,12 @@ return new class extends Migration
                 ->references('id')->on('dim_people')
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
+            $table->foreignId('fk_dim_elections')
+                ->references('id')->on('dim_elections')
+                ->cascadeOnUpdate()
+                ->restrictOnDelete();
 
-            $table->unique(['fk_dim_political_parties', 'fk_dim_identifications', 'fk_dim_people'], 'fact_candidates_uq');
+            $table->unique(['fk_dim_political_parties', 'fk_dim_identifications', 'fk_dim_people', 'fk_dim_elections'], 'fact_candidates_uq');
 
             $table->softDeletes();
             $table->timestamps();

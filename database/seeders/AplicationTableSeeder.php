@@ -17,6 +17,7 @@ class AplicationTableSeeder extends Seeder
         'dim_people',
         'dim_political_parties',
         'dim_tables',
+        'dim_elections',
         'fact_candidates',
         'fact_count_votes',
         'fact_permits',
