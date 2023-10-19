@@ -63,6 +63,8 @@ class FactVoteController extends Controller
     {
         //
         $validado = $request->validated();
+        var_dump($validado);
+
 
         DB::beginTransaction();
 
@@ -227,7 +229,8 @@ class FactVoteController extends Controller
             "Juan Carlos Castañeda",
             "Votos en Blanco",
             "Votos Nulos",
-            "Votos No Marcados"
+            "Votos No Marcados",
+            "Total Votos"
         ];
 
         return view('factvote.votesalcaldia',["data" => $data]);

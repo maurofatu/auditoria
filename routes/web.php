@@ -34,7 +34,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/factvote', [FactVoteController::class, 'create'])->name('factvote');
     Route::get('/searchlocation/{id}', [FactvoteController::class, 'searchlocation'])->name('factvote.searchlocation');
     Route::get('/searchtable/{id}', [FactvoteController::class, 'searchtable'])->name('factvote.searchtable');
-    Route::get('/votesalcaldia', [FactvoteController::class, 'votesalcaldia'])->name('factvote.votesalcaldia');
+    Route::get('/votesalcaldia/{id}', [FactvoteController::class, 'votesalcaldia'])->name('factvote.votesalcaldia');
     Route::post('/factvote', [FactvoteController::class, 'store'])->name('factvote.store');
     Route::get('/searchvotes', [HomeController::class, 'searchvotes'])->name('home.searchvotes');
     Route::get('/factcountvote', [FactCountVotesController::class, 'create'])->name('factcountvote.create');
