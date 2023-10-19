@@ -21,7 +21,7 @@ class DimIdentificationSeeder extends Seeder
         for($i = 1; $i <= $this->identifications; $i++){
             DimIdentification::create([
                 'id' => $i,
-                'description'=>$i ++
+                'description'=>$i
             ]);
         }
     }

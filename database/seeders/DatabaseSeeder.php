@@ -28,5 +28,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DimLocationSeeder::class);
         $this->call(DimElectionSeeder::class);
         $this->call(FactPollingStationSeeder::class);
+        $this->call(FactCandidateSeeder::class);
     }
 }
