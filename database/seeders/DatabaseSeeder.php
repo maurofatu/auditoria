@@ -22,5 +22,10 @@ class DatabaseSeeder extends Seeder
         $this->call(AplicationTableSeeder::class);
         $this->call(UserRolePermitsSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(DimCitySeeder::class);
+        $this->call(DimTableSeeder::class);
+        $this->call(DimCommuneSeeder::class);
+        $this->call(DimLocationSeeder::class);
+        $this->call(FactPollingStationSeeder::class);
     }
 }

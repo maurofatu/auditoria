@@ -8,7 +8,7 @@ use App\Models\DimPoliticalParty;
 
 class DimPoliticalPartySeeder extends Seeder
 {
-    private $political_parties = [];
+    private $political_parties = ['Coalición'];
 
     /**
      * Run the database seeds.

@@ -9,7 +9,7 @@ use App\Models\DimIdentification;
 class DimIdentificationSeeder extends Seeder
 {
 
-    private $identifications = [];
+    private $identifications = 17;
 
     /**
      * Run the database seeds.
@@ -18,9 +18,10 @@ class DimIdentificationSeeder extends Seeder
      */
     public function run()
     {
-        foreach($this->identifications as $identification){
+        for($i = 1; $i <= $this->identifications; $i++){
             DimIdentification::create([
-                'description'=>$identification
+                'id' => $i,
+                'description'=>$i ++
             ]);
         }
     }
