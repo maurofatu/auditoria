@@ -9,7 +9,7 @@ use App\Models\DimElection;
 class DimElectionSeeder extends Seeder
 {
 
-    private $eletions = [
+    private $elections = [
         ['id'=>1,'description' => 'ALCALDIA'],
         ['id'=>2,'description' => 'GOBERNACION'],
     ];
@@ -20,7 +20,7 @@ class DimElectionSeeder extends Seeder
      */
     public function run()
     {
-        foreach($this->eletions as $election){
+        foreach($this->elections as $election){
             DimElection::create([
                 'id'=>$election['id'],
                 'description'=>$election['description'],
