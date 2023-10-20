@@ -39,7 +39,7 @@ return new class extends Migration
                 ->references('id')->on('dim_elections')
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
-            $table->string('url_photo_e4');
+            $table->string('url_photo_e4')->nullable();
 
             $table->unique(['fk_dim_cities', 'fk_dim_communes', 'fk_dim_locations', 'fk_dim_tables', 'fk_dim_elections'], 'fact_polling_stations_uq');
 
