@@ -5,27 +5,27 @@
 
         <div class="row">
             <div class="col-xl-12 col-sm-6 mb-xl-0 mb-2">
-          
-              <div class="card" style="background-color: hotpink;color:white;">
-                <div class="card-body p-2">
-                  <div class="row">
-                    <div class="col-12 text-center">
-                      <b>Elecciones Regionales 2023</b>
+
+                <div class="card" style="background-color: hotpink;color:white;">
+                    <div class="card-body p-2">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <b>Elecciones Regionales 2023</b>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
-            
-            
-              <div class="row">
-              <div class="col-12 text-center mt-2">
+        </div>
+
+
+        <div class="row">
+            <div class="col-12 text-center mt-2">
                 <h4>REGISTRO</h4>
-                <hr class="mt-0"/>
+                <hr class="mt-0" />
                 <h5>CUENTA VOTOS</h5>
-              </div>
             </div>
+        </div>
 
         <div class="row justify-content-center">
             <div class="col-md-12">
@@ -45,7 +45,7 @@
 
 
                             <!-- Datos Votacion -->
-                            
+
                             <div class="row justify-content-center">
                                 <div class="col-md-2">
                                     <div class="form-group">
@@ -97,8 +97,8 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group" id="potentialVot">
-                                        <input class="form-control" type="number" name="potentialvotes"
-                                            id="potentialvotes" pattern="[0-9]*" inputmode="numeric"  required />
+                                        <input class="form-control" type="number" name="potentialvotes" id="potentialvotes"
+                                            pattern="[0-9]*" inputmode="numeric" required />
                                         @error('potentialvotes')
                                             <small style="color: #FF0000"> {{ $message }} </small>
                                         @enderror
@@ -107,8 +107,6 @@
                             </div>
 
                             <div class="row justify-content-center mt-3" id="ndivPotentialVotes">
-                                <p>POTENCIAL VOTOS <br>1234</p>
-                                
                             </div>
 
                             <div class="row justify-content-center mt-3">
@@ -120,8 +118,8 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <input class="form-control" type="number" name="countvotes" id="countvotes" pattern="[0-9]*" inputmode="numeric" 
-                                            required />
+                                        <input class="form-control" type="number" name="countvotes" id="countvotes"
+                                            pattern="[0-9]*" inputmode="numeric" required />
                                         @error('countvotes')
                                             <small style="color: #FF0000"> {{ $message }} </small>
                                         @enderror
@@ -132,23 +130,32 @@
 
                             <div class="col-md-12 mt-4 text-center">
 
-                                <input type="submit" class="btn btn-outline-success" id="enviar" name="enviar" value="Enviar">
+                                <input type="submit" class="btn btn-outline-success" id="enviar" name="enviar"
+                                    value="Enviar">
 
                             </div>
 
-
-
-
-
                         </form>
-
-
 
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
+        <div class="card mt-3 ">
+        <div class="card-body">
+        <div class="row justify-content-center">
+            <div class="col-12 text-center"><b>DATA</b></div>
+            <div class="col-3">Votos</div>
+            <div class="col-7">Hora</div>
+        </div>
+        <div class="row justify-content-center" id="foreachcountvotes">
+                
+        </div>
+        </div>
+        </div>
+
+    </div> <!-- CONTAINER -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ asset('js/function.js') }}"></script>
 

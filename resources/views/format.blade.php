@@ -24,12 +24,12 @@
       </p>
   
       <div class="col-12 text-center mt-3">
-        <a href="{{ route('factvote.votesalcaldia',1) }}" class="btn btn-primary btn-lg" style="background-color: purple;inline-size: -webkit-fill-available;">Alcaldia</a>
+        <a href="{{ route('factvote.votes',1) }}" class="btn btn-primary btn-lg" style="background-color: purple;inline-size: -webkit-fill-available;">Alcaldia</a>
       </div>
   
   
       <div class="col-12 text-center mt-3">
-        <a href="{{ route('factvote.votesalcaldia',2) }}" class="btn btn-primary btn-lg" style="background-color: orange;inline-size: -webkit-fill-available;">Gobernación</a>
+        <a href="{{ route('factvote.votes',2) }}" class="btn btn-primary btn-lg" style="background-color: orange;inline-size: -webkit-fill-available;">Gobernación</a>
       </div>
   
       <p class="fs-4 text-center">

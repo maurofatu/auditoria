@@ -1,6 +1,6 @@
-function searchLocation(e) {
+function searchLocation(e,f) {
     var dimlocation = e.target.value;
-
+    var election = f.election.value;
     if (dimlocation == "") {
         return false;
     }
@@ -8,7 +8,7 @@ function searchLocation(e) {
     const mesa = $("#mesvot");
     $.ajax({
         method: "GET",
-        url: "/searchlocation/" + dimlocation,
+        url: "/searchlocation/" + dimlocation + "/" + election,
         success: function (response) {
             $("#lugvot")
                 .empty()
@@ -37,21 +37,23 @@ function searchLocation(e) {
     });
 }
 
-function searchTable(e) {
+function searchTable(e,f) {
     var dimtable = e.target.value;
+    var election = f.election.value;
 
     if (dimtable == "") {
         return false;
     }
     const mesa = $("#mesvot");
+    
     $.ajax({
         method: "GET",
-        url: "/searchtable/" + dimtable,
+        url: "/searchtable/" + dimtable + "/" + election,
         success: function (response) {
             $("#mesvot")
                 .empty()
                 .append('<option value="" selected>Seleccione...</option>');
-
+                
             response.forEach((item) => {
                 mesa.append(
                     '<option value=" ' +
@@ -61,6 +63,7 @@ function searchTable(e) {
                         "  </option>  "
                 );
             });
+
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             swal({
@@ -71,6 +74,8 @@ function searchTable(e) {
         },
     });
 }
+
+
 
 function searchVotes() {
     $.ajax({
@@ -199,13 +204,30 @@ function searchPotential(e) {
         success: function (response) {
             console.log(response);
 
-            if (response) {
+            if (response['count']) {
                 $("#divPotentialVotes").hide(500);
                 document.getElementById("potentialvotes").remove();
-                 $("#ndivPotentialVotes").show();
+                const myDiv = document.getElementById("ndivPotentialVotes");
+                myDiv.innerHTML = "<p>POTENCIAL VOTOS <br>"+ response['amount']['0']['amount'] +"</p>";
+                $("#ndivPotentialVotes").show();
+                const data = response['countvotes'];
+                const cvotes = document.getElementById("foreachcountvotes");
+
+                cvotes.innerHTML = "";
+                
+                Object.entries(data).forEach(([key, value]) => {
+                    console.log(value['amount'])
+                    console.log(value['created_at'])
+                    cvotes.innerHTML += "<div class='col-3'>"+ value['amount'] +"</div><div class='col-7'>"+ value['created_at'] +"</div>";  
+                  });
+                
+                
+                $("#foreachcountvotes").show();
             } else {
                 $("#divPotentialVotes").show(500);
                 let div = document.getElementById("potentialVot");
+                $("#ndivPotentialVotes").hide();
+                $("#foreachcountvotes").hide();
                 div.innerHTML =
                     '<input class="form-control" type="number" name="potentialvotes" id="potentialvotes" required />';
             }

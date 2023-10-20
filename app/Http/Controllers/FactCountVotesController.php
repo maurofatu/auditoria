@@ -156,11 +156,22 @@ class FactCountVotesController extends Controller
             $potential = DB::select('SELECT * FROM fact_potential_voters
             WHERE fk_fact_polling_stations = ?', [$id]);
 
-            if ($potential) {
-                return true;
-            } else {
-                return false;
-            }
+            $npotential = DB::select('SELECT amount FROM fact_potential_voters
+            WHERE fk_fact_polling_stations = ?', [$id]);
+
+            $countvotes = DB::select('SELECT * FROM fact_count_votes
+            WHERE fk_fact_polling_stations = ?', [$id]);
+
+            $potential = $potential ? true : false;
+            
+            $data = [
+                "count" => $potential,
+                "amount" => $npotential,
+                "countvotes" => $countvotes
+            ];
+                
+            return $data;
+            
         } catch (\Illuminate\Database\QueryException $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
