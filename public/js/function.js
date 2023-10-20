@@ -202,11 +202,11 @@ function searchPotential(e) {
         method: "GET",
         url: "/searchpotential/" + mesvot,
         success: function (response) {
-            console.log(response);
+            
 
             if (response['count']) {
                 $("#divPotentialVotes").hide(500);
-                document.getElementById("potentialvotes").remove();
+                document.getElementById('potentialvotes').style.visibility = "hidden";
                 const myDiv = document.getElementById("ndivPotentialVotes");
                 myDiv.innerHTML = "<p>POTENCIAL VOTOS <br>"+ response['amount']['0']['amount'] +"</p>";
                 $("#ndivPotentialVotes").show();
@@ -216,8 +216,6 @@ function searchPotential(e) {
                 cvotes.innerHTML = "";
                 
                 Object.entries(data).forEach(([key, value]) => {
-                    console.log(value['amount'])
-                    console.log(value['created_at'])
                     cvotes.innerHTML += "<div class='col-3'>"+ value['amount'] +"</div><div class='col-7'>"+ value['created_at'] +"</div>";  
                   });
                 
