@@ -131,16 +131,17 @@ class FactCountVotesController extends Controller
 //            join dim_tables dt on ( fps.fk_dim_tables = dt.id )
 //            where dl.id = ?', [$id]);
 
-            $dim_tables = DB::select('
+            $dim_tablesfcv = DB::select('
             SELECT fps.id as value, dt.description as label from fact_polling_stations fps
                 inner join fact_permits fp on ( fps.id = fp.fk_fact_polling_stations )
                 inner join dim_tables dt on ( fps.fk_dim_tables = dt.id )
             where fk_dim_locations = ?
-                and fp.fk_users = ?;
+                and fp.fk_users = ?
+                and fps.fk_dim_elections = 2;
             ', [$id, Auth::user()->id]);
 
-            if ($dim_tables) {
-                return response()->json($dim_tables, 200);
+            if ($dim_tablesfcv) {
+                return response()->json($dim_tablesfcv, 200);
             } else {
                 return response()->json(['message' => 'No se encontró locaciones'], 404);
             }

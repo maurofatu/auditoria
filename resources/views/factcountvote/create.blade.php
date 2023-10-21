@@ -98,7 +98,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group" id="potentialVot">
                                         <input class="form-control" type="number" name="potentialvotes" id="potentialvotes"
-                                            pattern="[0-9]*" inputmode="numeric" required />
+                                            pattern="[0-9]*" inputmode="numeric"  />
                                         @error('potentialvotes')
                                             <small style="color: #FF0000"> {{ $message }} </small>
                                         @enderror

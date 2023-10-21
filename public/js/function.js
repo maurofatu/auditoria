@@ -1,4 +1,4 @@
-function searchLocation(e,f) {
+function searchLocation(e, f) {
     var dimlocation = e.target.value;
     var election = f.election.value;
     if (dimlocation == "") {
@@ -37,7 +37,7 @@ function searchLocation(e,f) {
     });
 }
 
-function searchTable(e,f) {
+function searchTable(e, f) {
     var dimtable = e.target.value;
     var election = f.election.value;
 
@@ -45,7 +45,7 @@ function searchTable(e,f) {
         return false;
     }
     const mesa = $("#mesvot");
-    
+
     $.ajax({
         method: "GET",
         url: "/searchtable/" + dimtable + "/" + election,
@@ -53,7 +53,7 @@ function searchTable(e,f) {
             $("#mesvot")
                 .empty()
                 .append('<option value="" selected>Seleccione...</option>');
-                
+
             response.forEach((item) => {
                 mesa.append(
                     '<option value=" ' +
@@ -63,7 +63,6 @@ function searchTable(e,f) {
                         "  </option>  "
                 );
             });
-
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             swal({
@@ -75,7 +74,47 @@ function searchTable(e,f) {
     });
 }
 
+function searchImg(e, f) {
+    var dimtable = e.target.value;
+    var election = f.election.value;
 
+    if (dimtable == "") {
+        return false;
+    }
+
+    $.ajax({
+        method: "GET",
+        url: "/searchimg/" + dimtable + "/" + election,
+        success: function (response) {
+            $("#idimg").val(dimtable);
+
+            if (response["count_votes"]) {
+                document.getElementById("ndivImgVotes").style.visibility =
+                    "visible";
+                $("#enviar").attr("disabled", true);
+                response["count_votes"].forEach((item) => {
+                    $("#vote" + item["candidate"]).val(item["amount"]);
+                    $("#vote" + item["candidate"]).prop("readonly", true);
+                });
+            } else {
+                document.getElementById("ndivImgVotes").style.visibility =
+                    "hidden";
+                $("#enviar").attr("disabled", false);
+                response["dat"].forEach((item) => {
+                    $("#vote" + item).val("");
+                    $("#vote" + item).prop("readonly", false);
+                });
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swal({
+                title: XMLHttpRequest.statusText,
+                text: XMLHttpRequest.responseJSON.message,
+                icon: "error",
+            });
+        },
+    });
+}
 
 function searchVotes() {
     $.ajax({
@@ -202,24 +241,30 @@ function searchPotential(e) {
         method: "GET",
         url: "/searchpotential/" + mesvot,
         success: function (response) {
-            
-
-            if (response['count']) {
+            if (response["count"]) {
                 $("#divPotentialVotes").hide(500);
-                document.getElementById('potentialvotes').style.visibility = "hidden";
+                document.getElementById("potentialvotes").style.visibility =
+                    "hidden";
                 const myDiv = document.getElementById("ndivPotentialVotes");
-                myDiv.innerHTML = "<p>POTENCIAL VOTOS <br>"+ response['amount']['0']['amount'] +"</p>";
+                myDiv.innerHTML =
+                    "<p>POTENCIAL VOTOS <br>" +
+                    response["amount"]["0"]["amount"] +
+                    "</p>";
                 $("#ndivPotentialVotes").show();
-                const data = response['countvotes'];
+                const data = response["countvotes"];
                 const cvotes = document.getElementById("foreachcountvotes");
 
                 cvotes.innerHTML = "";
-                
+
                 Object.entries(data).forEach(([key, value]) => {
-                    cvotes.innerHTML += "<div class='col-3'>"+ value['amount'] +"</div><div class='col-7'>"+ value['created_at'] +"</div>";  
-                  });
-                
-                
+                    cvotes.innerHTML +=
+                        "<div class='col-3'>" +
+                        value["amount"] +
+                        "</div><div class='col-7'>" +
+                        value["created_at"] +
+                        "</div>";
+                });
+
                 $("#foreachcountvotes").show();
             } else {
                 $("#divPotentialVotes").show(500);
@@ -227,7 +272,7 @@ function searchPotential(e) {
                 $("#ndivPotentialVotes").hide();
                 $("#foreachcountvotes").hide();
                 div.innerHTML =
-                    '<input class="form-control" type="number" name="potentialvotes" id="potentialvotes" required />';
+                    '<input class="form-control" type="number" name="potentialvotes" id="potentialvotes"  />';
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -248,22 +293,19 @@ function countVotesRequest() {
             // console.log(response);
             // return;
 
-            let codeCity = 'City';
+            let codeCity = "City";
 
             //Recorremos el arreglo
             response.forEach((x) => {
                 //Creamos un nuevo objeto donde vamos a almacenar por ciudades.
 
                 if (codeCity != x.city) {
-
-                            $("#count").append(
+                    $("#count").append(
                         '<div class="col-md-8 mt-3"><h3> ' +
                             x.city +
                             ' </h3></div><div class="col-md-2"></div><div class="col-md-2" "></div>'
                     );
                     codeCity = x.city;
-                    
-                    
                 }
 
                 $("#count").append(
@@ -275,9 +317,7 @@ function countVotesRequest() {
                         x.mesa +
                         " </h5></div>"
                 );
-
             });
-
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             swal({

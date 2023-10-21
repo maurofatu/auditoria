@@ -28,7 +28,7 @@ class FactCountVoteRequest extends FormRequest
             'lugvotfcv' => 'required',
             'mesvotfcv' => 'required',
             'countvotes' => 'required|integer|min:0',
-            'potentialvotes' => 'integer|min:0',
+            'potentialvotes' => '',
         ];
     }
 }
