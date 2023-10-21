@@ -122,7 +122,7 @@
     </div>
     @if (session('message') == 'Success')
         <script>
-            swal({
+            swal.fire({
                 title: "Buen Trabajo!",
                 text: "Se guardó con éxito!",
                 icon: "success",
@@ -132,7 +132,7 @@
     @endif
     @if (session('message') == 'Error')
         <script>
-            swal({
+            swal.fire({
                 title: "Error",
                 text: "Algo salio mal! {{ session('Code') }}",
                 icon: "error",
@@ -142,7 +142,7 @@
     @endif
     @if (session('messagefcv') == 'Success')
         <script>
-            swal({
+            swal.fire({
                 title: "Buen Trabajo!",
                 text: "Se guardó con éxito!",
                 icon: "success",
@@ -152,7 +152,7 @@
     @endif
     @if (session('messagefcv') == 'Error')
         <script>
-            swal({
+            swal.fire({
                 title: "Error",
                 text: "Algo salio mal! {{ session('Codefcv') }}",
                 icon: "error",

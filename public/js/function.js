@@ -28,7 +28,7 @@ function searchLocation(e, f) {
             });
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            swal({
+            swal.fire({
                 title: XMLHttpRequest.statusText,
                 text: XMLHttpRequest.responseJSON.message,
                 icon: "error",
@@ -65,7 +65,7 @@ function searchTable(e, f) {
             });
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            swal({
+            swal.fire({
                 title: XMLHttpRequest.statusText,
                 text: XMLHttpRequest.responseJSON.message,
                 icon: "error",
@@ -107,7 +107,7 @@ function searchImg(e, f) {
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            swal({
+            swal.fire({
                 title: XMLHttpRequest.statusText,
                 text: XMLHttpRequest.responseJSON.message,
                 icon: "error",
@@ -276,7 +276,7 @@ function searchPotential(e) {
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            swal({
+            swal.fire({
                 title: XMLHttpRequest.statusText,
                 text: XMLHttpRequest.responseJSON.message,
                 icon: "error",
@@ -320,7 +320,7 @@ function countVotesRequest() {
             });
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            swal({
+            swal.fire({
                 title: XMLHttpRequest.statusText,
                 text: XMLHttpRequest.responseJSON.message,
                 icon: "error",

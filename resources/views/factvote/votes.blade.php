@@ -148,8 +148,8 @@
                                     Swal.fire('Carga exitosa', data.message, 'success');
                                     document.getElementById("ndivImgVotes").style
                                         .visibility = "hidden";
-
-                                    if (data.election === '1') {
+                                    console.log(data.election);
+                                    if (data.election == '1') {
                                         window.location.href =
                                             "{{ route('factvote.votes', 1) }}";
                                     } else {
