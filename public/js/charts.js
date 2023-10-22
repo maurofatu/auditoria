@@ -206,3 +206,62 @@ function graphicscities(response) {
         },
     });
 }
+
+function graphicscountvotes(range1,range2,range3, range4, range5) {
+
+    console.log(range1,range2,range3, range4, range5);
+    
+    $("#graphiccountvotes").html('<canvas width="550" id="graficacountvotes"></canvas>');
+
+    // Obtener una referencia al elemento canvas del DOM
+    const $grafica = document.querySelector("#graficacountvotes");
+    // Las etiquetas son las que van en el eje X.
+    const etiquetas = ["9:00am", "10:00am", "12:00am","2:00pm","3:45pm"];
+    // Podemos tener varios conjuntos de datos. Comencemos con uno
+    const data = {
+        label: "",
+        data: [range1,range2,range3, range4, range5], // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
+        backgroundColor: [
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+        ], // Color de fondo
+        borderColor: [
+            "rgba(54, 162, 235, 1)",
+            "rgba(54, 162, 235, 1)",
+            "rgba(54, 162, 235, 1)",
+            "rgba(54, 162, 235, 1)",
+            "rgba(54, 162, 235, 1)",
+        ], // Color del borde
+        borderWidth: 3, // Ancho del borde
+    };
+    let delayed;
+    new Chart($grafica, {
+        type: "bar", // Tipo de gráfica
+        data: {
+            labels: etiquetas,
+            datasets: [data],
+        },
+        options: {
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [
+                    {
+                        ticks: {
+                            beginAtZero: true,
+                        },
+                    },
+                ],
+            },
+            legend: {
+                display: false,
+            },
+            title: {
+                display: true,
+                text: 'Comportamiento'
+              }
+        },
+    });
+}

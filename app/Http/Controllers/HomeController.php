@@ -121,4 +121,76 @@ class HomeController extends Controller
 
     }
 
+    public function dashboard(){
+
+        $dim_cities = DB::select('
+            SELECT DISTINCT dc.id as value, dc.description as label
+            from fact_polling_stations fps
+            inner join dim_cities dc on ( fps.fk_dim_cities = dc.id )
+            order by value
+        ');
+
+        $data = [
+            'dim_cities' => $dim_cities,
+            'status' => 200
+        ];
+
+        return view('dashboard',["data" => $data]);
+
+    }
+
+    public function searchlocationCountVotesDash($id)
+    {
+        try {
+
+         $dim_locations = DB::select('
+         SELECT DISTINCT dl.id as value, dl.description as label
+         from fact_polling_stations fps
+             inner join dim_locations dl on ( fps.fk_dim_locations = dl.id )
+         where fps.fk_dim_cities = ? ;
+            ', [$id]);
+
+            if ($dim_locations) {
+                return response()->json($dim_locations, 200);
+            } else {
+                return response()->json(['message' => 'No se encontró locaciones'], 404);
+            }
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function searchCountVotesDash($id){
+
+        try {
+
+            $cvotesdash = DB::select('
+            SELECT amount, HOUR(TIME(created_at)) as hora  from fact_count_votes fcv 
+            where fk_fact_polling_stations in (select id from fact_polling_stations where fk_dim_locations = ?)
+            order by created_at  
+            ', [$id]);
+
+            $potential = DB::select('
+            select sum(amount) as potential from fact_potential_voters fpv 
+            inner join fact_polling_stations fps on (fps.id = fpv.fk_fact_polling_stations)
+            where fps.fk_dim_locations = ?  
+            ', [$id]);
+
+            $cantable = DB::select('
+            select count(*) as cant from fact_polling_stations fps 
+            where fps.fk_dim_locations = ?  
+            ', [$id]);
+
+
+   
+               if ($cvotesdash) {
+                   return response()->json(["cvotesdash" => $cvotesdash, "potential" => $potential,"cantable" => $cantable, 200]);
+               } else {
+                   return response()->json(['message' => 'No se encontró registros'], 404);
+               }
+           } catch (\Illuminate\Database\QueryException $e) {
+               return response()->json(['message' => $e->getMessage()], 500);
+           }
+    }
+
 }
