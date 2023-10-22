@@ -90,7 +90,7 @@
                             @if (in_array(Auth::user()->fk_roles, [1, 5]))
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                        href="{{ route('countvotes') }}">{{ __('Faltantes E-14') }}</a>
+                                        href="{{ route('factcountvote.news') }}">{{ __('Novedades') }}</a>
                                 </li>
                             @endif
                             <li class="nav-item dropdown">
