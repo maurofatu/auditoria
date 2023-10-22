@@ -177,4 +177,42 @@ class FactCountVotesController extends Controller
             return response()->json(['message' => $e->getMessage()], 500);
         }
     }
+
+    public function news()
+    {
+
+        $dim_cities = DB::select('
+            SELECT DISTINCT dc.id as value, dc.description as label
+            from fact_polling_stations fps
+                inner join dim_cities dc on ( fps.fk_dim_cities = dc.id )
+                inner join fact_permits fp on ( fps.id = fp.fk_fact_polling_stations )
+            where fp.fk_users = ? ;
+        ', [Auth::user()->id]);
+
+        $data = [
+            'dim_cities' => $dim_cities,
+            'status' => 200
+        ];
+        return view('factcountvote/news', ["data" => $data]);
+    }
+
+    public function storenews(FactCountVoteRequest $request)
+    {
+        $data = $request->validated();
+
+        DB::beginTransaction();
+
+        try {
+
+            
+
+
+            DB::commit();
+
+            return redirect()->route('factcountvote.create')->with(['messagefcv' => 'Success']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->route('factcountvote.create')->with(['messagefcv' => 'Error', 'Codefcv' => $e->getMessage()]);
+        }
+    }
 }

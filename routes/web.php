@@ -36,12 +36,21 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/searchtable/{id}/{election}', [FactvoteController::class, 'searchtable'])->name('factvote.searchtable');
     Route::get('/votes/{id}', [FactvoteController::class, 'votes'])->name('factvote.votes');
     Route::post('/factvote', [FactvoteController::class, 'store'])->name('factvote.store');
-    Route::post('/factvoteimg', [FactvoteController::class, 'img'])->name('factvote.img');
     Route::get('/searchvotes', [HomeController::class, 'searchvotes'])->name('home.searchvotes');
-    Route::get('/factcountvote', [FactCountVotesController::class, 'create'])->name('factcountvote.create');
+
+    // PROCESS FOR STORE IMG
+    Route::post('/factvoteimg', [FactvoteController::class, 'img'])->name('factvote.img');
+    Route::get('/searchimg/{id}/{election}', [FactvoteController::class, 'searchimg'])->name('factvote.searchimg');
+    
+    // PROCESS FOR NEWS
+    Route::get('/news', [FactCountVotesController::class, 'news'])->name('factcountvote.news');
+    Route::post('/news', [FactCountVotesController::class, 'storenews'])->name('factcountvote.storenews');
+
+    // PROCESS FOR COUNT VOTES
     Route::get('/searchlocationfcv/{id}', [FactCountVotesController::class, 'searchlocationfcv'])->name('factcountvote.searchlocationfcv');
     Route::get('/searchtablefcv/{id}', [FactCountVotesController::class, 'searchtablefcv'])->name('factcountvote.searchtablefcv');
     Route::get('/searchpotential/{id}', [FactCountVotesController::class, 'searchpotential'])->name('factcountvote.searchpotential');
+    Route::get('/factcountvote', [FactCountVotesController::class, 'create'])->name('factcountvote.create');
     Route::post('/factcountvote', [FactCountVotesController::class, 'store'])->name('factcountvote.store');
 
     Route::get('/citiesrequest', [HomeController::class, 'citiesrequest'])->name('home.citiesrequest');
@@ -51,6 +60,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/countvotes', [HomeController::class, 'countvotes'])->name('countvotes');
 
     Route::get('/potentialvotersrequest/{id}', [HomeController::class, 'potentialvotersrequest'])->name('potentialvotersrequest');
+    
+    // PROCESS DASHBOARD
+    Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+    Route::get('/searchlocationcountvotesdash/{id}', [HomeController::class, 'searchlocationcountvotesdash'])->name('home.searchlocationcountvotesdash');
 
-    Route::get('/searchimg/{id}/{election}', [FactvoteController::class, 'searchimg'])->name('factvote.searchimg');
+    Route::get('/searchcountvotesdash/{id}', [HomeController::class, 'searchcountvotesdash'])->name('home.searchcountvotesdash');
+    
+    
 });
