@@ -28,7 +28,7 @@ class MonitorMiddleware
         if( in_array( Auth::user()->fk_roles, [1,5] ) ){
             return $next($request);
         }elseif( in_array( Auth::user()->fk_roles, [2,4] ) ){
-            return redirect()->route('factvote');
+            return redirect()->route('home');
         }elseif( in_array( Auth::user()->fk_roles, [3] ) ){
             return redirect()->route('factcountvote.create');
         }else{
