@@ -62,9 +62,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/potentialvotersrequest/{id}', [HomeController::class, 'potentialvotersrequest'])->name('potentialvotersrequest');
     
     // PROCESS DASHBOARD
-    Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
-    Route::get('/searchlocationcountvotesdash/{id}', [HomeController::class, 'searchlocationcountvotesdash'])->name('home.searchlocationcountvotesdash');
+    Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('monitor.dashboard');
 
+
+    Route::get('/graphicscountvotes', function () {
+    return view('monitor.graphicscountvotes');
+    });
+    // Route::get('/graphicscountvotes', [HomeController::class, 'graphicscountvotes'])->name('monitor.graphicscountvotes');
+    // Route::get('/graphicsalcaldia', [HomeController::class, 'graphicsalcaldia'])->name('monitor.graphicsalcaldia');
+    // Route::get('/graphicsgobernacion', [HomeController::class, 'graphicsgobernacion'])->name('monitor.graphicsgobernacion');
+
+    Route::get('/searchgobernaciondash/{id}', [HomeController::class, 'searchgobernaciondash'])->name('home.searchgobernaciondash');
+
+
+    Route::get('/searchlocationcountvotesdash/{id}', [HomeController::class, 'searchlocationcountvotesdash'])->name('home.searchlocationcountvotesdash');
     Route::get('/searchcountvotesdash/{id}', [HomeController::class, 'searchcountvotesdash'])->name('home.searchcountvotesdash');
     
     

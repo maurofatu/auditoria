@@ -451,3 +451,123 @@ function searchDataCountVotesDash(e){
 
 
 }
+
+// ---- FUNCTIONS GOBERNACION DASH
+
+function searchLocationGobernacionDash(e){
+
+    var dimlocation = e.target.value;
+    
+    if (dimlocation == "") {
+        return false;
+    }
+    const lugar = $("#lugvotdashgo");
+    const mesa = $("#mesvotdashgo");
+    $.ajax({
+        method: "GET",
+        url: "/searchlocationcountvotesdash/" + dimlocation,
+        success: function (response) {
+            $("#lugvotdashgo")
+                .empty()
+                .append('<option value="" selected>Seleccione...</option>');
+            $("#mesvotdashgo")
+                .empty()
+                .append('<option value="" selected>Seleccione...</option>');
+
+            response.forEach((item) => {
+                lugar.append(
+                    '<option value=" ' +
+                        item.value +
+                        ' "> ' +
+                        item.label +
+                        "  </option>  "
+                );
+            });
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swal.fire({
+                title: XMLHttpRequest.statusText,
+                text: XMLHttpRequest.responseJSON.message,
+                icon: "error",
+            });
+        },
+    });
+
+}
+
+function searchDataGobernacionDash(e){
+
+    var dimlocation = e.target.value;
+
+    $.ajax({
+        method: "GET",
+        url: "/searchgobernaciondash/" + dimlocation,
+        success: function (response) {
+
+            if(response){
+
+                console.log(response['gobvotedash']);
+
+            let candidate = [];
+
+            for(let i=0;i<4;i++){
+                candidate[i] = {
+                    name : response['gobvotedash'][i]['name'],
+                    amount : response['gobvotedash'][i]['amount']
+                }
+            }
+
+            graphicsgobernacion(candidate);
+
+            htmlTags = '';
+            var i =0;
+            var totvotgober = 0;
+
+            response['gobvotedash'].forEach((item) => {
+
+                console.log(item.amount);
+                totvotgober += parseInt(item.amount);
+
+                if(i > 3){
+                htmlTags += '<tr>'+
+                '<td>'+ item.name +'</td>'+
+                '<td>'+ item.amount +'</td>'+
+                '</tr>';                
+                }
+                i++;
+
+            });
+
+            console.log("Total votos ",totvotgober);
+
+            $('#tablegober tbody').append(htmlTags);
+
+            let potential = response['potential'][0]['potential'];
+
+            let abstention = potential - totvotgober;
+
+            document.getElementById("potentialvotegober").innerHTML = potential;
+            document.getElementById("totalvotesgober").innerHTML = totvotgober;
+            document.getElementById("abstentiongober").innerHTML = abstention;
+
+            console.log("potential ", potential);
+            console.log("total votos ", totvotgober);
+            console.log("abstention ", abstention);
+
+
+        }
+            
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swal({
+                title: XMLHttpRequest.statusText,
+                text: XMLHttpRequest.responseJSON.message,
+                icon: "error",
+            });
+        },
+    });
+
+
+}
+
+// -------------------

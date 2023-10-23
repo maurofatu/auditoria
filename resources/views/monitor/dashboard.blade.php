@@ -2,131 +2,35 @@
 
 @section('content')
     <div class="container">
-        <div class="row justify-content-center">
+       
+            {{-- <div class="progress">
+                <div id="test" class="progress-bar" role="progressbar" style="width: 90%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">25%</div>
+              </div> --}}
 
 
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <h2><b>{{ __('Cuenta Votos') }}</b></h2>
-                    </div>
-
-                </div>
+              <div class="tabs tab-content mb-3">
+                <button class="tablink btn" onclick="openTab('tab1')">Cuenta Votos</button>
+                <button class="tablink btn" onclick="openTab('tab2')">Alcaldia</button>
+                <button class="tablink btn" onclick="openTab('tab3')">Gobernación</button>
             </div>
-
-            <div class="row justify-content-center mb-4">
-                <div class="col-md-3 mt-2">
-                    <div class="form-group">
-                        <label for="munvot">Municipio Votación</label>
-                        <select class="form-control js-example-basic-single" id="munvot" name="munvot"
-                            onchange="searchLocationCountVotesDash(event)" required>
-                            <option value="" selected>Seleccione...</option>
-                            @foreach ($data['dim_cities'] as $dim_city)
-                                <option value="{{ $dim_city->value }}"> {{ $dim_city->label }} </option>
-                            @endforeach
-                        </select>
-                        @error('munvot')
-                            <small style="color: #FF0000"> {{ $message }} </small>
-                        @enderror
-                    </div>
-                </div>
-                <div class="col-md-3 mt-2">
-                    <div class="form-group">
-                        <label for="lugvot">Lugar Votación</label>
-                        <select class="form-control js-example-basic-single" id="lugvot" name="lugvot"
-                            onchange="searchDataCountVotesDash(event)" required>
-                            <option value="" selected>Seleccione...</option>
-                        </select>
-                        @error('lugvot')
-                            <small style="color: #FF0000"> {{ $message }} </small>
-                        @enderror
-                    </div>
-                </div>
+        
+            <div id="tab1" class="tabcontent tab-pane">
+                <!-- Contenido de la pestaña 1 -->
+                @include('monitor.graphicscountvotes')
             </div>
-
-            <div class="row justify-content-center mb-4">
-                <div class="col-3 justify-content-center">
-                    <p class="text-center">
-                    <h4>Mesas Instaladas</h4>
-                    <h6 id="tablesinstaller"></h6>
-                    </p>
-                </div>
-                <div class="col-3 justify-content-center">
-                    <p class="text-center">
-                    <h4>Potencial</h4>
-                    <h6 id="potential"></h6>
-                    </p>
-                </div>
+        
+            <div id="tab2" class="tabcontent tab-pane">
+                <!-- Contenido de la pestaña 2 -->
+                @include('monitor.graphicsalcaldia')
             </div>
-
-            <div class="row justify-content-center mb-4">
-
-                <div class="col-3">
-                    <h4>Reportes Acumulados</h4>
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>9:00 a.m</td>
-                                <td id="range1"></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>10:00</td>
-                                <td id="range2"></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>12:00</td>
-                                <td id="range3"></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">4</th>
-                                <td>2:00</td>
-                                <td id="range4"></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">5</th>
-                                <td>3:45</td>
-                                <td id="range5"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="col-3">
-                    <h4>Comportamiento</h4>
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <td>No. Votantes</td>
-                                <td id="numbervotes"></td>
-                            </tr>
-                            <tr>
-                                <td>Porcentaje %</td>
-                                <td id="pernumbervotes"></td>
-                            </tr>
-                            <tr>
-                                <td>Abstención</td>
-                                <td id="abstention"></td>
-                            </tr>
-                            <tr>
-                                <td>% Abstencion</td>
-                                <td id="perabstention"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-
-                <div class="col-md-6 mt-3" id="graphiccountvotes"></div>
-
-
+        
+            <div id="tab3" class="tabcontent tab-pane">
+                <!-- Contenido de la pestaña 3 -->
+                @include('monitor.graphicsgobernacion')
             </div>
+        
 
-
-
-
+              {{-- $("#test").attr("style","width: 80%"); --}}
 
             {{-- <div class="col-md-12">
                 <div class="card">
@@ -220,15 +124,19 @@
             <!-- CONTENT GRAPHIC 1 -->
             {{-- <div class="col-md-12 mt-3" id="graphicCities"></div> --}}
 
-        </div>
+        
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@latest/dist/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ asset('js/charts.js') }}"></script>
     <script src="{{ asset('js/function.js') }}"></script>
     <script>
         $(document).ready(function() {
 
+
+            $('.js-example-basic-single').select2();
             graphicscountvotes(0,0,0,0,0);
+            graphicsgobernacion(0);
 
             // searchVotes();
             // citiesVotes();
@@ -248,5 +156,14 @@
             // getVotescities();
 
         });
+
+        function openTab(tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            document.getElementById(tabName).style.display = "block";
+        }
     </script>
 @endsection
