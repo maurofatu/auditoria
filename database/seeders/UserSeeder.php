@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
     private $cities = [
         [
             'city'=>'arauca',
-            'users'=>18
+            'users'=>100
         ],
         [
             'city'=>'arauquita',
@@ -51,7 +51,7 @@ class UserSeeder extends Seeder
         $id = 13;
         foreach ($this->cities as $city){
             for($i = 1; $i <= $city['users']; $i++){
-                $name = $city['city'] . (($i <= 9)?'0'.$i:$i);
+                $name = $city['city'] . ($i <= 9)?'00':(($i <= 99)?'0':$i);
                 User::create([
                     'id' => $id++,
                     'name'=>$name,
