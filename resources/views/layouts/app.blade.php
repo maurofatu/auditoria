@@ -93,6 +93,12 @@
                                         href="{{ route('factcountvote.news') }}">{{ __('Novedades') }}</a>
                                 </li>
                             @endif
+                            @if (in_array(Auth::user()->fk_roles, [1, 5]))
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                        href="{{ route('monitor.dashboard') }}">{{ __('Monitor') }}</a>
+                                </li>
+                            @endif
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
