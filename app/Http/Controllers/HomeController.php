@@ -15,7 +15,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('role.monitor');
+        // $this->middleware('role.monitor');
     }
 
     /**
