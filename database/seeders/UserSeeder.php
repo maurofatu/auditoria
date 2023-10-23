@@ -51,7 +51,7 @@ class UserSeeder extends Seeder
         $id = 13;
         foreach ($this->cities as $city){
             for($i = 1; $i <= $city['users']; $i++){
-                $name = $city['city'] . ($i <= 9)?'00':(($i <= 99)?'0':$i);
+                $name = $city['city'] . ($i <= 9)?'00':(($i <= 99)?'0':'') . $i;
                 User::create([
                     'id' => $id++,
                     'name'=>$name,
