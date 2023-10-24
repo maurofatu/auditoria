@@ -13,31 +13,31 @@ class UserSeeder extends Seeder
     private $cities = [
         [
             'city'=>'arauca',
-            'users'=>100
+            'users'=>0
         ],
         [
             'city'=>'arauquita',
-            'users'=>15
+            'users'=>0
         ],
         [
             'city'=>'cravonorte',
-            'users'=>3
+            'users'=>0
         ],
         [
             'city'=>'fortul',
-            'users'=>5
+            'users'=>43
         ],
         [
             'city'=>'puertorondon',
-            'users'=>1
+            'users'=>0
         ],
         [
             'city'=>'saravena',
-            'users'=>10
+            'users'=>0
         ],
         [
             'city'=>'tame',
-            'users'=>16
+            'users'=>0
         ]
     ];
 
