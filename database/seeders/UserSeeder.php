@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
     private $cities = [
         [
             'city'=>'arauca',
-            'users'=>0
+            'users'=>20
         ],
         [
             'city'=>'arauquita',
@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
         ],
         [
             'city'=>'fortul',
-            'users'=>43
+            'users'=>0
         ],
         [
             'city'=>'puertorondon',
