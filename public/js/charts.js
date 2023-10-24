@@ -209,7 +209,7 @@ function graphicscities(response) {
 
 function graphicscountvotes(range1,range2,range3, range4, range5) {
 
-    console.log(range1,range2,range3, range4, range5);
+    // console.log(range1,range2,range3, range4, range5);
     
     $("#graphiccountvotes").html('<canvas width="550" id="graficacountvotes"></canvas>');
 
@@ -237,7 +237,6 @@ function graphicscountvotes(range1,range2,range3, range4, range5) {
         ], // Color del borde
         borderWidth: 3, // Ancho del borde
     };
-    let delayed;
     new Chart($grafica, {
         type: "bar", // Tipo de gráfica
         data: {
@@ -245,23 +244,17 @@ function graphicscountvotes(range1,range2,range3, range4, range5) {
             datasets: [data],
         },
         options: {
-            maintainAspectRatio: false,
             scales: {
-                yAxes: [
-                    {
-                        ticks: {
-                            beginAtZero: true,
-                        },
-                    },
-                ],
-            },
+                y: {
+                  beginAtZero: true
+                }
+              },
             legend: {
-                display: false,
-            },
-            title: {
                 display: true,
-                text: 'Comportamiento'
-              }
+            },
+            animation: {
+                duration: 0,
+            },
         },
     });
 }
@@ -280,7 +273,7 @@ function graphicsgobernacion(candidate) {
     let amount4 = Array.isArray(candidate) ? candidate[3]['amount'] : "";
 
     
-    $("#graphicgobernacion").html('<canvas width="550" id="graficagobernacion"></canvas>');
+    $("#graphicgobernacion").html('<canvas width="500" id="graficagobernacion"></canvas>');
 
     // Obtener una referencia al elemento canvas del DOM
     const $grafica = document.querySelector("#graficagobernacion");
@@ -304,7 +297,6 @@ function graphicsgobernacion(candidate) {
         ], // Color del borde
         borderWidth: 3, // Ancho del borde
     };
-    let delayed;
     new Chart($grafica, {
         type: "bar", // Tipo de gráfica
         data: {
@@ -312,23 +304,77 @@ function graphicsgobernacion(candidate) {
             datasets: [data],
         },
         options: {
-            maintainAspectRatio: false,
             scales: {
-                yAxes: [
-                    {
-                        ticks: {
-                            beginAtZero: true,
-                        },
-                    },
-                ],
-            },
+                y: {
+                  beginAtZero: true
+                }
+              },
             legend: {
-                display: false,
-            },
-            title: {
                 display: true,
-                text: 'Comportamiento'
-              }
+            },
+            animation: {
+                duration: 0,
+            },
+        },
+    });
+}
+
+function graphicsalcaldia(candidate) {
+
+    // console.log(candidate[0]['name'],candidate[0]['amount']);
+    let candidate1 = Array.isArray(candidate) ? candidate[0]['name'] : "";
+    let candidate2 = Array.isArray(candidate) ? candidate[1]['name'] : "";
+    let candidate3 = Array.isArray(candidate) ? candidate[2]['name'] : "";
+    let candidate4 = Array.isArray(candidate) ? candidate[3]['name'] : "";
+
+    let amount1 = Array.isArray(candidate) ? candidate[0]['amount'] : "";
+    let amount2 = Array.isArray(candidate) ? candidate[1]['amount'] : "";
+    let amount3 = Array.isArray(candidate) ? candidate[2]['amount'] : "";
+    let amount4 = Array.isArray(candidate) ? candidate[3]['amount'] : "";
+
+    
+    $("#graphicalcaldia").html('<canvas width="500" id="graficaalcaldia"></canvas>');
+
+    // Obtener una referencia al elemento canvas del DOM
+    const $grafica = document.querySelector("#graficaalcaldia");
+    // Las etiquetas son las que van en el eje X.
+    const etiquetas = [candidate1,candidate2,candidate3,candidate4];
+    // Podemos tener varios conjuntos de datos. Comencemos con uno
+    const data = {
+        label: ["Votos"],
+        data: [amount1,amount2,amount3,amount4], // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
+        backgroundColor: [
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+        ], // Color de fondo
+        borderColor: [
+            "rgba(54, 162, 235, 1)",
+            "rgba(54, 162, 235, 1)",
+            "rgba(54, 162, 235, 1)",
+            "rgba(54, 162, 235, 1)",
+        ], // Color del borde
+        borderWidth: 3, // Ancho del borde
+    };
+    new Chart($grafica, {
+        type: "bar", // Tipo de gráfica
+        data: {
+            labels: etiquetas,
+            datasets: [data],
+        },
+        options: {
+            scales: {
+                y: {
+                  beginAtZero: true
+                }
+              },
+            legend: {
+                display: true,
+            },
+            animation: {
+                duration: 0,
+            },
         },
     });
 }

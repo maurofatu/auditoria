@@ -350,10 +350,9 @@ function potentialVoters(id) {
     });
 }
 
-function searchLocationCountVotesDash(e){
-
+function searchLocationCountVotesDash(e) {
     var dimlocation = e.target.value;
-    
+
     if (dimlocation == "") {
         return false;
     }
@@ -388,37 +387,35 @@ function searchLocationCountVotesDash(e){
             });
         },
     });
-
 }
 
-function searchDataCountVotesDash(e){
-
+function searchDataCountVotesDash(e) {
     var dimlocation = e.target.value;
 
     $.ajax({
         method: "GET",
         url: "/searchcountvotesdash/" + dimlocation,
         success: function (response) {
+            if (response) {
+                let range1 = 0;
+                let range2 = 0;
+                let range3 = 0;
+                let range4 = 0;
+                let range5 = 0;
 
-            if(response){
+                let potential = response["potential"][0]["potential"];
 
-            let range1 = 0; let range2 = 0; let range3 = 0;
-            let range4 = 0; let range5 = 0;
+                document.getElementById("tablesinstaller").innerHTML =
+                    response["cantable"][0]["cant"];
+                document.getElementById("potential").innerHTML = potential;
 
-            let potential = response['potential'][0]['potential'];
-
-            document.getElementById("tablesinstaller").innerHTML = response['cantable'][0]['cant'];
-            document.getElementById("potential").innerHTML = potential;
-
-            response['cvotesdash'].forEach((item) => {
-                
-                if(item.hora <= 9) range1 += item.hora;
-                if(item.hora <= 10) range2 += item.hora;
-                if(item.hora <= 12) range3 += item.hora;
-                if(item.hora <= 14) range4 += item.hora;
-                range5 += item.hora;
-                
-            });
+                response["cvotesdash"].forEach((item) => {
+                    if (item.hora <= 9) range1 += item.hora;
+                    if (item.hora <= 10) range2 += item.hora;
+                    if (item.hora <= 12) range3 += item.hora;
+                    if (item.hora <= 14) range4 += item.hora;
+                    range5 += item.hora;
+                });
 
                 document.getElementById("range1").innerHTML = range1;
                 document.getElementById("range2").innerHTML = range2;
@@ -426,19 +423,19 @@ function searchDataCountVotesDash(e){
                 document.getElementById("range4").innerHTML = range4;
                 document.getElementById("range5").innerHTML = range5;
 
-            let pernumbervotes = Math.round((range5 * 100) / potential);
-            let abstention = potential - range5;
-            let perabstention = Math.round((abstention * 100) / potential);
+                let pernumbervotes = Math.round((range5 * 100) / potential);
+                let abstention = potential - range5;
+                let perabstention = Math.round((abstention * 100) / potential);
 
-            document.getElementById("numbervotes").innerHTML = range5;
-            document.getElementById("pernumbervotes").innerHTML = pernumbervotes + "%";
-            document.getElementById("abstention").innerHTML = abstention;
-            document.getElementById("perabstention").innerHTML = perabstention + "%";
+                document.getElementById("numbervotes").innerHTML = range5;
+                document.getElementById("pernumbervotes").innerHTML =
+                    pernumbervotes + "%";
+                document.getElementById("abstention").innerHTML = abstention;
+                document.getElementById("perabstention").innerHTML =
+                    perabstention + "%";
 
-            graphicscountvotes(range1,range2,range3, range4, range5);
-
-        }
-            
+                graphicscountvotes(range1, range2, range3, range4, range5);
+            }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             swal({
@@ -448,16 +445,15 @@ function searchDataCountVotesDash(e){
             });
         },
     });
-
-
 }
 
 // ---- FUNCTIONS GOBERNACION DASH
 
-function searchLocationGobernacionDash(e){
-
+function searchLocationGobernacionDash(e) {
     var dimlocation = e.target.value;
-    
+
+    searchDataGobernacionFDash(dimlocation);
+
     if (dimlocation == "") {
         return false;
     }
@@ -492,71 +488,65 @@ function searchLocationGobernacionDash(e){
             });
         },
     });
-
 }
 
-function searchDataGobernacionDash(e){
 
+
+function searchDataGobernacionDash(e) {
     var dimlocation = e.target.value;
 
     $.ajax({
         method: "GET",
         url: "/searchgobernaciondash/" + dimlocation,
         success: function (response) {
+            if (response) {
+                let candidate = [];
 
-            if(response){
-
-                console.log(response['gobvotedash']);
-
-            let candidate = [];
-
-            for(let i=0;i<4;i++){
-                candidate[i] = {
-                    name : response['gobvotedash'][i]['name'],
-                    amount : response['gobvotedash'][i]['amount']
+                for (let i = 0; i < 4; i++) {
+                    candidate[i] = {
+                        name: response["gobvotedash"][i]["name"],
+                        amount: response["gobvotedash"][i]["amount"],
+                    };
                 }
+
+                graphicsgobernacion(candidate);
+
+                htmlTags = "";
+                var i = 0;
+                var totvotgober = 0;
+
+                response["gobvotedash"].forEach((item) => {
+                    totvotgober += parseInt(item.amount);
+
+                    if (i > 3) {
+                        htmlTags +=
+                            "<tr>" +
+                            "<td>" +
+                            item.name +
+                            "</td>" +
+                            "<td>" +
+                            item.amount +
+                            "</td>" +
+                            "</tr>";
+                    }
+                    i++;
+                });
+
+                $("#tablegober tbody").empty() 
+                $("#tablegober tbody").append(htmlTags);
+
+                let potential = response["potential"][0]["potential"];
+
+                let abstention = potential - totvotgober;
+
+                document.getElementById("potentialvotegober").innerHTML =
+                    potential;
+                document.getElementById("totalvotesgober").innerHTML =
+                    totvotgober;
+                document.getElementById("abstentiongober").innerHTML =
+                    abstention;
+
             }
-
-            graphicsgobernacion(candidate);
-
-            htmlTags = '';
-            var i =0;
-            var totvotgober = 0;
-
-            response['gobvotedash'].forEach((item) => {
-
-                console.log(item.amount);
-                totvotgober += parseInt(item.amount);
-
-                if(i > 3){
-                htmlTags += '<tr>'+
-                '<td>'+ item.name +'</td>'+
-                '<td>'+ item.amount +'</td>'+
-                '</tr>';                
-                }
-                i++;
-
-            });
-
-            console.log("Total votos ",totvotgober);
-
-            $('#tablegober tbody').append(htmlTags);
-
-            let potential = response['potential'][0]['potential'];
-
-            let abstention = potential - totvotgober;
-
-            document.getElementById("potentialvotegober").innerHTML = potential;
-            document.getElementById("totalvotesgober").innerHTML = totvotgober;
-            document.getElementById("abstentiongober").innerHTML = abstention;
-
-            console.log("potential ", potential);
-            console.log("total votos ", totvotgober);
-            console.log("abstention ", abstention);
-
-
-        }
-            
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             swal({
@@ -566,8 +556,242 @@ function searchDataGobernacionDash(e){
             });
         },
     });
+}
 
+function searchDataGobernacionFDash(e) {
 
+    if (e == "") {
+        return false;
+    }
+    
+    $.ajax({
+        method: "GET",
+        url: "/searchgobernacionfdash/" + e,
+        success: function (response) {
+            if (response) {
+
+                let candidate = [];
+
+                for (let i = 0; i < 4; i++) {
+                    candidate[i] = {
+                        name: response["gobvotedash"][i]["name"],
+                        amount: response["gobvotedash"][i]["amount"],
+                    };
+                }
+
+                graphicsgobernacion(candidate);
+
+                htmlTags = "";
+                var i = 0;
+                var totvotgober = 0;
+
+                response["gobvotedash"].forEach((item) => {
+                    totvotgober += parseInt(item.amount);
+
+                    if (i > 3) {
+                        htmlTags +=
+                            "<tr>" +
+                            "<td>" +
+                            item.name +
+                            "</td>" +
+                            "<td>" +
+                            item.amount +
+                            "</td>" +
+                            "</tr>";
+                    }
+                    i++;
+                });
+
+                $("#tablegober tbody").empty() 
+                $("#tablegober tbody").append(htmlTags);
+
+                let potential = response["potential"][0]["potential"];
+
+                let abstention = potential - totvotgober;
+
+                document.getElementById("potentialvotegober").innerHTML =
+                    potential;
+                document.getElementById("totalvotesgober").innerHTML =
+                    totvotgober;
+                document.getElementById("abstentiongober").innerHTML =
+                    abstention;
+
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swal({
+                title: XMLHttpRequest.statusText,
+                text: XMLHttpRequest.responseJSON.message,
+                icon: "error",
+            });
+        },
+    });
+}
+
+function searchLocationAlcaldiaDash() {
+    
+    const lugar = $("#lugvotdashal");
+    const mesa = $("#mesvotdashal");
+    $.ajax({
+        method: "GET",
+        url: "/searchlocationcountvotesdash/1",
+        success: function (response) {
+            $("#lugvotdashal")
+                .empty()
+                .append('<option value="" selected>Seleccione...</option>');
+            $("#mesvotdashal")
+                .empty()
+                .append('<option value="" selected>Seleccione...</option>');
+
+            response.forEach((item) => {
+                lugar.append(
+                    '<option value=" ' +
+                        item.value +
+                        ' "> ' +
+                        item.label +
+                        "  </option>  "
+                );
+            });
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swal.fire({
+                title: XMLHttpRequest.statusText,
+                text: XMLHttpRequest.responseJSON.message,
+                icon: "error",
+            });
+        },
+    });
+}
+
+function searchDataAlcaldiaDash(e) {
+    var dimlocation = e.target.value;
+
+    $.ajax({
+        method: "GET",
+        url: "/searchalcaldiadash/" + dimlocation,
+        success: function (response) {
+            if (response) {
+                let candidate = [];
+
+                for (let i = 0; i < 4; i++) {
+                    candidate[i] = {
+                        name: response["alcvotedash"][i]["name"],
+                        amount: response["alcvotedash"][i]["amount"],
+                    };
+                }
+
+                graphicsalcaldia(candidate);
+
+                htmlTags = "";
+                var i = 0;
+                var totvotalcal = 0;
+
+                response["alcvotedash"].forEach((item) => {
+                    totvotalcal += parseInt(item.amount);
+
+                    if (i > 3) {
+                        htmlTags +=
+                            "<tr>" +
+                            "<td>" +
+                            item.name +
+                            "</td>" +
+                            "<td>" +
+                            item.amount +
+                            "</td>" +
+                            "</tr>";
+                    }
+                    i++;
+                });
+
+                $("#tablealcal tbody").empty() 
+                $("#tablealcal tbody").append(htmlTags);
+
+                let alcpotential = response["alcpotential"][0]["potential"];
+
+                let alcabstention = alcpotential - totvotalcal;
+
+                document.getElementById("potentialvotealcal").innerHTML =
+                    alcpotential;
+                document.getElementById("totalvotesalcal").innerHTML =
+                    totvotalcal;
+                document.getElementById("abstentionalcal").innerHTML =
+                    alcabstention;
+
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swal({
+                title: XMLHttpRequest.statusText,
+                text: XMLHttpRequest.responseJSON.message,
+                icon: "error",
+            });
+        },
+    });
+}
+
+function searchDataAlcaldiaFDash() {
+    
+    $.ajax({
+        method: "GET",
+        url: "/searchalcaldiafdash/",
+        success: function (response) {
+            if (response) {
+                let candidate = [];
+
+                for (let i = 0; i < 4; i++) {
+                    candidate[i] = {
+                        name: response["alcvotedash"][i]["name"],
+                        amount: response["alcvotedash"][i]["amount"],
+                    };
+                }
+
+                graphicsalcaldia(candidate);
+
+                htmlTags = "";
+                var i = 0;
+                var totvotalcal = 0;
+
+                response["alcvotedash"].forEach((item) => {
+                    totvotalcal += parseInt(item.amount);
+
+                    if (i > 3) {
+                        htmlTags +=
+                            "<tr>" +
+                            "<td>" +
+                            item.name +
+                            "</td>" +
+                            "<td>" +
+                            item.amount +
+                            "</td>" +
+                            "</tr>";
+                    }
+                    i++;
+                });
+
+                $("#tablealcal tbody").empty() 
+                $("#tablealcal tbody").append(htmlTags);
+
+                let alcpotential = response["alcpotential"][0]["potential"];
+
+                let alcabstention = alcpotential - totvotalcal;
+
+                document.getElementById("potentialvotealcal").innerHTML =
+                    alcpotential;
+                document.getElementById("totalvotesalcal").innerHTML =
+                    totvotalcal;
+                document.getElementById("abstentionalcal").innerHTML =
+                    alcabstention;
+
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swal({
+                title: XMLHttpRequest.statusText,
+                text: XMLHttpRequest.responseJSON.message,
+                icon: "error",
+            });
+        },
+    });
 }
 
 // -------------------

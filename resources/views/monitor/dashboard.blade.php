@@ -126,7 +126,9 @@
 
         
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@latest/dist/Chart.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js@latest/dist/Chart.min.js"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ asset('js/charts.js') }}"></script>
     <script src="{{ asset('js/function.js') }}"></script>
@@ -137,6 +139,9 @@
             $('.js-example-basic-single').select2();
             graphicscountvotes(0,0,0,0,0);
             graphicsgobernacion(0);
+            searchDataAlcaldiaFDash();
+            searchLocationAlcaldiaDash();
+
 
             // searchVotes();
             // citiesVotes();
