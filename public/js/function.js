@@ -513,13 +513,14 @@ function searchDataGobernacionDash(e) {
                 graphicsgobernacion(candidate);
 
                 htmlTags = "";
+                htmlTagsdata = "";
                 var i = 0;
                 var totvotgober = 0;
 
                 response["gobvotedash"].forEach((item) => {
                     totvotgober += parseInt(item.amount);
 
-                    if (i > 3) {
+                    if (i > 3 && item.id <= 27) {
                         htmlTags +=
                             "<tr>" +
                             "<td>" +
@@ -530,11 +531,17 @@ function searchDataGobernacionDash(e) {
                             "</td>" +
                             "</tr>";
                     }
+                    
+                    if (item.id >= 28){
+                        htmlTagsdata += "<tr><td>" + item.name + "</td><td>" + item.amount +"</td>";
+                    }
                     i++;
                 });
 
                 $("#tablegober tbody").empty();
                 $("#tablegober tbody").append(htmlTags);
+                $("#tablegobervote tbody").empty();
+                $("#tablegobervote tbody").append(htmlTagsdata);
 
                 let potential = response["potential"][0]["potential"];
 
@@ -580,13 +587,14 @@ function searchDataGobernacionFDash(e) {
                 graphicsgobernacion(candidate);
 
                 htmlTags = "";
+                htmlTagsdata = "";
                 var i = 0;
                 var totvotgober = 0;
 
                 response["gobvotedash"].forEach((item) => {
                     totvotgober += parseInt(item.amount);
 
-                    if (i > 3) {
+                    if (i > 3 && item.id <= 27) {
                         htmlTags +=
                             "<tr>" +
                             "<td>" +
@@ -597,11 +605,17 @@ function searchDataGobernacionFDash(e) {
                             "</td>" +
                             "</tr>";
                     }
+                    
+                    if (item.id >= 28){
+                        htmlTagsdata += "<tr><td>" + item.name + "</td><td>" + item.amount +"</td>";
+                    }
                     i++;
                 });
 
                 $("#tablegober tbody").empty();
                 $("#tablegober tbody").append(htmlTags);
+                $("#tablegobervote tbody").empty();
+                $("#tablegobervote tbody").append(htmlTagsdata);
 
                 let potential = response["potential"][0]["potential"];
 
@@ -679,13 +693,14 @@ function searchDataAlcaldiaDash(e) {
                 graphicsalcaldia(candidate);
 
                 htmlTags = "";
+                htmlTagsdata = "";
                 var i = 0;
                 var totvotalcal = 0;
 
                 response["alcvotedash"].forEach((item) => {
                     totvotalcal += parseInt(item.amount);
 
-                    if (i > 3) {
+                    if (i > 3 && item.id <= 13) {
                         htmlTags +=
                             "<tr>" +
                             "<td>" +
@@ -696,11 +711,17 @@ function searchDataAlcaldiaDash(e) {
                             "</td>" +
                             "</tr>";
                     }
+                    
+                    if (item.id >= 14){
+                        htmlTagsdata += "<tr><td>" + item.name + "</td><td>" + item.amount +"</td>";
+                    }
                     i++;
                 });
 
                 $("#tablealcal tbody").empty();
                 $("#tablealcal tbody").append(htmlTags);
+                $("#tablealcalvote tbody").empty();
+                $("#tablealcalvote tbody").append(htmlTagsdata);
 
                 let alcpotential = response["alcpotential"][0]["potential"];
 
@@ -742,13 +763,14 @@ function searchDataAlcaldiaFDash() {
                 graphicsalcaldia(candidate);
 
                 htmlTags = "";
+                htmlTagsdata = "";
                 var i = 0;
                 var totvotalcal = 0;
 
                 response["alcvotedash"].forEach((item) => {
                     totvotalcal += parseInt(item.amount);
 
-                    if (i > 3) {
+                    if (i > 3 && item.id <= 13) {
                         htmlTags +=
                             "<tr>" +
                             "<td>" +
@@ -759,11 +781,17 @@ function searchDataAlcaldiaFDash() {
                             "</td>" +
                             "</tr>";
                     }
+                    
+                    if (item.id >= 14){
+                        htmlTagsdata += "<tr><td>" + item.name + "</td><td>" + item.amount +"</td>";
+                    }
                     i++;
                 });
 
                 $("#tablealcal tbody").empty();
                 $("#tablealcal tbody").append(htmlTags);
+                $("#tablealcalvote tbody").empty();
+                $("#tablealcalvote tbody").append(htmlTagsdata);
 
                 let alcpotential = response["alcpotential"][0]["potential"];
 
@@ -775,6 +803,76 @@ function searchDataAlcaldiaFDash() {
                     totvotalcal;
                 document.getElementById("abstentionalcal").innerHTML =
                     alcabstention;
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swal.fire({
+                title: XMLHttpRequest.statusText,
+                text: XMLHttpRequest.responseJSON.message,
+                icon: "error",
+            });
+        },
+    });
+}
+
+function searchDataGobernacionDepDash() {
+    $.ajax({
+        method: "GET",
+        url: "/searchgobernaciondepdash/",
+        success: function (response) {
+            if (response) {
+                let candidate = [];
+
+                for (let i = 0; i < 4; i++) {
+                    candidate[i] = {
+                        name: response["gobvotedash"][i]["name"],
+                        amount: response["gobvotedash"][i]["amount"],
+                    };
+                }
+
+                graphicsgobernacion(candidate);
+
+                htmlTags = "";
+                htmlTagsdata = "";
+                var i = 0;
+                var totvotgober = 0;
+
+                response["gobvotedash"].forEach((item) => {
+                    totvotgober += parseInt(item.amount);
+
+                    if (i > 3 && item.id <= 27) {
+                        htmlTags +=
+                            "<tr>" +
+                            "<td>" +
+                            item.name +
+                            "</td>" +
+                            "<td>" +
+                            item.amount +
+                            "</td>" +
+                            "</tr>";
+                    }
+                    
+                    if (item.id >= 28){
+                        htmlTagsdata += "<tr><td>" + item.name + "</td><td>" + item.amount +"</td>";
+                    }
+                    i++;
+                });
+
+                $("#tablegober tbody").empty();
+                $("#tablegober tbody").append(htmlTags);
+                $("#tablegobervote tbody").empty();
+                $("#tablegobervote tbody").append(htmlTagsdata);
+
+                let potential = response["potential"][0]["potential"];
+
+                let abstention = potential - totvotgober;
+
+                document.getElementById("potentialvotegober").innerHTML =
+                    potential;
+                document.getElementById("totalvotesgober").innerHTML =
+                    totvotgober;
+                document.getElementById("abstentiongober").innerHTML =
+                    abstention;
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {

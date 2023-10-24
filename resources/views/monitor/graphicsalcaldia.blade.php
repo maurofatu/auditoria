@@ -30,7 +30,16 @@
         <h4>Otros candidatos</h4>
         <table class="table table-bordered" id="tablealcal" name="tablealcal">
             <tbody id="tbodyalcal">
-                
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-3">
+        <h4>Datos Votos</h4>
+        <table class="table table-bordered" id="tablealcalvote" name="tablealcalvote">
+            <tbody id="tbodyalcalvote">
+
             </tbody>
         </table>
     </div>

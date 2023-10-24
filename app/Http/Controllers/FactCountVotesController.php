@@ -115,7 +115,7 @@ class FactCountVotesController extends Controller
             if ($dim_locations) {
                 return response()->json($dim_locations, 200);
             } else {
-                return response()->json(['message' => 'No se encontró locaciones'], 404);
+                return response()->json(['message' => 'No se encontró locaciones'], 302);
             }
         } catch (\Illuminate\Database\QueryException $e) {
             return response()->json(['message' => $e->getMessage()], 500);
@@ -143,7 +143,7 @@ class FactCountVotesController extends Controller
             if ($dim_tablesfcv) {
                 return response()->json($dim_tablesfcv, 200);
             } else {
-                return response()->json(['message' => 'No se encontró locaciones'], 404);
+                return response()->json(['message' => 'No se encontró locaciones'], 302);
             }
         } catch (\Illuminate\Database\QueryException $e) {
             return response()->json(['message' => $e->getMessage()], 500);

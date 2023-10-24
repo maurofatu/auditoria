@@ -138,7 +138,7 @@
 
             $('.js-example-basic-single').select2();
             graphicscountvotes(0,0,0,0,0);
-            graphicsgobernacion(0);
+            searchDataGobernacionDepDash();
             searchDataAlcaldiaFDash();
             searchLocationAlcaldiaDash();
 

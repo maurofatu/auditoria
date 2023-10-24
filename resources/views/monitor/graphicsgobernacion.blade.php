@@ -50,6 +50,15 @@
         </table>
     </div>
 
+    <div class="col-3">
+        <h4>Datos Votos</h4>
+        <table class="table table-bordered" id="tablegobervote" name="tablegobervote">
+            <tbody id="tbodygobervote">
+                
+            </tbody>
+        </table>
+    </div>
+
     
 
 
