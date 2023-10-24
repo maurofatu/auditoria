@@ -133,7 +133,7 @@ function searchVotes() {
             graphics(l101, l102, l103);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            swal({
+            swal.fire({
                 title: XMLHttpRequest.statusText,
                 text: XMLHttpRequest.responseJSON.message,
                 icon: "error",
@@ -174,7 +174,7 @@ function searchLocationFcv(e) {
             });
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            swal({
+            swal.fire({
                 title: XMLHttpRequest.statusText,
                 text: XMLHttpRequest.responseJSON.message,
                 icon: "error",
@@ -209,7 +209,7 @@ function searchTableFcv(e) {
             });
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            swal({
+            swal.fire({
                 title: XMLHttpRequest.statusText,
                 text: XMLHttpRequest.responseJSON.message,
                 icon: "error",
@@ -226,7 +226,7 @@ function citiesVotes() {
             graphicscities(response);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            swal({
+            swal.fire({
                 title: XMLHttpRequest.statusText,
                 text: XMLHttpRequest.responseJSON.message,
                 icon: "error",
@@ -344,7 +344,7 @@ function potentialVoters(id) {
                 '<h5 id="potent' + id + '">PV: ' + response.cant + " </h5>";
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            swal({
+            swal.fire({
                 title: XMLHttpRequest.statusText,
                 text: XMLHttpRequest.responseJSON.message,
                 icon: "error",
@@ -441,7 +441,7 @@ function searchDataCountVotesDash(e) {
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            swal({
+            swal.fire({
                 title: XMLHttpRequest.statusText,
                 text: XMLHttpRequest.responseJSON.message,
                 icon: "error",
@@ -549,7 +549,7 @@ function searchDataGobernacionDash(e) {
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            swal({
+            swal.fire({
                 title: XMLHttpRequest.statusText,
                 text: XMLHttpRequest.responseJSON.message,
                 icon: "error",
@@ -616,7 +616,7 @@ function searchDataGobernacionFDash(e) {
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            swal({
+            swal.fire({
                 title: XMLHttpRequest.statusText,
                 text: XMLHttpRequest.responseJSON.message,
                 icon: "error",
@@ -715,7 +715,7 @@ function searchDataAlcaldiaDash(e) {
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            swal({
+            swal.fire({
                 title: XMLHttpRequest.statusText,
                 text: XMLHttpRequest.responseJSON.message,
                 icon: "error",
@@ -778,7 +778,7 @@ function searchDataAlcaldiaFDash() {
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            swal({
+            swal.fire({
                 title: XMLHttpRequest.statusText,
                 text: XMLHttpRequest.responseJSON.message,
                 icon: "error",
