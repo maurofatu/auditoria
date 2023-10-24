@@ -27,8 +27,7 @@
             @csrf
 
             <input type="hidden" name="election" id="election" value="{{ $id }}">
-            {{-- <input type="hidden" name="mesvot" id="mesvot"  value="{{ $mesvot }}"> --}}
-
+            
             <div class="row justify-content-center mb-4">
                 <div class="col-md-3 mt-2">
                     <div class="form-group">
@@ -93,7 +92,6 @@
 
                 <div class="col-md-12 mt-4 mb-4 text-center">
 
-                    {{-- <input type="submit" class="btn btn-success" id="enviar" name="enviar" value="Enviar"> --}}
                     <button type="submit" class="btn btn-success" id="enviar" name="enviar">Enviar</button>
 
                 </div>
@@ -178,32 +176,25 @@
                 e.preventDefault(); // Evita que el formulario se envíe de inmediato
 
                 let xelec = $("#election").val();
+                let totvot = 0;
 
                 if (xelec == 1) {
 
-                    var totvot = parseInt($("#vote1").val()) + parseInt($("#vote2").val()) + parseInt($(
-                            "#vote3").val()) + parseInt($("#vote4").val()) + parseInt($("#vote5").val()) +
-                        parseInt($("#vote6").val()) + parseInt($("#vote7").val()) + parseInt($("#vote8")
-                            .val()) + parseInt($("#vote9").val()) + parseInt($("#vote10").val()) + parseInt(
-                            $("#vote16").val()) + parseInt($("#vote12").val()) + parseInt($("#vote13")
-                        .val()) + parseInt($("#vote14").val()) + parseInt($("#vote15").val()) + parseInt($(
-                            "#vote16").val());
-
+                    for(let i=1; i<=16; i++)
+                    {
+                          totvot += parseInt($("#vote"+i).val());
+                    }                    
                     $("#vote17").val(totvot);
                 }
 
                 if (xelec == 2) {
 
-                    var totvot = parseInt($("#vote18").val()) + parseInt($("#vote19").val()) + parseInt($(
-                            "#vote20").val()) + parseInt($("#vote21").val()) + parseInt($("#vote22").val()) +
-                        parseInt($("#vote23").val()) + parseInt($("#vote24").val()) + parseInt($("#vote25")
-                            .val()) + parseInt($("#vote26").val()) + parseInt($("#vote27").val()) + parseInt(
-                            $("#vote28").val()) + parseInt($("#vote29").val()) + parseInt($("#vote30").val());
-
+                    for(let i=18; i<=30; i++)
+                    {
+                          totvot += parseInt($("#vote"+i).val());
+                    }
                     $("#vote31").val(totvot);
                 }
-
-                console.log(totvot);
 
                 Swal.fire({
                     title: '¿Estás seguro?',
