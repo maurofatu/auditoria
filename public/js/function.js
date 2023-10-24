@@ -257,12 +257,15 @@ function searchPotential(e) {
                 cvotes.innerHTML = "";
 
                 Object.entries(data).forEach(([key, value]) => {
+                    var it = ++key;
                     cvotes.innerHTML +=
-                        "<div class='col-3'>" +
+                        "<div  class='col-xl-2 col-4'>" +
+                        it +
+                        "</div><div class='col-xl-2 col-4'>" +
                         value["amount"] +
-                        "</div><div class='col-7'>" +
+                        "</div><div class='col-xl-2 col-4'>" +
                         value["created_at"] +
-                        "</div>";
+                        "</div><hr>";
                 });
 
                 $("#foreachcountvotes").show();
@@ -490,8 +493,6 @@ function searchLocationGobernacionDash(e) {
     });
 }
 
-
-
 function searchDataGobernacionDash(e) {
     var dimlocation = e.target.value;
 
@@ -532,7 +533,7 @@ function searchDataGobernacionDash(e) {
                     i++;
                 });
 
-                $("#tablegober tbody").empty() 
+                $("#tablegober tbody").empty();
                 $("#tablegober tbody").append(htmlTags);
 
                 let potential = response["potential"][0]["potential"];
@@ -545,7 +546,6 @@ function searchDataGobernacionDash(e) {
                     totvotgober;
                 document.getElementById("abstentiongober").innerHTML =
                     abstention;
-
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -559,17 +559,15 @@ function searchDataGobernacionDash(e) {
 }
 
 function searchDataGobernacionFDash(e) {
-
     if (e == "") {
         return false;
     }
-    
+
     $.ajax({
         method: "GET",
         url: "/searchgobernacionfdash/" + e,
         success: function (response) {
             if (response) {
-
                 let candidate = [];
 
                 for (let i = 0; i < 4; i++) {
@@ -602,7 +600,7 @@ function searchDataGobernacionFDash(e) {
                     i++;
                 });
 
-                $("#tablegober tbody").empty() 
+                $("#tablegober tbody").empty();
                 $("#tablegober tbody").append(htmlTags);
 
                 let potential = response["potential"][0]["potential"];
@@ -615,7 +613,6 @@ function searchDataGobernacionFDash(e) {
                     totvotgober;
                 document.getElementById("abstentiongober").innerHTML =
                     abstention;
-
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -629,7 +626,6 @@ function searchDataGobernacionFDash(e) {
 }
 
 function searchLocationAlcaldiaDash() {
-    
     const lugar = $("#lugvotdashal");
     const mesa = $("#mesvotdashal");
     $.ajax({
@@ -703,7 +699,7 @@ function searchDataAlcaldiaDash(e) {
                     i++;
                 });
 
-                $("#tablealcal tbody").empty() 
+                $("#tablealcal tbody").empty();
                 $("#tablealcal tbody").append(htmlTags);
 
                 let alcpotential = response["alcpotential"][0]["potential"];
@@ -716,7 +712,6 @@ function searchDataAlcaldiaDash(e) {
                     totvotalcal;
                 document.getElementById("abstentionalcal").innerHTML =
                     alcabstention;
-
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -730,7 +725,6 @@ function searchDataAlcaldiaDash(e) {
 }
 
 function searchDataAlcaldiaFDash() {
-    
     $.ajax({
         method: "GET",
         url: "/searchalcaldiafdash/",
@@ -768,7 +762,7 @@ function searchDataAlcaldiaFDash() {
                     i++;
                 });
 
-                $("#tablealcal tbody").empty() 
+                $("#tablealcal tbody").empty();
                 $("#tablealcal tbody").append(htmlTags);
 
                 let alcpotential = response["alcpotential"][0]["potential"];
@@ -781,7 +775,6 @@ function searchDataAlcaldiaFDash() {
                     totvotalcal;
                 document.getElementById("abstentionalcal").innerHTML =
                     alcabstention;
-
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {

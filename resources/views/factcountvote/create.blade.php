@@ -40,14 +40,14 @@
 
 
                         <form action="{{ route('factcountvote.store') }}" method="post" name="factcountvote"
-                            id="factcountvote">
+                            id="factcountvote" onsubmit="enviar();">
                             @csrf
 
 
                             <!-- Datos Votacion -->
 
                             <div class="row justify-content-center">
-                                <div class="col-md-2">
+                                <div class="col-md-3 mt-2">
                                     <div class="form-group">
                                         <label for="munvotfcv">Municipio Votación</label>
                                         <select class="form-control js-example-basic-single" id="munvotfcv" name="munvotfcv"
@@ -98,7 +98,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group" id="potentialVot">
                                         <input class="form-control" type="number" name="potentialvotes" id="potentialvotes"
-                                            pattern="[0-9]*" inputmode="numeric"  />
+                                            pattern="[0-9]*" inputmode="numeric" />
                                         @error('potentialvotes')
                                             <small style="color: #FF0000"> {{ $message }} </small>
                                         @enderror
@@ -130,8 +130,8 @@
 
                             <div class="col-md-12 mt-4 text-center">
 
-                                <input type="submit" class="btn btn-outline-success" id="enviar" name="enviar"
-                                    value="Enviar">
+                                <button type="submit" class="btn btn-outline-success" id="enviar"
+                                    name="enviar">Enviar</button>
 
                             </div>
 
@@ -143,16 +143,17 @@
         </div>
 
         <div class="card mt-3 ">
-        <div class="card-body">
-        <div class="row justify-content-center">
-            <div class="col-12 text-center"><b>DATA</b></div>
-            <div class="col-3">Votos</div>
-            <div class="col-7">Hora</div>
-        </div>
-        <div class="row justify-content-center" id="foreachcountvotes">
-                
-        </div>
-        </div>
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="col-12 text-center"><b>REGISTROS</b><hr></div>
+                    <div class="col-xl-2 col-4">#</div>
+                    <div class="col-xl-2 col-4">Votos</div>
+                    <div class="col-xl-2 col-4">Hora</div>
+                </div>
+                <div class="row justify-content-center" id="foreachcountvotes">
+
+                </div>
+            </div>
         </div>
 
     </div> <!-- CONTAINER -->
@@ -164,6 +165,10 @@
             $('.js-example-basic-single').select2();
             // document.getElementById("ndivPotentialVotes").hide();
             $("#ndivPotentialVotes").hide();
+
+            $("form").on("submit", function() {
+                $("#enviar").prop("disabled", true);
+            });
 
         });
     </script>
