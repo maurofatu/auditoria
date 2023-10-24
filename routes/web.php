@@ -73,6 +73,9 @@ Route::group(['middleware' => 'auth'], function () {
     // Route::get('/graphicsgobernacion', [HomeController::class, 'graphicsgobernacion'])->name('monitor.graphicsgobernacion');
 
     Route::get('/searchgobernaciondash/{id}', [HomeController::class, 'searchgobernaciondash'])->name('home.searchgobernaciondash');
+    Route::get('/searchgobernacionfdash/{id}', [HomeController::class, 'searchgobernacionfdash'])->name('home.searchgobernacionfdash');
+    Route::get('/searchalcaldiadash/{id}', [HomeController::class, 'searchalcaldiadash'])->name('home.searchalcaldiadash');
+    Route::get('/searchalcaldiafdash', [HomeController::class, 'searchalcaldiafdash'])->name('home.searchalcaldiafdash');
 
 
     Route::get('/searchlocationcountvotesdash/{id}', [HomeController::class, 'searchlocationcountvotesdash'])->name('home.searchlocationcountvotesdash');

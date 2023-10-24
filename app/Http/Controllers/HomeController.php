@@ -180,7 +180,7 @@ class HomeController extends Controller
             if ($dim_locations) {
                 return response()->json($dim_locations, 200);
             } else {
-                return response()->json(['message' => 'No se encontró locaciones'], 404);
+                return response()->json(['message' => 'No se encontró locaciones'], 302);
             }
         } catch (\Illuminate\Database\QueryException $e) {
             return response()->json(['message' => $e->getMessage()], 500);
@@ -213,7 +213,7 @@ class HomeController extends Controller
                if ($cvotesdash) {
                    return response()->json(["cvotesdash" => $cvotesdash, "potential" => $potential,"cantable" => $cantable, 200]);
                } else {
-                   return response()->json(['message' => 'No se encontró registros'], 404);
+                   return response()->json(['message' => 'No se encontró registros'], 302);
                }
            } catch (\Illuminate\Database\QueryException $e) {
                return response()->json(['message' => $e->getMessage()], 500);
@@ -248,7 +248,112 @@ class HomeController extends Controller
                if ($gobvotedash) {
                    return response()->json(["gobvotedash" => $gobvotedash, "potential" => $potential,"cantable" => $cantable, 200]);
                } else {
-                   return response()->json(['message' => 'No se encontró registros'], 404);
+                   return response()->json(['message' => 'No se encontró registros'], 302);
+               }
+           } catch (\Illuminate\Database\QueryException $e) {
+               return response()->json(['message' => $e->getMessage()], 500);
+           }
+    }
+
+    public function searchGobernacionFDash($id){
+
+        try {
+
+            $gobvotedash = DB::select('
+            select fc.id,CONCAT(dp.first_name," ",if(dp.second_name,dp.second_name, ""),dp.first_last_name, if(dp.second_last_name,dp.second_last_name,"")) as name, SUM(amount) as amount from fact_candidates fc 
+            inner join fact_votes fv on ( fv.fk_fact_candidates = fc.id )
+            inner join dim_people dp on (fc.fk_dim_people = dp.id)
+            where fv.fk_fact_polling_stations in (select id from fact_polling_stations where  fk_dim_cities = ? and fk_dim_elections = 2)   
+            group by fc.id order by amount desc 
+            ', [$id]);
+
+            $potential = DB::select('
+            select sum(amount) as potential from fact_potential_voters fpv 
+            inner join fact_polling_stations fps on (fps.id = fpv.fk_fact_polling_stations)
+            where fps.fk_dim_cities = ?  
+            ', [$id]);
+
+            $cantable = DB::select('
+            select count(*) as cant from fact_polling_stations fps 
+            where fps.fk_dim_cities = ?  
+            ', [$id]);
+
+
+   
+               if ($gobvotedash) {
+                   return response()->json(["gobvotedash" => $gobvotedash, "potential" => $potential,"cantable" => $cantable, 200]);
+               } else {
+                   return response()->json(['message' => 'No se encontró registros'], 302);
+               }
+           } catch (\Illuminate\Database\QueryException $e) {
+               return response()->json(['message' => $e->getMessage()], 500);
+           }
+    }
+
+    public function searchAlcaldiaDash($id){
+
+        try {
+
+            $alcvotedash = DB::select('
+            select fc.id,CONCAT(dp.first_name," ",if(dp.second_name,dp.second_name, ""),dp.first_last_name, if(dp.second_last_name,dp.second_last_name,"")) as name, SUM(amount) as amount from fact_candidates fc 
+            inner join fact_votes fv on ( fv.fk_fact_candidates = fc.id )
+            inner join dim_people dp on (fc.fk_dim_people = dp.id)
+            where fv.fk_fact_polling_stations in (select id from fact_polling_stations where fk_dim_locations = ? and fk_dim_elections = 1)   
+            group by fc.id order by amount desc  
+            ', [$id]);
+
+            $alcpotential = DB::select('
+            select sum(amount) as potential from fact_potential_voters fpv 
+            inner join fact_polling_stations fps on (fps.id = fpv.fk_fact_polling_stations)
+            where fps.fk_dim_locations = ?  
+            ', [$id]);
+
+            $cantable = DB::select('
+            select count(*) as cant from fact_polling_stations fps 
+            where fps.fk_dim_locations = ?  
+            ', [$id]);
+
+
+   
+               if ($alcvotedash) {
+                   return response()->json(["alcvotedash" => $alcvotedash, "alcpotential" => $alcpotential,"alccantable" => $cantable, 200]);
+               } else {
+                   return response()->json(['message' => 'No se encontró registros'], 302);
+               }
+           } catch (\Illuminate\Database\QueryException $e) {
+               return response()->json(['message' => $e->getMessage()], 500);
+           }
+    }
+
+    public function searchAlcaldiaFDash(){
+
+        try {
+
+            $alcvotedash = DB::select('
+            select fc.id,CONCAT(dp.first_name," ",if(dp.second_name,dp.second_name, ""),dp.first_last_name, if(dp.second_last_name,dp.second_last_name,"")) as name, SUM(amount) as amount from fact_candidates fc 
+            inner join fact_votes fv on ( fv.fk_fact_candidates = fc.id )
+            inner join dim_people dp on (fc.fk_dim_people = dp.id)
+            where fv.fk_fact_polling_stations in (select id from fact_polling_stations where  fk_dim_cities = 1 and fk_dim_elections = 1)   
+            group by fc.id order by amount desc  
+            ');
+
+            $alcpotential = DB::select('
+            select sum(amount) as potential from fact_potential_voters fpv 
+            inner join fact_polling_stations fps on (fps.id = fpv.fk_fact_polling_stations)
+            where fps.fk_dim_cities = 1  
+            ');
+
+            $cantable = DB::select('
+            select count(*) as cant from fact_polling_stations fps 
+            where fps.fk_dim_cities = 1  
+            ');
+
+
+   
+               if ($alcvotedash) {
+                   return response()->json(["alcvotedash" => $alcvotedash, "alcpotential" => $alcpotential,"alccantable" => $cantable, 200]);
+               } else {
+                   return response()->json(['message' => 'No se encontró registros'], 302);
                }
            } catch (\Illuminate\Database\QueryException $e) {
                return response()->json(['message' => $e->getMessage()], 500);

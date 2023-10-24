@@ -60,13 +60,13 @@
     <div class="col-6">
         <div class="row">
             <div class="col-2">Total Potencial</div>
-            <div id="potentialvotegober" class="col-1">1234</div>
+            <div id="potentialvotegober" class="col-1"></div>
 
             <div class="col-2">Total Votos</div>
-            <div id="totalvotesgober"class="col-1">1234</div>
+            <div id="totalvotesgober"class="col-1"></div>
 
             <div class="col-2">Abstencion</div>
-            <div id="abstentiongober"class="col-1" style="color: red;">1234</div>
+            <div id="abstentiongober"class="col-1" style="color: red;"></div>
         </div>
     </div>
 
