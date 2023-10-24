@@ -4,7 +4,7 @@
     <div class="container">
 
         <div class="row">
-            <div class="col-xl-12 col-sm-6 mb-xl-0 mb-2">
+            <div class="col-xl-12 col-md-12 col-sm-12 mb-xl-0 mb-2">
                 <div class="card">
                     <div class="card-body p-3" style="
   background-color: red; color:white;">
@@ -30,7 +30,7 @@
             {{-- <input type="hidden" name="mesvot" id="mesvot"  value="{{ $mesvot }}"> --}}
 
             <div class="row justify-content-center mb-4">
-                <div class="col-md-2">
+                <div class="col-md-3 mt-2">
                     <div class="form-group">
                         <label for="munvot">Municipio Votación</label>
                         <select class="form-control js-example-basic-single" id="munvot" name="munvot"
@@ -74,22 +74,27 @@
             <div id="ndivcandidatesVotes" class="row align-items-start d-flex align-items-center">
 
                 @foreach ($dim_people as $item)
-                    <div class="col-2">
-                        <span style="padding-right:3px; padding-top: 3px; display:inline-block;">
-                            <img src="{{ asset('/img/usericon.png') }}" width="40px" alt="...">
-                        </span>
-                    </div>
-                    <div class="col-7">{{ $item->name }}</div>
-                    <div class="col-3">
-                        <input type="number" class="form-control" id="vote{{ $item->id }}"
-                            name="vote{{ $item->id }}" aria-describedby="vote" placeholder="#" pattern="[0-9]*"
-                            inputmode="numeric" required>
-                    </div>
+                    @if ($item->id != 17 and $item->id != 31)
+                        <div class="col-2">
+                            <span style="padding-right:3px; padding-top: 3px; display:inline-block;">
+                                <img src="{{ asset('/img/usericon.png') }}" width="40px" alt="...">
+                            </span>
+                        </div>
+                        <div class="col-7">{{ $item->name }}</div>
+                        <div class="col-3">
+                            <input type="number" class="form-control" id="vote{{ $item->id }}"
+                                name="vote{{ $item->id }}" aria-describedby="vote" placeholder="#" pattern="[0-9]*"
+                                inputmode="numeric" required>
+                        </div>
+                    @else
+                        <input type="hidden" id="vote{{ $item->id }}" name="vote{{ $item->id }}">
+                    @endif
                 @endforeach
 
                 <div class="col-md-12 mt-4 mb-4 text-center">
 
-                    <input type="submit" class="btn btn-success" id="enviar" name="enviar" value="Enviar">
+                    {{-- <input type="submit" class="btn btn-success" id="enviar" name="enviar" value="Enviar"> --}}
+                    <button type="submit" class="btn btn-success" id="enviar" name="enviar">Enviar</button>
 
                 </div>
 
@@ -109,12 +114,15 @@
     </div> <!-- CONTAINER -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ asset('js/function.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         $(document).ready(function() {
             $('.js-example-basic-single').select2();
             document.getElementById('ndivImgVotes').style.visibility = "hidden";
+
+            $("form").on("submit", function() {
+                $("#enviar").prop("disabled", true);
+            });
 
         });
 
@@ -160,6 +168,54 @@
                                     Swal.fire('Error', data.message, 'error');
                                 }
                             });
+                    }
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('factvote').addEventListener('submit', function(e) {
+                e.preventDefault(); // Evita que el formulario se envíe de inmediato
+
+                let xelec = $("#election").val();
+
+                if (xelec == 1) {
+
+                    var totvot = parseInt($("#vote1").val()) + parseInt($("#vote2").val()) + parseInt($(
+                            "#vote3").val()) + parseInt($("#vote4").val()) + parseInt($("#vote5").val()) +
+                        parseInt($("#vote6").val()) + parseInt($("#vote7").val()) + parseInt($("#vote8")
+                            .val()) + parseInt($("#vote9").val()) + parseInt($("#vote10").val()) + parseInt(
+                            $("#vote16").val()) + parseInt($("#vote12").val()) + parseInt($("#vote13")
+                        .val()) + parseInt($("#vote14").val()) + parseInt($("#vote15").val()) + parseInt($(
+                            "#vote16").val());
+
+                    $("#vote17").val(totvot);
+                }
+
+                if (xelec == 2) {
+
+                    var totvot = parseInt($("#vote18").val()) + parseInt($("#vote19").val()) + parseInt($(
+                            "#vote20").val()) + parseInt($("#vote21").val()) + parseInt($("#vote22").val()) +
+                        parseInt($("#vote23").val()) + parseInt($("#vote24").val()) + parseInt($("#vote25")
+                            .val()) + parseInt($("#vote26").val()) + parseInt($("#vote27").val()) + parseInt(
+                            $("#vote28").val()) + parseInt($("#vote29").val()) + parseInt($("#vote30").val());
+
+                    $("#vote31").val(totvot);
+                }
+
+                console.log(totvot);
+
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: 'El total de votos es ' + totvot,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, enviar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Si el usuario confirmó, envía el formulario
+                        this.submit();
                     }
                 });
             });
