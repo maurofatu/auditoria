@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class FactNews extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 }

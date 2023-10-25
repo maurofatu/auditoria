@@ -65,6 +65,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'role.monitor' => \App\Http\Middleware\MonitorMiddleware::class,
         'role.typist' => \App\Http\Middleware\TypistMiddleware::class,
-        'role.countvotes' => \App\Http\Middleware\CountVotesMiddleware::class,
+        'role.coordinator' => \App\Http\Middleware\CoordinatorMiddleware::class,
     ];
 }

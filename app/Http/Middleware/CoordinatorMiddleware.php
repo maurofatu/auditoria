@@ -21,16 +21,15 @@ class CountVotesMiddleware
          * Roles
          * 1) Administrador
          * 2) Digitador
-         * 3) Cuenta Votos
-         * 4) Digitador + Cuenta Votos
-         * 5) Monitor
+         * 3) Coordinador
+         * 4) Monitor
          */
 
-        if( in_array( Auth::user()->fk_roles, [1,3,4] ) ){
+        if( in_array( Auth::user()->fk_roles, [1,3] ) ){
             return $next($request);
+        }elseif( in_array( Auth::user()->fk_roles, [4] ) ){
+            return redirect()->route('monitor.dashboard');
         }elseif( in_array( Auth::user()->fk_roles, [2] ) ){
-            return redirect()->route('factvote');
-        }elseif( in_array( Auth::user()->fk_roles, [5] ) ){
             return redirect()->route('home');
         }else{
             return view('errors.403');

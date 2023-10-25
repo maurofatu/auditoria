@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     if (Auth::check()) {
+        if( in_array( Auth::user()->fk_roles, [4] ) ){
+            return redirect()->route('monitor.dashboard');
+        }
         return redirect()->route('home');
     }
     return view('auth.login');

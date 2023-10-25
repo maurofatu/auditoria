@@ -29,5 +29,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DimElectionSeeder::class);
         $this->call(FactPollingStationSeeder::class);
         $this->call(FactCandidateSeeder::class);
+        $this->call(DimTypesNewsSeeder::class);
     }
 }

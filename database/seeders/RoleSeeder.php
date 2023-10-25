@@ -20,14 +20,10 @@ class RoleSeeder extends Seeder
         ],
         [
             "id"=> 3,
-            "description" => "Cuenta Votos"
+            "description" => "Coordinador"
         ],
         [
             "id"=> 4,
-            "description" => "Digitador + Cuenta Votos"
-        ],
-        [
-            "id"=> 5,
             "description" => "Monitor"
         ],
     ];

@@ -10,22 +10,26 @@ class AplicationTableSeeder extends Seeder
 {
 
     private $tables = [
+        'roles',
+        'users',
+        'dim_political_parties',
+        'dim_identifications',
+        'dim_people',
         'dim_cities',
         'dim_communes',
-        'dim_identifications',
         'dim_locations',
-        'dim_people',
-        'dim_political_parties',
         'dim_tables',
         'dim_elections',
         'fact_candidates',
-        'fact_count_votes',
-        'fact_permits',
         'fact_polling_stations',
+        'fact_permits',
         'fact_votes',
-        'roles',
-        'user_role_permits',
-        'users'
+        'fact_count_votes',
+        'user_role_permits', 
+        'fact_potential_voters',
+        'fact_trend_analyses',
+        'dim_types_news',
+        'fact_news'
     ];
 
     /**
