@@ -102,9 +102,24 @@
         </form>
         <input type="hidden" name="idimg" id="idimg">
         <div id="ndivImgVotes" class="row align-items-start align-items-center">
-            <button id="btn-cargar" class="btn btn-outline-success btn-lg">
+            {{-- <button id="btn-cargar" class="btn btn-outline-success btn-lg">
                 Cargar Imagen E-14
-            </button>
+            </button> --}}
+            <form  action="{{ route('factvote.img') }}" id="imgfacvote" name="imgfacvote" method="POST" enctype="multipart/form-data">
+                @csrf
+
+                <div class="form-group">
+                    <label for="imagen">Selecciona una imagen</label>
+                    <input type="file" name="imagen" id="imagen" class="form-control-file" accept="image/*">
+                    @error('imagen')
+                        <small clas="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+                <input type="hidden" name="mesvotimg" id="mesvotimg">
+
+                <button type="submit" class="btn btn-primary">Cargar Imagen</button>
+            </form>
+            
         </div>
 
 
@@ -124,52 +139,54 @@
 
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('btn-cargar').addEventListener('click', function() {
-                var mesvot = $("#idimg").val();
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     document.getElementById('btn-cargar').addEventListener('click', function() {
+        //         var mesvot = $("#idimg").val();
 
-                Swal.fire({
-                    title: 'Cargar archivo',
-                    html: `
-                <input type="file" id="archivo" accept="image/*" />
-            `,
-                    showCancelButton: true,
-                    confirmButtonText: 'Cargar',
-                    preConfirm: () => {
-                        const inputFile = document.getElementById('archivo');
-                        const formData = new FormData();
-                        formData.append('archivo', inputFile.files[0]);
-                        formData.append('mesvot', mesvot);
+        //         Swal.fire({
+        //             title: 'Cargar archivo',
+        //             html: `
+        //         <input type="file" id="archivo" accept="image/*" />
+        //     `,
+        //             showCancelButton: true,
+        //             confirmButtonText: 'Cargar',
+        //             preConfirm: () => {
+        //                 const inputFile = document.getElementById('archivo');
+        //                 const formData = new FormData();
+        //                 formData.append('archivo', inputFile.files[0]);
+        //                 formData.append('mesvot', mesvot);
 
-                        return fetch('{{ route('factvote.img') }}', {
-                                method: 'POST',
-                                body: formData,
-                                headers: {
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                }
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    Swal.fire('Carga exitosa', data.message, 'success');
-                                    document.getElementById("ndivImgVotes").style
-                                        .visibility = "hidden";
-                                    console.log(data.election);
-                                    if (data.election == '1') {
-                                        window.location.href =
-                                            "{{ route('factvote.votes', 1) }}";
-                                    } else {
-                                        window.location.href =
-                                            "{{ route('factvote.votes', 2) }}";
-                                    }
-                                } else {
-                                    Swal.fire('Error', data.message, 'error');
-                                }
-                            });
-                    }
-                });
-            });
-        });
+        //                 return fetch('{{ route('factvote.img') }}', {
+        //                         method: 'POST',
+        //                         body: formData,
+        //                         enctype: "multipart/form-data",
+        //                         headers: {
+        //                             'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        //                         }
+        //                     })
+        //                     .then(response => response.json())
+        //                     .then(data => {
+        //                         console.log(data);
+        //                         if (data.success) {
+        //                             Swal.fire('Carga exitosa', data.message, 'success');
+        //                             document.getElementById("ndivImgVotes").style
+        //                                 .visibility = "hidden";
+        //                             console.log(data.election);
+        //                             if (data.election == '1') {
+        //                                 window.location.href =
+        //                                     "{{ route('factvote.votes', 1) }}";
+        //                             } else {
+        //                                 window.location.href =
+        //                                     "{{ route('factvote.votes', 2) }}";
+        //                             }
+        //                         } else {
+        //                             Swal.fire('Error', data.message, 'error');
+        //                         }
+        //                     });
+        //             }
+        //         });
+        //     });
+        // });
 
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('factvote').addEventListener('submit', function(e) {
