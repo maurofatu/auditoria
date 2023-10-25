@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FactCountVoteRequest;
 use App\Models\FactCountVotes;
 use App\Models\FactPotentialVoter;
+use App\Models\DimTypesNews;
+use App\Models\FactNews;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +16,7 @@ class FactCountVotesController extends Controller
 
     public function __construct()
     {
-        $this->middleware('role.countvotes');
+        $this->middleware('role.typist');
     }
 
     /** Display a listing of the resource.
@@ -189,8 +191,11 @@ class FactCountVotesController extends Controller
             where fp.fk_users = ? ;
         ', [Auth::user()->id]);
 
+        $dim_types_news = DimTypesNews::all();
+
         $data = [
             'dim_cities' => $dim_cities,
+            'dim_types_news' => $dim_types_news,
             'status' => 200
         ];
         return view('factcountvote/news', ["data" => $data]);
@@ -203,11 +208,15 @@ class FactCountVotesController extends Controller
         DB::beginTransaction();
 
         try {
-
-            
-
-
             DB::commit();
+            
+            FactNews::create([
+                'fk_fact_polling_stations'=> $data['mesvotfcv'],
+                'fk_dim_types_news' => $data['tipenews'],
+                'descripion_event' => $data['datanews'],
+                'status' => 'S',
+                'ip' => request()->ip()
+            ]);
 
             return redirect()->route('factcountvote.create')->with(['messagefcv' => 'Success']);
         } catch (\Exception $e) {

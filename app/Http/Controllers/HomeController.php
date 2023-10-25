@@ -15,7 +15,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        // $this->middleware('role.monitor');
+        // $this->middleware('role.typist');
     }
 
     /**
@@ -25,7 +25,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-
+        if( in_array( Auth::user()->fk_roles, [4] ) ){
+            return redirect()->route('monitor.dashboard');
+        }
         $cities = array(
             '1' => 'Arauca',
             '2' => 'Arauquita',
@@ -51,11 +53,13 @@ class HomeController extends Controller
 
     public function CountVotes()
     {
+        $this->middleware('role.typist');
         return view('countvotes');
     }
 
     public function SearchVotes()
     {
+        $this->middleware('role.typist');
         try {
 
             $count_votes = DB::select('SELECT sum(fv.amount) as votes, fc.id as candidate FROM fact_votes fv
@@ -87,6 +91,7 @@ class HomeController extends Controller
     }
 
     public function CountVotesRequest(){
+        $this->middleware('role.typist');
 
         // $countVotesRequest = DB::select('SELECT  idCity, city, idLocation, location, sum(cantidad) as cant FROM (
         //         SELECT dc.id as idCity, dc.description as city,dl.id as idLocation, dl.description as location, fcv.fk_fact_polling_stations as mesa, 
@@ -112,7 +117,7 @@ class HomeController extends Controller
     }
 
     public function PotentialVotersRequest($id){
-        
+        $this->middleware('role.typist');
         $potentialvoters = DB::select('select sum(fpv.amount) as cant from fact_potential_voters fpv
         inner join fact_polling_stations fps ON fps.id = fpv.fk_fact_polling_stations
        where fps.fk_dim_locations = ?', [$id]);

@@ -21,16 +21,13 @@ class MonitorMiddleware
          * Roles
          * 1) Administrador
          * 2) Digitador
-         * 3) Cuenta Votos
-         * 4) Digitador + Cuenta Votos
-         * 5) Monitor
+         * 3) Coordinador
+         * 4) Monitor
          */
-        if( in_array( Auth::user()->fk_roles, [1,5] ) ){
+        if( in_array( Auth::user()->fk_roles, [1,4] ) ){
             return $next($request);
-        }elseif( in_array( Auth::user()->fk_roles, [2,4] ) ){
+        }elseif( in_array( Auth::user()->fk_roles, [2,3] ) ){
             return redirect()->route('home');
-        }elseif( in_array( Auth::user()->fk_roles, [3] ) ){
-            return redirect()->route('factcountvote.create');
         }else{
             return view('errors.403');
         }

@@ -46,6 +46,8 @@ function searchTable(e, f) {
     }
     const mesa = $("#mesvot");
 
+    
+
     $.ajax({
         method: "GET",
         url: "/searchtable/" + dimtable + "/" + election,
@@ -77,6 +79,8 @@ function searchTable(e, f) {
 function searchImg(e, f) {
     var dimtable = e.target.value;
     var election = f.election.value;
+
+    $("#mesvotimg").val(dimtable);
 
     if (dimtable == "") {
         return false;

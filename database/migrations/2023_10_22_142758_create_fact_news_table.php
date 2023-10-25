@@ -23,6 +23,10 @@ return new class extends Migration
                 ->references('id')->on('fact_polling_stations')
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
+            $table->foreignId('fk_dim_types_news')
+                ->references('id')->on('dim_types_news')
+                ->cascadeOnUpdate()
+                ->restrictOnDelete();
             $table->string('ip');
             $table->text('description_event');
             $table->text('management_description')->nullable();

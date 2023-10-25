@@ -40,6 +40,8 @@ class UserSeeder extends Seeder
             'users'=>0
         ]
     ];
+    private $n_coordinadores = 20;
+    private $n_monitores = 20;
 
     /**
      * Run the database seeds.
@@ -52,15 +54,34 @@ class UserSeeder extends Seeder
         foreach ($this->cities as $city){
             for($i = 1; $i <= $city['users']; $i++){
                 $name = $city['city'] . (($i <= 9)?'00':(($i <= 99)?'0':'')) . $i;
-
                 User::create([
                     'id' => $id++,
                     'name'=>$name,
                     'email' => $name . '@galaxia.com',
                     'password' => Hash::make($name),
-                    'fk_roles' => 4
+                    'fk_roles' => 2
                 ]);
             }
+        }
+        for( $i = 1; $i <= $this->n_coordinadores; $i++){
+            $name = 'coordinador' . (($i <= 9)?'00':(($i <= 99)?'0':'')) . $i;
+            User::create([
+                'id' => $id++,
+                'name'=>$name,
+                'email' => $name . '@galaxia.com',
+                'password' => Hash::make($name),
+                'fk_roles' => 3
+            ]);
+        }
+        for( $i = 1; $i <= $this->n_monitores; $i++){
+            $name = 'monitor' . (($i <= 9)?'00':(($i <= 99)?'0':'')) . $i;
+            User::create([
+                'id' => $id++,
+                'name'=>$name,
+                'email' => $name . '@galaxia.com',
+                'password' => Hash::make($name),
+                'fk_roles' => 4
+            ]);
         }
     }
 }

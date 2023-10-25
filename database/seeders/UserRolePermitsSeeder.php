@@ -13,7 +13,7 @@ class UserRolePermitsSeeder extends Seeder
         [
             'fk_roles' => 1,
             'fk_users' => null,
-            'fk_aplication_tables' => [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
+            'fk_aplication_tables' => [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
             'select' => true,
             'insert' => true,
             'update' => true,
@@ -22,7 +22,7 @@ class UserRolePermitsSeeder extends Seeder
         [
             'fk_roles' => 2,
             'fk_users' => null,
-            'fk_aplication_tables' => [1,2,3,4,5,6,7,8,10,11,13,14,15],
+            'fk_aplication_tables' => [1,2,3,4,5,6,7,8,9,10,11,13,14,16,18,19],
             'select' => true,
             'insert' => false,
             'update' => false,
@@ -31,7 +31,7 @@ class UserRolePermitsSeeder extends Seeder
         [
             'fk_roles' => 2,
             'fk_users' => null,
-            'fk_aplication_tables' => [12],
+            'fk_aplication_tables' => [14,15,17,20],
             'select' => true,
             'insert' => true,
             'update' => true,
@@ -40,7 +40,7 @@ class UserRolePermitsSeeder extends Seeder
         [
             'fk_roles' => 3,
             'fk_users' => null,
-            'fk_aplication_tables' => [1,2,3,4,5,6,7,8,10,11,13,14,15],
+            'fk_aplication_tables' => [1,2,3,4,5,6,7,8.9,10,11,12,13,16,17,18,19],
             'select' => true,
             'insert' => false,
             'update' => false,
@@ -49,39 +49,21 @@ class UserRolePermitsSeeder extends Seeder
         [
             'fk_roles' => 3,
             'fk_users' => null,
-            'fk_aplication_tables' => [9],
+            'fk_aplication_tables' => [14,15,20],
             'select' => true,
             'insert' => true,
             'update' => true,
             'delete' => false
-        ],
+        ],        
         [
             'fk_roles' => 4,
             'fk_users' => null,
-            'fk_aplication_tables' => [1,2,3,4,5,6,7,8,10,11,13,14,15],
+            'fk_aplication_tables' => [1,2,3,4,5,6,7,8,9,10,11,13,14,16,18,19,20],
             'select' => true,
             'insert' => false,
             'update' => false,
             'delete' => false
-        ],
-        [
-            'fk_roles' => 4,
-            'fk_users' => null,
-            'fk_aplication_tables' => [9, 12],
-            'select' => true,
-            'insert' => true,
-            'update' => true,
-            'delete' => false
-        ],
-        [
-            'fk_roles' => 5,
-            'fk_users' => null,
-            'fk_aplication_tables' => [1,2,3,4,5,6,7,8,9,11,12,13,14,15],
-            'select' => true,
-            'insert' => false,
-            'update' => false,
-            'delete' => false
-        ],
+        ]
     ];
 
     /**
