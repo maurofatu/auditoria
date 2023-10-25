@@ -323,8 +323,8 @@ class FactVoteController extends Controller
             from fact_polling_stations fps
                 inner join dim_cities dc on ( fps.fk_dim_cities = dc.id )
                 inner join fact_permits fp on ( fps.id = fp.fk_fact_polling_stations )
-            where fp.fk_users = ? ;
-        ', [Auth::user()->id]);
+            where fp.fk_users = ? and fps.fk_dim_elections = ?;
+        ', [Auth::user()->id,$id]);
 
         $data = [
             'dim_cities' => $dim_cities,
