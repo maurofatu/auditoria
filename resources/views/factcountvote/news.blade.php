@@ -4,7 +4,7 @@
 <div class="container">
 
     <div class="row">
-        <div class="col-xl-12 col-sm-6 mb-xl-0 mb-2">
+        <div class="col-xl-12 col-sm-12 mb-xl-0 mb-2">
 
             <div class="card" style="background-color: hotpink;color:white;">
                 <div class="card-body p-2">
@@ -40,7 +40,7 @@
                         @csrf
                         <!-- Datos Votacion -->
                         <div class="row justify-content-center">
-                            <div class="col-md-2">
+                            <div class="col-md-3 mt-2">
                                 <div class="form-group">
                                     <label for="munvotfcv">Municipio Votación</label>
                                     <select class="form-control js-example-basic-single" id="munvotfcv" name="munvotfcv" onchange="searchLocationFcv(event)" required>

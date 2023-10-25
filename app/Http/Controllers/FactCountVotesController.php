@@ -191,6 +191,7 @@ class FactCountVotesController extends Controller
             where fp.fk_users = ? ;
         ', [Auth::user()->id]);
 
+        
         $dim_types_news = DimTypesNews::all();
 
         $data = [
@@ -201,10 +202,16 @@ class FactCountVotesController extends Controller
         return view('factcountvote/news', ["data" => $data]);
     }
 
-    public function storenews(FactCountVoteRequest $request)
+    public function storenews(Request $request)
     {
-        $data = $request->validated();
 
+        $data = $request->validate([
+            'datanews' => 'required',
+            'tipenews' => 'required',
+            'mesvotfcv' => 'required'
+        ]);
+
+        
         DB::beginTransaction();
 
         try {
@@ -213,15 +220,16 @@ class FactCountVotesController extends Controller
             FactNews::create([
                 'fk_fact_polling_stations'=> $data['mesvotfcv'],
                 'fk_dim_types_news' => $data['tipenews'],
-                'descripion_event' => $data['datanews'],
+                'description_event' => $data['datanews'],
                 'status' => 'S',
+                'fk_users' => Auth::user()->id,
                 'ip' => request()->ip()
             ]);
 
-            return redirect()->route('factcountvote.create')->with(['messagefcv' => 'Success']);
+            return redirect()->route('factcountvote.news')->with(['messagefcv' => 'Success']);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->route('factcountvote.create')->with(['messagefcv' => 'Error', 'Codefcv' => $e->getMessage()]);
+            return redirect()->route('factcountvote.news')->with(['messagefcv' => 'Error', 'Codefcv' => $e->getMessage()]);
         }
     }
 }
