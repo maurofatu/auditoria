@@ -79,27 +79,26 @@ class FactVoteController extends Controller
 
         try {
 
-            foreach($dim_people as $item){
-           
+            foreach ($dim_people as $item) {
+
                 $iid = "vote" . $item->id . "";
                 FactVote::create([
                     'fk_fact_polling_stations' => $validado['mesvot'],
                     'fk_fact_candidates' => $item->id,
                     'ip' => request()->ip(),
-                    'amount' => $validado['vote'.$item->id],
+                    'amount' => $validado['vote' . $item->id],
                     'fk_users' => Auth::user()->id,
                     'fk_dim_elections' => $election
                 ]);
-
             }
 
 
             DB::commit();
 
-            return redirect()->route('factvote.votes',$election)->with(['message' => 'Success']);
+            return redirect()->route('factvote.votes', $election)->with(['message' => 'Success']);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->route('factvote.votes',$election)->with(['message' => 'Error', 'Code' => $e->getMessage()]);
+            return redirect()->route('factvote.votes', $election)->with(['message' => 'Error', 'Code' => $e->getMessage()]);
         }
     }
 
@@ -148,7 +147,7 @@ class FactVoteController extends Controller
         //
     }
 
-    public function SearchLocation($id,$election)
+    public function SearchLocation($id, $election)
     {
         try {
 
@@ -187,7 +186,7 @@ class FactVoteController extends Controller
         }
     }
 
-    public function SearchTable($id,$election)
+    public function SearchTable($id, $election)
     {
         try {
 
@@ -226,7 +225,7 @@ class FactVoteController extends Controller
         }
     }
 
-    public function SearchImg($id,$election)
+    public function SearchImg($id, $election)
     {
         try {
 
@@ -242,18 +241,18 @@ class FactVoteController extends Controller
             where fv.fk_fact_polling_stations = ?
             ', [$id]);
 
-            if($election == '1'){
+            if ($election == '1') {
                 $dat = [
-                    "1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17"
+                    "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"
                 ];
-            }else{
+            } else {
                 $dat = [
-                    "18","19","20","21","22","23","24","25","26","27","28","29","30","31",
+                    "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31",
                 ];
             }
-            
+
             if ($dim_img) {
-                return response()->json(['dim_img' => $dim_img,'count_votes' => $count_votes], 200);
+                return response()->json(['dim_img' => $dim_img, 'count_votes' => $count_votes], 200);
             } else {
                 return response()->json(['dat' => $dat], 200);
             }
@@ -262,9 +261,18 @@ class FactVoteController extends Controller
         }
     }
 
-    public function img(Request $request){
+    public function img(Request $request)
+    {
 
-        $fact_polling = DB::select('
+        try {
+
+            $request->validate([
+                'imagen' => 'required|image',
+                'mesvotimg' => 'required'
+            ]);
+
+
+            $fact_polling = DB::select('
         select de.description as election, dc.description as city, dl.description as location, dt.description as mesa, fps.fk_dim_elections as id
         from fact_polling_stations fps
         inner join dim_elections de on (de.id = fps.fk_dim_elections)
@@ -272,38 +280,43 @@ class FactVoteController extends Controller
         inner join dim_locations dl on (dl.id = fps.fk_dim_locations)
         inner join dim_tables dt on (dt.id = fps.fk_dim_tables)
         where fps.id = ?
-        ', [$request->mesvot]);
+        ', [$request->mesvotimg]);
 
-        foreach ($fact_polling as $item){
-            $election = $item->election;
-            $city = $item->city;
-            $location = $item->location;
-            $mesa = $item->mesa;
-            $id = $item->id;
+            foreach ($fact_polling as $item) {
+                $election = $item->election;
+                $city = $item->city;
+                $location = $item->location;
+                $mesa = $item->mesa;
+                $id = $item->id;
+            }
+
+            $ruta = 'E-14/' . $election . '/' . $city . '/' . $location;
+
+            $request->file('imagen')->store('public/' . $ruta);
+
+            if ($request->isMethod('POST')) {
+
+                $file = $request->file('imagen');
+                $file->storeAs($ruta, $mesa . "." . $file->extension());
+
+
+                $name = $ruta . "/" . $mesa;
+                $registro = FactPollingStation::find($request->mesvotimg);
+                $registro->url_photo_e4 = $name;
+                // Actualiza otros campos según sea necesario
+                $registro->save();
+
+                return redirect()->back()->with(['message' => 'Success']);
+            } else {
+                return redirect()->back()->with(['message' => 'Error']);
+            }
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
         }
-
-        $ruta = 'E-14/'.$election.'/'.$city.'/'.$location;
-        
-        if ($request->hasFile('archivo')) {
-            $archivo = $request->file('archivo');
-            $nombreArchivo = $mesa . $archivo->getClientOriginalName();
-            $archivo->storeAs($ruta, $nombreArchivo);
-            $name = $ruta . '/' . $nombreArchivo;
-
-            $registro = FactPollingStation::find($request->mesvot);
-            $registro->url_photo_e4 = $name;
-            // Actualiza otros campos según sea necesario
-            $registro->save();
-
-            return response()->json(['success' => true, 'message' => 'El archivo se ha cargado correctamente.','election' => $id]);
-        } else {
-            return response()->json(['success' => false, 'message' => 'No se ha seleccionado ningún archivo.']);
-        }
-
-
     }
 
-    public function Votes($id){
+    public function Votes($id)
+    {
 
         $dim_cities = DB::select('
             SELECT DISTINCT dc.id as value, dc.description as label
@@ -317,14 +330,13 @@ class FactVoteController extends Controller
             'dim_cities' => $dim_cities,
             'status' => 200
         ];
-        
+
         $dim_people = DB::select('
         SELECT CONCAT(dp.first_name," ",if(dp.second_name,dp.second_name, ""),dp.first_last_name, if(dp.second_last_name,dp.second_last_name,"")) as name, fc.id as id  FROM fact_candidates fc
         inner join dim_people dp on (fc.fk_dim_people = dp.id)   
         where fk_dim_elections = ?', [$id]);
 
 
-        return view('factvote.votes',["dim_people" => $dim_people, "id" => $id,"data" => $data]);
-
+        return view('factvote.votes', ["dim_people" => $dim_people, "id" => $id, "data" => $data]);
     }
 }
