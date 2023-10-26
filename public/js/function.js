@@ -899,7 +899,7 @@ function searchNews(e) {
     $.ajax({
         method: "POST",
         url: "/news/find",
-        data:{ fact_polling_stations: "fact_polling_stations", _token: token },
+        data:{ fact_polling_stations: fact_polling_stations, _token: token },
         success: function (response) {
             const cuerpoTabla = $('#cuerpo_tabla_novedades');
 
