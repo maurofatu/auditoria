@@ -23,11 +23,13 @@
             </div>
         </div>
 
-        <form action="{{ route('factvote.store') }}" method="post" name="factvote" id="factvote">
+        <form action="{{ route('factvote.store') }}" method="post" name="factvote" id="factvote"
+            enctype="multipart/form-data">
             @csrf
 
             <input type="hidden" name="election" id="election" value="{{ $id }}">
-            
+            <input type="hidden" name="datoscargados" id="datoscargados">
+
             <div class="row justify-content-center mb-4">
                 <div class="col-md-3 mt-2">
                     <div class="form-group">
@@ -92,10 +94,28 @@
 
                 <div class="col-md-12 mt-4 mb-4 text-center">
 
-                    <button type="submit" class="btn btn-success" id="enviar" name="enviar">Enviar</button>
+                    <button type="submit" class="btn btn-success" id="enviar" name="enviar"
+                        value="enviar">Enviar</button>
 
                 </div>
 
+            </div>
+
+            <div id="ndivImgVotes" class="row align-items-start align-items-center">
+                <div class="form-group">
+                    <label for="imagen">Selecciona una imagen</label>
+                    <input type="file" name="imagen" id="imagen" class="form-control form-control-file" accept="image/*">
+                    @error('imagen')
+                        <small clas="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+                <input type="hidden" name="mesvotimg" id="mesvotimg">
+                <div class="col-md-12 mt-4 mb-4 text-center">
+
+                    <button type="submit" class="btn btn-outline-success" id="enviar" name="enviar"
+                        value="cargar">+ Cargar Imagen</button>
+
+                </div>
             </div>
 
 
@@ -105,7 +125,7 @@
             {{-- <button id="btn-cargar" class="btn btn-outline-success btn-lg">
                 Cargar Imagen E-14
             </button> --}}
-            <form  action="{{ route('factvote.img') }}" id="imgfacvote" name="imgfacvote" method="POST" enctype="multipart/form-data">
+            {{-- <form  action="{{ route('factvote.img') }}" id="imgfacvote" name="imgfacvote" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="form-group">
@@ -118,8 +138,8 @@
                 <input type="hidden" name="mesvotimg" id="mesvotimg">
 
                 <button type="submit" class="btn btn-primary">Cargar Imagen</button>
-            </form>
-            
+            </form> --}}
+
         </div>
 
 
@@ -141,25 +161,31 @@
 
         // document.addEventListener('DOMContentLoaded', function() {
         //     document.getElementById('btn-cargar').addEventListener('click', function() {
-        //         var mesvot = $("#idimg").val();
+        //         var mesvot = $("#mesvot").val();
 
         //         Swal.fire({
         //             title: 'Cargar archivo',
         //             html: `
-        //         <input type="file" id="archivo" accept="image/*" />
-        //     `,
+    //         <input type="file" name="imagen" id="imagen" accept="image/*" />
+    //     `,
         //             showCancelButton: true,
         //             confirmButtonText: 'Cargar',
         //             preConfirm: () => {
-        //                 const inputFile = document.getElementById('archivo');
+        //                 var image = document.getElementById('imagen');
+
+        //                 const inputFile = document.getElementById('imagen');
+        //                 console.log(image.file);
+        //                 console.log(inputFile.file);
         //                 const formData = new FormData();
-        //                 formData.append('archivo', inputFile.files[0]);
-        //                 formData.append('mesvot', mesvot);
+        //                 formData.append('imagen', inputFile.file[0]);
+        //                 formData.append('mesvotimg', mesvot);
+
+
 
         //                 return fetch('{{ route('factvote.img') }}', {
         //                         method: 'POST',
-        //                         body: formData,
         //                         enctype: "multipart/form-data",
+        //                         body: formData,
         //                         headers: {
         //                             'X-CSRF-TOKEN': '{{ csrf_token() }}'
         //                         }
@@ -192,41 +218,59 @@
             document.getElementById('factvote').addEventListener('submit', function(e) {
                 e.preventDefault(); // Evita que el formulario se envíe de inmediato
 
-                let xelec = $("#election").val();
-                let totvot = 0;
+                var butt = $('#datoscargados').val();
 
-                if (xelec == 1) {
+                if (butt == 'N') {
 
-                    for(let i=1; i<=16; i++)
-                    {
-                          totvot += parseInt($("#vote"+i).val());
-                    }                    
-                    $("#vote17").val(totvot);
+                    let xelec = $("#election").val();
+                    let totvot = 0;
+
+                    if (xelec == 1) {
+
+                        for (let i = 1; i <= 16; i++) {
+                            totvot += parseInt($("#vote" + i).val());
+                        }
+                        $("#vote17").val(totvot);
+                    }
+
+                    if (xelec == 2) {
+
+                        for (let i = 18; i <= 30; i++) {
+                            totvot += parseInt($("#vote" + i).val());
+                        }
+                        $("#vote31").val(totvot);
+                    }
+
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: 'El total de votos es ' + totvot,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sí, enviar',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Si el usuario confirmó, envía el formulario
+                            this.submit();
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: 'De cargar la imagen',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sí, enviar',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Si el usuario confirmó, envía el formulario
+                            this.submit();
+                        }
+                    });
                 }
 
-                if (xelec == 2) {
-
-                    for(let i=18; i<=30; i++)
-                    {
-                          totvot += parseInt($("#vote"+i).val());
-                    }
-                    $("#vote31").val(totvot);
-                }
-
-                Swal.fire({
-                    title: '¿Estás seguro?',
-                    text: 'El total de votos es ' + totvot,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Sí, enviar',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Si el usuario confirmó, envía el formulario
-                        this.submit();
-                    }
-                });
-            });
+            }); //Event Listener
         });
     </script>
 @endsection

@@ -58,7 +58,9 @@ class FactVoteRequest extends FormRequest
             'vote28' => '',
             'vote29' => '',
             'vote30' => '',
-            'vote31' => ''
+            'vote31' => '',
+            'datoscargados' => '',
+            'imagen' => '',
         ];
     }
 }
