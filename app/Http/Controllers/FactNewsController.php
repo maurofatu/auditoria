@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DimTypesNews;
+use App\Models\FactNews;
 use App\Models\FactPermit;
 use App\Models\FactPollingStation;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class FactNewsController extends Controller
 {
@@ -58,30 +61,8 @@ class FactNewsController extends Controller
             "T" => 0
         ];
 
-        // $fact_news = DB::select('
-        // SELECT 
-        //     fn.id id,
-        //     DATE_FORMAT(fn.created_at, "%H:%i:%s") hora,
-        //     dtn.description type,
-        //     fn.status code_status,
-        //     CASE
-        //         WHEN fn.status = "S" THEN "Sin gestionar"
-        //         WHEN fn.status = "G" THEN "Gestionada"
-        //         WHEN fn.status = "D" THEN "Direccionado"
-        //     END status
-        // FROM fact_polling_stations fps
-        // inner JOIN fact_news fn ON fps.id = fn.fk_fact_polling_stations
-        // inner JOIN dim_types_news dtn on (fn.fk_dim_types_news = dtn.id)
-        // WHERE fps.fk_dim_cities = ?
-        // AND fps.fk_dim_locations = ?
-        // AND fk_dim_tables = ?', [
-        //     $city,
-        //     $location,
-        //     $table
-        // ]);
-
         $fact_news = DB::table('fact_polling_stations as fps')
-            ->select('fn.id', 'fn.created_at as hora', 'dtn.description as type', 'fn.status as code_status')
+            ->selectRaw('fn.id, DATE_FORMAT(fn.created_at, "%H:%i:%s") as hora, dtn.description as type, fn.status as code_status')
             ->addSelect(DB::raw('CASE WHEN fn.status = "S" THEN "Sin gestionar" WHEN fn.status = "G" THEN "Gestionada" WHEN fn.status = "D" THEN "Direccionado" END as status'))
             ->join('fact_news as fn', 'fps.id', '=', 'fn.fk_fact_polling_stations')
             ->join('dim_types_news as dtn', 'fn.fk_dim_types_news', '=', 'dtn.id')
@@ -107,7 +88,7 @@ class FactNewsController extends Controller
         ]);
 
         if (!empty($conteo)) {
-            $conteo = $conteo[0]; 
+            $conteo = $conteo[0];
         } else {
             $conteo = json_decode(json_encode([
                 "S" => 0,
@@ -122,5 +103,49 @@ class FactNewsController extends Controller
             'conteo' => $conteo
         ];
         return view('coordinators.find', ["data" => $data]);
+    }
+
+    public function edit($id)
+    {
+        $fact_permits = FactPermit::firstWhere('fk_users', Auth::user()->id);
+
+        $fact_new = FactNews::find($id);
+        $dim_types_news = DimTypesNews::get();
+
+        $dim_status = [
+            ["value" => "S", "label" => 'Sin direccionar'],
+            ["value" => "G", "label"  => 'Gestionada'],
+            ["value" => "D", "label"  => 'Direccionada']
+        ];
+
+        $data = [
+            'fact_permits' => $fact_permits,
+            'fact_new' => $fact_new,
+            'dim_types_news' => $dim_types_news,
+            'dim_status' => $dim_status
+        ];
+        return view('coordinators.edit', ["data" => $data]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        // $fact_permits = FactPermit::firstWhere('fk_users', Auth::user()->id);
+
+        // $fact_new = FactNews::find($id);
+        // $dim_types_news = DimTypesNews::get();
+
+        // $dim_status = [
+        //     ["value" => "S", "label" => 'Sin direccionar'],
+        //     ["value" => "G", "label"  => 'Gestionada'],
+        //     ["value" => "D", "label"  => 'Direccionada']
+        // ];
+
+        // $data = [
+        //     'fact_permits' => $fact_permits,
+        //     'fact_new' => $fact_new,
+        //     'dim_types_news' => $dim_types_news,
+        //     'dim_status' => $dim_status
+        // ];
+        return redirect()->route('coordinators.update', $id)->with(['success', 'Elemento actualizado con éxito']);
     }
 }

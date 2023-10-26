@@ -51,6 +51,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/news', [FactCountVotesController::class, 'storenews'])->name('factcountvote.storenews');
     Route::post('/news/find', [FactCountVotesController::class, 'newsFind'])->name('news.find');
     Route::get('/coordinators_new', [FactNewsController::class, 'index'])->name('coordinators.news');
+    Route::get('/coordinators_new/edit/{id}', [FactNewsController::class, 'edit'])->name('coordinators.edit');
+    Route::put('/coordinators_new/update/{id}', [FactNewsController::class, 'update'])->name('coordinators.update');
     Route::get('/coordinators_new/{city}/{location}/{table}', [FactNewsController::class, 'find'])->name('coordinators.find');
 
     // PROCESS FOR COUNT VOTES

@@ -21,10 +21,12 @@
             <div class="col-12 text-center mt-2">
                 <h4>Monitoreo Novedades - Coordinador de Puesto</h4>
             </div>
+            <hr class="mt-0" />
             <div class="col-12 mt-2">
                 <h5>Municipio: {{ $data['fact_permits']->factPollingStation->dimCity->description }}</h5>
                 <h5>Puesto: {{ $data['fact_permits']->factPollingStation->dimLocation->description }}</h5>
             </div>
+            <hr class="mt-0" />
         </div>
 
         <div class="row justify-content-center">
@@ -39,7 +41,7 @@
                 </thead>
                 <tbody>
                     @forelse ($data['fact_news'] as $new)
-                        <tr>
+                        <tr class="fila-new" data-url="{{ route('coordinators.edit', $new->id) }}">
                             <th scope="row">{{ $new->id }}</th>
                             <td>{{ $new->hora }}</td>
                             <td>{{ $new->type }}</td>
@@ -80,8 +82,10 @@
             </div>
 
         </div>
+        <hr class="mt-0" />
         <div class="row">
-            <p class="m-0"><strong>Total novedades:</strong> {{$data['conteo']->S + $data['conteo']->G + $data['conteo']->D }}</p>
+            <p class="m-0"><strong>Total novedades:</strong>
+                {{ $data['conteo']->S + $data['conteo']->G + $data['conteo']->D }}</p>
             <p class="m-0 text-danger"><strong>Sin gestionar:</strong> {{ $data['conteo']->S }}</p>
             <p class="m-0 text-primary"><strong>Gestionados:</strong> {{ $data['conteo']->G }}</p>
             <p class="m-0 text-success"><strong>Direccionados:</strong> {{ $data['conteo']->D }}</p>
@@ -98,6 +102,19 @@
             // document.getElementById("ndivPotentialVotes").hide();
             $("#ndivPotentialVotes").hide();
 
+        });
+        // Obtén todas las filas clickeables por su clase
+        const filasClickeables = document.querySelectorAll(".fila-new");
+
+        // Agrega un evento de clic a cada fila
+        filasClickeables.forEach(fila => {
+            fila.addEventListener("click", () => {
+                // Accede a la URL desde el atributo personalizado "data-url"
+                const url = fila.getAttribute("data-url");
+
+                // Redirige a la nueva página
+                window.location.href = url;
+            });
         });
     </script>
 @endsection
