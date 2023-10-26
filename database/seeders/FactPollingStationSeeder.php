@@ -954,7 +954,7 @@ class FactPollingStationSeeder extends Seeder
                     'id' => $id_user,
                     'name' => $name,
                     'email' => $name . '@galaxia.com',
-                    'descripcion' => 'DIGITADOR: '. $pollingStation['municipio'] . "; PUESTO: " .$pollingStation['puesto'] . " Mesa: " . $i,
+                    'descripcion' => 'DIGITADOR: '. $pollingStation['municipio'] . "; PUESTO: " .$pollingStation['puesto'] . "; Mesa: " . $i,
                     'password' => Hash::make($name),
                     'fk_roles' => 2
                 ]);
