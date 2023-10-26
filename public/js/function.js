@@ -891,14 +891,15 @@ function searchDataGobernacionDepDash() {
 
 function searchNews(e) {
     var fact_polling_stations = e.target.value;
-
+    var token = $('input[name="_token"]').val();
     if (fact_polling_stations == "") {
         return false;
     }
     // const mesa = $("#mesvotfcv");
     $.ajax({
-        method: "GET",
-        url: "/news/" + fact_polling_stations,
+        method: "POST",
+        url: "/news/find",
+        data:{ fact_polling_stations: "fact_polling_stations", _token: token },
         success: function (response) {
             const cuerpoTabla = $('#cuerpo_tabla_novedades');
 

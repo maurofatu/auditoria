@@ -238,8 +238,13 @@ class FactCountVotesController extends Controller
         }
     }
 
-    public function newsFind($fact_polling_stations)
+    public function newsFind(Request $request)
     {
+
+        $data = $request->validate([
+            'fact_polling_stations' => 'required'
+        ]); 
+        $fact_polling_stations = $data['fact_polling_stations'];
         try {
             $fact_polling_stations = FactPollingStation::find($fact_polling_stations);
             $fact_news = DB::select('
@@ -251,7 +256,7 @@ class FactCountVotesController extends Controller
                         WHEN fn.status = "D" THEN "Direccionado"
                     END status,
                     fn.description_event description_event,
-                    fn.created_at created_at  
+                    DATE_FORMAT(fn.created_at, "%H:%i:%s") created_at  
                 from fact_news fn inner join fact_polling_stations pfs on (fn.fk_fact_polling_stations = pfs.id)
                 where fn.fk_users = ?
                     and pfs.fk_dim_cities = ?
