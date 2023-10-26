@@ -47,9 +47,9 @@
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
-                            <textarea class="form-control" disabled name="datanews" id="datanews" rows="4" cols="50"
+                            <textarea class="form-control" disabled name="description_event" id="description_event" rows="4" cols="50"
                                 placeholder="Escribe tu novedad aquí">{{ $data['fact_new']->description_event }}</textarea>
-                            @error('datanews')
+                            @error('description_event')
                                 <small style="color: #FF0000"> {{ $message }} </small>
                             @enderror
                         </div>
@@ -63,9 +63,9 @@
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
-                            <textarea class="form-control" name="datanews" id="datanews" rows="4" cols="50"
-                                placeholder="Escribe tu novedad aquí"></textarea>
-                            @error('datanews')
+                            <textarea class="form-control" name="management_description" id="management_description" rows="4" cols="50"
+                                placeholder="Escribe tu novedad aquí">{{ $data['fact_new']->management_description }}</textarea>
+                            @error('management_description')
                                 <small style="color: #FF0000"> {{ $message }} </small>
                             @enderror
                         </div>
@@ -79,7 +79,7 @@
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
-                            <select class="form-control js-example-basic-single2" id="tipenews" name="tipenews"
+                            <select class="form-control js-example-basic-single2" id="status" name="status"
                                 onchange="" required>
                                 <option value="" disabled>Seleccione...</option>
                                 @foreach ($data['dim_status'] as $status)
@@ -88,7 +88,7 @@
                                 @endforeach
                             </select>
 
-                            @error('datanews')
+                            @error('status')
                                 <small style="color: #FF0000"> {{ $message }} </small>
                             @enderror
                         </div>
