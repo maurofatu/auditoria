@@ -8,6 +8,7 @@ use App\Models\FactPotentialVoter;
 use App\Models\DimTypesNews;
 use App\Models\FactNews;
 use App\Models\FactPermit;
+use App\Models\FactPollingStation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -36,10 +37,10 @@ class FactCountVotesController extends Controller
     public function create()
     {
 
-//        $dim_cities = DB::select('
-//            SELECT DISTINCT dc.id as value, dc.description as label
-//            from fact_polling_stations fps
-//                inner join dim_cities dc on ( fps.fk_dim_cities = dc.id )', []);
+        //        $dim_cities = DB::select('
+        //            SELECT DISTINCT dc.id as value, dc.description as label
+        //            from fact_polling_stations fps
+        //                inner join dim_cities dc on ( fps.fk_dim_cities = dc.id )', []);
 
         $dim_cities = DB::select('
             SELECT DISTINCT dc.id as value, dc.description as label
@@ -101,11 +102,11 @@ class FactCountVotesController extends Controller
     {
         try {
 
-//            $dim_locations = DB::select('SELECT DISTINCT dl.id as value, dl.description as label
-//                from fact_polling_stations fps
-//                join dim_cities dc on ( fps.fk_dim_cities = dc.id )
-//                join dim_locations dl on ( fps.fk_dim_locations = dl.id )
-//            where dc.id = ?', [$id]);
+            //            $dim_locations = DB::select('SELECT DISTINCT dl.id as value, dl.description as label
+            //                from fact_polling_stations fps
+            //                join dim_cities dc on ( fps.fk_dim_cities = dc.id )
+            //                join dim_locations dl on ( fps.fk_dim_locations = dl.id )
+            //            where dc.id = ?', [$id]);
             $dim_locations = DB::select('
             SELECT DISTINCT dl.id as value, dl.description as label
             from fact_polling_stations fps
@@ -129,10 +130,10 @@ class FactCountVotesController extends Controller
     {
         try {
 
-//            $dim_tables = DB::select('SELECT fps.id as value, dt.description as label from fact_polling_stations fps
-//            join dim_locations dl on ( fps.fk_dim_locations = dl.id )
-//            join dim_tables dt on ( fps.fk_dim_tables = dt.id )
-//            where dl.id = ?', [$id]);
+            //            $dim_tables = DB::select('SELECT fps.id as value, dt.description as label from fact_polling_stations fps
+            //            join dim_locations dl on ( fps.fk_dim_locations = dl.id )
+            //            join dim_tables dt on ( fps.fk_dim_tables = dt.id )
+            //            where dl.id = ?', [$id]);
 
             $dim_tablesfcv = DB::select('
             SELECT fps.id as value, dt.description as label from fact_polling_stations fps
@@ -167,15 +168,14 @@ class FactCountVotesController extends Controller
             WHERE fk_fact_polling_stations = ?', [$id]);
 
             $potential = $potential ? true : false;
-            
+
             $data = [
                 "count" => $potential,
                 "amount" => $npotential,
                 "countvotes" => $countvotes
             ];
-                
+
             return $data;
-            
         } catch (\Illuminate\Database\QueryException $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
@@ -192,7 +192,7 @@ class FactCountVotesController extends Controller
             where fp.fk_users = ? ;
         ', [Auth::user()->id]);
 
-        
+
         $dim_types_news = DimTypesNews::all();
 
         $fact_news = FactNews::where('fk_users', Auth::user()->id)->orderBy('created_at', 'desc')->get();
@@ -216,14 +216,14 @@ class FactCountVotesController extends Controller
             'mesvotfcv' => 'required'
         ]);
 
-        
+
         DB::beginTransaction();
 
         try {
             DB::commit();
-            
+
             FactNews::create([
-                'fk_fact_polling_stations'=> $data['mesvotfcv'],
+                'fk_fact_polling_stations' => $data['mesvotfcv'],
                 'fk_dim_types_news' => $data['tipenews'],
                 'description_event' => $data['datanews'],
                 'status' => 'S',
@@ -235,6 +235,43 @@ class FactCountVotesController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->route('factcountvote.news')->with(['messagefcv' => 'Error', 'Codefcv' => $e->getMessage()]);
+        }
+    }
+
+    public function newsFind($fact_polling_stations)
+    {
+        try {
+            $fact_polling_stations = FactPollingStation::find($fact_polling_stations);
+            $fact_news = DB::select('
+                select 
+                    fn.id id,
+                    CASE
+                        WHEN fn.status = "S" THEN "Sin gestionar"
+                        WHEN fn.status = "G" THEN "Gestionada"
+                        WHEN fn.status = "D" THEN "Direccionado"
+                    END status,
+                    fn.description_event description_event,
+                    fn.created_at created_at  
+                from fact_news fn inner join fact_polling_stations pfs on (fn.fk_fact_polling_stations = pfs.id)
+                where fn.fk_users = ?
+                    and pfs.fk_dim_cities = ?
+                    and pfs.fk_dim_locations = ?
+                    and pfs.fk_dim_tables = ?
+                order by fn.id desc
+                        ', [
+                            Auth::user()->id,
+                            $fact_polling_stations->fk_dim_cities, 
+                            $fact_polling_stations->fk_dim_locations, 
+                            $fact_polling_stations->fk_dim_tables
+                    ]);
+
+            if ($fact_news) {
+                return response()->json($fact_news, 200);
+            } else {
+                return response()->json(['message' => 'No se encontró Novedades'], 302);
+            }
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 }
