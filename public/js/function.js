@@ -20,10 +20,10 @@ function searchLocation(e, f) {
             response.forEach((item) => {
                 lugar.append(
                     '<option value=" ' +
-                        item.value +
-                        ' "> ' +
-                        item.label +
-                        "  </option>  "
+                    item.value +
+                    ' "> ' +
+                    item.label +
+                    "  </option>  "
                 );
             });
         },
@@ -46,7 +46,7 @@ function searchTable(e, f) {
     }
     const mesa = $("#mesvot");
 
-    
+
 
     $.ajax({
         method: "GET",
@@ -59,10 +59,10 @@ function searchTable(e, f) {
             response.forEach((item) => {
                 mesa.append(
                     '<option value=" ' +
-                        item.value +
-                        ' "> ' +
-                        item.label +
-                        "  </option>  "
+                    item.value +
+                    ' "> ' +
+                    item.label +
+                    "  </option>  "
                 );
             });
         },
@@ -170,10 +170,10 @@ function searchLocationFcv(e) {
             response.forEach((item) => {
                 lugar.append(
                     '<option value=" ' +
-                        item.value +
-                        ' "> ' +
-                        item.label +
-                        "  </option>  "
+                    item.value +
+                    ' "> ' +
+                    item.label +
+                    "  </option>  "
                 );
             });
         },
@@ -205,10 +205,10 @@ function searchTableFcv(e) {
             response.forEach((item) => {
                 mesa.append(
                     '<option value=" ' +
-                        item.value +
-                        ' "> ' +
-                        item.label +
-                        "  </option>  "
+                    item.value +
+                    ' "> ' +
+                    item.label +
+                    "  </option>  "
                 );
             });
         },
@@ -309,20 +309,20 @@ function countVotesRequest() {
                 if (codeCity != x.city) {
                     $("#count").append(
                         '<div class="col-md-8 mt-3"><h3> ' +
-                            x.city +
-                            ' </h3></div><div class="col-md-2"></div><div class="col-md-2" "></div>'
+                        x.city +
+                        ' </h3></div><div class="col-md-2"></div><div class="col-md-2" "></div>'
                     );
                     codeCity = x.city;
                 }
 
                 $("#count").append(
                     '<div class="col-md-8"><h5> ' +
-                        x.location +
-                        ' </h5></div><div class="col-md-2" id="potent' +
-                        x.mesa +
-                        '"></div><div class="col-md-2"><h5>' +
-                        x.mesa +
-                        " </h5></div>"
+                    x.location +
+                    ' </h5></div><div class="col-md-2" id="potent' +
+                    x.mesa +
+                    '"></div><div class="col-md-2"><h5>' +
+                    x.mesa +
+                    " </h5></div>"
                 );
             });
         },
@@ -379,10 +379,10 @@ function searchLocationCountVotesDash(e) {
             response.forEach((item) => {
                 lugar.append(
                     '<option value=" ' +
-                        item.value +
-                        ' "> ' +
-                        item.label +
-                        "  </option>  "
+                    item.value +
+                    ' "> ' +
+                    item.label +
+                    "  </option>  "
                 );
             });
         },
@@ -480,10 +480,10 @@ function searchLocationGobernacionDash(e) {
             response.forEach((item) => {
                 lugar.append(
                     '<option value=" ' +
-                        item.value +
-                        ' "> ' +
-                        item.label +
-                        "  </option>  "
+                    item.value +
+                    ' "> ' +
+                    item.label +
+                    "  </option>  "
                 );
             });
         },
@@ -535,9 +535,9 @@ function searchDataGobernacionDash(e) {
                             "</td>" +
                             "</tr>";
                     }
-                    
-                    if (item.id >= 28){
-                        htmlTagsdata += "<tr><td>" + item.name + "</td><td>" + item.amount +"</td>";
+
+                    if (item.id >= 28) {
+                        htmlTagsdata += "<tr><td>" + item.name + "</td><td>" + item.amount + "</td>";
                     }
                     i++;
                 });
@@ -609,9 +609,9 @@ function searchDataGobernacionFDash(e) {
                             "</td>" +
                             "</tr>";
                     }
-                    
-                    if (item.id >= 28){
-                        htmlTagsdata += "<tr><td>" + item.name + "</td><td>" + item.amount +"</td>";
+
+                    if (item.id >= 28) {
+                        htmlTagsdata += "<tr><td>" + item.name + "</td><td>" + item.amount + "</td>";
                     }
                     i++;
                 });
@@ -660,10 +660,10 @@ function searchLocationAlcaldiaDash() {
             response.forEach((item) => {
                 lugar.append(
                     '<option value=" ' +
-                        item.value +
-                        ' "> ' +
-                        item.label +
-                        "  </option>  "
+                    item.value +
+                    ' "> ' +
+                    item.label +
+                    "  </option>  "
                 );
             });
         },
@@ -715,9 +715,9 @@ function searchDataAlcaldiaDash(e) {
                             "</td>" +
                             "</tr>";
                     }
-                    
-                    if (item.id >= 14){
-                        htmlTagsdata += "<tr><td>" + item.name + "</td><td>" + item.amount +"</td>";
+
+                    if (item.id >= 14) {
+                        htmlTagsdata += "<tr><td>" + item.name + "</td><td>" + item.amount + "</td>";
                     }
                     i++;
                 });
@@ -785,9 +785,9 @@ function searchDataAlcaldiaFDash() {
                             "</td>" +
                             "</tr>";
                     }
-                    
-                    if (item.id >= 14){
-                        htmlTagsdata += "<tr><td>" + item.name + "</td><td>" + item.amount +"</td>";
+
+                    if (item.id >= 14) {
+                        htmlTagsdata += "<tr><td>" + item.name + "</td><td>" + item.amount + "</td>";
                     }
                     i++;
                 });
@@ -855,9 +855,9 @@ function searchDataGobernacionDepDash() {
                             "</td>" +
                             "</tr>";
                     }
-                    
-                    if (item.id >= 28){
-                        htmlTagsdata += "<tr><td>" + item.name + "</td><td>" + item.amount +"</td>";
+
+                    if (item.id >= 28) {
+                        htmlTagsdata += "<tr><td>" + item.name + "</td><td>" + item.amount + "</td>";
                     }
                     i++;
                 });
@@ -878,6 +878,44 @@ function searchDataGobernacionDepDash() {
                 document.getElementById("abstentiongober").innerHTML =
                     abstention;
             }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swal.fire({
+                title: XMLHttpRequest.statusText,
+                text: XMLHttpRequest.responseJSON.message,
+                icon: "error",
+            });
+        },
+    });
+}
+
+function searchNews(e) {
+    var fact_polling_stations = e.target.value;
+
+    if (fact_polling_stations == "") {
+        return false;
+    }
+    // const mesa = $("#mesvotfcv");
+    $.ajax({
+        method: "GET",
+        url: "/news/" + fact_polling_stations,
+        success: function (response) {
+            const cuerpoTabla = $('#cuerpo_tabla_novedades');
+
+            // Limpiar la tabla
+            cuerpoTabla.empty();
+
+            // Rellenar la tabla con los datos del objeto
+            $.each(response, function (index, dato) {
+                const fila = $('<tr>');
+
+                for (const propiedad in dato) {
+                    const celda = $('<td>').text(dato[propiedad]);
+                    fila.append(celda);
+                }
+
+                cuerpoTabla.append(fila);
+            });
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             swal.fire({
