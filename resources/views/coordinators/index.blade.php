@@ -28,7 +28,7 @@
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-3">
+        <div class="col-8">
             @forelse ($data['fact_polling_station'] as $polling_station)
             <a href="#" type="button" class="btn {{ (($polling_station->cantidad_s) > 0 ? 'btn-danger' : ( (($polling_station->cantidad_g) > 0) ? 'btn-primary' : ( ($polling_station->cantidad_d) > 0 ? 'btn-success' : 'btn-outline-dark' ) ) )}} m-1 px-3 rounded-pill">{{ (($polling_station->fk_dim_tables) <= 9 ? '0' : '' ) . $polling_station->fk_dim_tables}}</a>
             @empty
