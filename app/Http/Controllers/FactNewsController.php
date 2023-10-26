@@ -129,23 +129,22 @@ class FactNewsController extends Controller
 
     public function update(Request $request, $id)
     {
-        // $fact_permits = FactPermit::firstWhere('fk_users', Auth::user()->id);
-
-        // $fact_new = FactNews::find($id);
-        // $dim_types_news = DimTypesNews::get();
-
-        // $dim_status = [
-        //     ["value" => "S", "label" => 'Sin direccionar'],
-        //     ["value" => "G", "label"  => 'Gestionada'],
-        //     ["value" => "D", "label"  => 'Direccionada']
-        // ];
-
-        // $data = [
-        //     'fact_permits' => $fact_permits,
-        //     'fact_new' => $fact_new,
-        //     'dim_types_news' => $dim_types_news,
-        //     'dim_status' => $dim_status
-        // ];
-        return redirect()->route('coordinators.update', $id)->with(['success', 'Elemento actualizado con éxito']);
+        $fact_new = FactNews::find($id);
+        $data = $request->validate([
+            'status' => 'required',
+            'management_description' => 'required',
+        ]);
+        $polling_station =  $fact_new->factPollingStation;
+        DB::beginTransaction();
+        try{
+            DB::commit();
+            $fact_new->management_description = $data['management_description'];
+            $fact_new->status = $data['status'];
+            $fact_new->save();
+            return redirect()->route('coordinators.find', ['city' => $polling_station->fk_dim_cities, 'location' => $polling_station->fk_dim_locations, 'table' => $polling_station->fk_dim_tables])->with(['messagefcv' => 'Success']);
+        }catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->route('coordinators.find', ['city' => $polling_station->fk_dim_cities, 'location' => $polling_station->fk_dim_locations, 'table' => $polling_station->fk_dim_tables])->with(['messagefcv' => 'Error', 'Codefcv' => $e->getMessage()]);
+        }
     }
 }

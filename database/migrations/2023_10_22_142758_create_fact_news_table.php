@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('ip');
             $table->text('description_event');
             $table->text('management_description')->nullable();
+            $table->text('directed_resolution')->nullable();
             $table->enum('status', ['S', 'G', 'D'])->default('S');; //S (sin gestionar), G (Gestionada), D(Direccionado)
             $table->foreignId('fk_users')
                 ->references('id')->on('users')
