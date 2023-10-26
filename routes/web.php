@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FactCountVotesController;
+use App\Http\Controllers\FactNewsController;
 use App\Http\Controllers\FactVoteController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
@@ -42,10 +43,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/searchvotes', [HomeController::class, 'searchvotes'])->name('home.searchvotes');
 
     // PROCESS FOR STORE IMG
-    Route::get('/searchimg/{id}/{election}', [FactvoteController::class, 'searchimg'])->name('factvote.searchimg');
+    Route::get('/searchimg/{id}/{election}', [FactVoteController::class, 'searchimg'])->name('factvote.searchimg');
     Route::post('/searchimg', [FactvoteController::class, 'img'])->name('factvote.img');
     
     // PROCESS FOR NEWS
+    Route::get('/coordinators_new', [FactNewsController::class, 'index'])->name('coordinators.news');
     Route::get('/news', [FactCountVotesController::class, 'news'])->name('factcountvote.news');
     Route::post('/news', [FactCountVotesController::class, 'storenews'])->name('factcountvote.storenews');
     Route::post('/news/find', [FactCountVotesController::class, 'newsFind'])->name('news.find');
