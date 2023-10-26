@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth'], function () {
     
     // PROCESS FOR NEWS
     Route::get('/news', [FactCountVotesController::class, 'news'])->name('factcountvote.news');
+    Route::get('/news/{fact_polling_stations}', [FactCountVotesController::class, 'newsFind'])->name('news.find');
     Route::post('/news', [FactCountVotesController::class, 'storenews'])->name('factcountvote.storenews');
 
     // PROCESS FOR COUNT VOTES
