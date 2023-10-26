@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(AplicationTableSeeder::class);
         $this->call(UserRolePermitsSeeder::class);
-        $this->call(UserSeeder::class);
+        
         $this->call(DimCitySeeder::class);
         $this->call(DimTableSeeder::class);
         $this->call(DimCommuneSeeder::class);
@@ -30,5 +30,6 @@ class DatabaseSeeder extends Seeder
         $this->call(FactPollingStationSeeder::class);
         $this->call(FactCandidateSeeder::class);
         $this->call(DimTypesNewsSeeder::class);
+        $this->call(UserSeeder::class);
     }
 }
