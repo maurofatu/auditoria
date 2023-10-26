@@ -42,8 +42,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/searchvotes', [HomeController::class, 'searchvotes'])->name('home.searchvotes');
 
     // PROCESS FOR STORE IMG
-    Route::post('/factvoteimg', [FactvoteController::class, 'img'])->name('factvote.img');
     Route::get('/searchimg/{id}/{election}', [FactvoteController::class, 'searchimg'])->name('factvote.searchimg');
+    Route::post('/searchimg', [FactvoteController::class, 'img'])->name('factvote.img');
     
     // PROCESS FOR NEWS
     Route::get('/news', [FactCountVotesController::class, 'news'])->name('factcountvote.news');
