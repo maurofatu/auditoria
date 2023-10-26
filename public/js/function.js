@@ -96,6 +96,7 @@ function searchImg(e, f) {
                 document.getElementById("ndivImgVotes").style.visibility =
                     "visible";
                 $("#enviar").attr("disabled", true);
+                $("#datoscargados").val("S");
                 response["count_votes"].forEach((item) => {
                     $("#vote" + item["candidate"]).val(item["amount"]);
                     $("#vote" + item["candidate"]).prop("readonly", true);
@@ -103,6 +104,7 @@ function searchImg(e, f) {
             } else {
                 document.getElementById("ndivImgVotes").style.visibility =
                     "hidden";
+                    $("#datoscargados").val("N");
                 $("#enviar").attr("disabled", false);
                 response["dat"].forEach((item) => {
                     $("#vote" + item).val("");
