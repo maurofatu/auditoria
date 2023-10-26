@@ -126,14 +126,42 @@
 
     <div class="card mt-3 ">
         <div class="card-body">
-            <div class="row justify-content-center">
-                <div class="col-12 text-center"><b>DATA</b></div>
-                <div class="col-3">Votos</div>
-                <div class="col-7">Hora</div>
-            </div>
-            <div class="row justify-content-center" id="foreachnews">
-
-            </div>
+            <h5>NOVEDADES REGISTRADAS</h5>
+            <hr class="mt-0" />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Ciudad</th>
+                        <th scope="col">Puesto</th>
+                        <th scope="col">Mesa</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($data['fact_news'] as $new)
+                    <tr>
+                        <th scope="row">{{$new->id}}</th>
+                        <td>{{$new->dimTypesNews->description}}</td>
+                        <td>{{$new->status}}</td>
+                        <td>{{$new->factPollingStation->dimCity->description}}</td>
+                        <td>{{$new->factPollingStation->dimLocation->description}}</td>
+                        <td>{{$new->factPollingStation->dimTable->description}}</td>
+                        <td>{{$new->description_event}}</td>
+                        <td>{{$new->created_at->format('Y-m-d')}}</td>
+                        <td>{{$new->created_at->format('H:i:s T')}}</td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <th colspan="6">No hay datos</th>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
 
