@@ -42,7 +42,8 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{{ asset('/img/logo_elecciones_2023.png') }}" alt="" style="width: 150px; height:auto; ">
+                    <img src="{{ asset('/img/logo_elecciones_2023.png') }}" alt=""
+                        style="width: 150px; height:auto; ">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -89,15 +90,25 @@
                                 </li>
                             @endif
                             @if (in_array(Auth::user()->fk_roles, [1, 2, 3]))
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                        href="{{ route('factcountvote.news') }}">{{ __('Novedades') }}</a>
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        {{ __('Novedades') }}
+                                    </a>
+
+                                    <div class="dropdown-menu dropdown-menu" aria-labelledby="navbarDropdown">
+                                        @if (in_array(Auth::user()->fk_roles, [1, 3]))
+                                            <a class="nav-link"
+                                                href="{{ route('coordinators.news') }}">{{ __('Ver Novedades') }}</a>
+                                        @endif
+                                        <a class="nav-link"
+                                            href="{{ route('factcountvote.news') }}">{{ __('Registrar Novedades') }}</a>
+                                    </div>
                                 </li>
                             @endif
                             @if (in_array(Auth::user()->fk_roles, [1, 3, 4]))
                                 <li class="nav-item">
-                                    <a class="nav-link"
-                                        href="{{ route('monitor.dashboard') }}">{{ __('Monitor') }}</a>
+                                    <a class="nav-link" href="{{ route('monitor.dashboard') }}">{{ __('Monitor') }}</a>
                                 </li>
                             @endif
                             <li class="nav-item dropdown">
@@ -107,13 +118,13 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
                                                                  document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                        class="d-none">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
                                 </div>
@@ -128,7 +139,6 @@
         </main>
     </div>
     @if (session('message') == 'Success')
-    
         <script>
             swal.fire({
                 title: "Buen Trabajo!",

@@ -47,10 +47,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/searchimg', [FactvoteController::class, 'img'])->name('factvote.img');
     
     // PROCESS FOR NEWS
-    Route::get('/coordinators_new', [FactNewsController::class, 'index'])->name('coordinators.news');
     Route::get('/news', [FactCountVotesController::class, 'news'])->name('factcountvote.news');
     Route::post('/news', [FactCountVotesController::class, 'storenews'])->name('factcountvote.storenews');
     Route::post('/news/find', [FactCountVotesController::class, 'newsFind'])->name('news.find');
+    Route::get('/coordinators_new', [FactNewsController::class, 'index'])->name('coordinators.news');
+    Route::get('/coordinators_new/{city}/{location}/{table}', [FactNewsController::class, 'find'])->name('coordinators.find');
 
     // PROCESS FOR COUNT VOTES
     Route::get('/searchlocationfcv/{id}', [FactCountVotesController::class, 'searchlocationfcv'])->name('factcountvote.searchlocationfcv');
