@@ -7,6 +7,7 @@ use App\Models\FactCountVotes;
 use App\Models\FactPotentialVoter;
 use App\Models\DimTypesNews;
 use App\Models\FactNews;
+use App\Models\FactPermit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -194,9 +195,13 @@ class FactCountVotesController extends Controller
         
         $dim_types_news = DimTypesNews::all();
 
+        $fact_news = FactNews::where('fk_users', Auth::user()->id)->orderBy('created_at', 'desc')->get();
+
+
         $data = [
             'dim_cities' => $dim_cities,
             'dim_types_news' => $dim_types_news,
+            'fact_news' => $fact_news,
             'status' => 200
         ];
         return view('factcountvote/news', ["data" => $data]);
