@@ -253,9 +253,9 @@ function searchPotential(e) {
                     "hidden";
                 const myDiv = document.getElementById("ndivPotentialVotes");
                 myDiv.innerHTML =
-                    "<p>POTENCIAL VOTOS <br>" +
+                    "<p style='text-align: center;' class='mt-2'><b>POTENCIAL VOTOS <br>" +
                     response["amount"]["0"]["amount"] +
-                    "</p>";
+                    "</b></p>";
                 $("#ndivPotentialVotes").show();
                 const data = response["countvotes"];
                 const cvotes = document.getElementById("foreachcountvotes");
@@ -279,9 +279,10 @@ function searchPotential(e) {
                 $("#divPotentialVotes").show(500);
                 let div = document.getElementById("potentialVot");
                 $("#ndivPotentialVotes").hide();
-                $("#foreachcountvotes").hide();
                 div.innerHTML =
                     '<input class="form-control" type="number" name="potentialvotes" id="potentialvotes"  />';
+                const cvotes = document.getElementById("foreachcountvotes");
+                cvotes.innerHTML = '<div class="col-12 mt-3" style="text-align: center;">No hay datos</div>';
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -299,8 +300,6 @@ function countVotesRequest() {
         method: "GET",
         url: "/countvotesrequest/",
         success: function (response) {
-            // console.log(response);
-            // return;
 
             let codeCity = "City";
 
@@ -929,5 +928,126 @@ function searchNews(e) {
         },
     });
 }
+
+function searchLocationView(e) {
+    var dimlocation = e.target.value;
+
+    if (dimlocation == "") {
+        return false;
+    }
+    const lugar = $("#lugvotview");
+    const mesa = $("#mesvotview");
+    $.ajax({
+        method: "GET",
+        url: "/searchlocationview/" + dimlocation,
+        success: function (response) {
+            $("#lugvotview")
+                .empty()
+                .append('<option value="" selected>Seleccione...</option>');
+            $("#mesvotview")
+                .empty()
+                .append('<option value="" selected>Seleccione...</option>');
+
+            response.forEach((item) => {
+                lugar.append(
+                    '<option value=" ' +
+                    item.value +
+                    ' "> ' +
+                    item.label +
+                    "  </option>  "
+                );
+            });
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swal.fire({
+                title: XMLHttpRequest.statusText,
+                text: XMLHttpRequest.responseJSON.message,
+                icon: "error",
+            });
+        },
+    });
+}
+
+function searchTableView(e) {
+    var dimtable = e.target.value;
+
+    if (dimtable == "") {
+        return false;
+    }
+    const mesa = $("#mesvotview");
+    $.ajax({
+        method: "GET",
+        url: "/searchtableview/" + dimtable,
+        success: function (response) {
+            $("#mesvotview")
+                .empty()
+                .append('<option value="" selected>Seleccione...</option>');
+
+            response.forEach((item) => {
+                mesa.append(
+                    '<option value=" ' +
+                    item.value +
+                    ' "> ' +
+                    item.label +
+                    "  </option>  "
+                );
+            });
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swal.fire({
+                title: XMLHttpRequest.statusText,
+                text: XMLHttpRequest.responseJSON.message,
+                icon: "error",
+            });
+        },
+    });
+}
+
+function searchE14view(e){
+    
+    var dimlocation = e.target.value;
+
+    if (dimlocation == "") {
+        return false;
+    }
+
+    console.log(dimlocation,"  Hoola");
+
+    $.ajax({
+        method: "GET",
+        url: "/searche14view/" + dimlocation,
+        success: function (response) {
+
+                console.log(response);
+                console.log(response['0']['url']);
+                
+                if(response['0']['url']){
+
+                $("#divImge14").empty();
+                $("#divImge14").append('<img src="'+ response['0']['url'] +'" class="img-fluid">');
+
+                }else{
+                    $("#divImge14").empty();
+                    $("#divImge14").append('<p class="h4 mt-4"> No hay imagen disponible</p>');
+
+                    Swal.fire(
+                        'Imagen No Disponible',
+                        '',
+                        'warning'
+                      )
+                }
+            
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swal.fire({
+                title: XMLHttpRequest.statusText,
+                text: XMLHttpRequest.responseJSON.message,
+                icon: "error",
+            });
+        },
+    });
+}
+
+
 
 // -------------------

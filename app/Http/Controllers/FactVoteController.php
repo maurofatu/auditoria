@@ -119,8 +119,8 @@ class FactVoteController extends Controller
                 $ruta = 'public/E-14/' . $election . '/' . $city . '/' . $location;
                 $file = $request->file('imagen');
                 $file->storeAs($ruta, $mesa . "." . $file->extension());
-
-                $name = $ruta . "/" . $mesa;
+                $ruta = 'storage/E-14/' . $election . '/' . $city . '/' . $location;
+                $name = $ruta . "/" . $mesa . "." . $file->extension();
                 $registro = FactPollingStation::find($validado['mesvot']);
                 $registro->url_photo_e4 = $name;
                 $registro->save();
@@ -381,4 +381,96 @@ class FactVoteController extends Controller
 
         return view('factvote.votes', ["dim_people" => $dim_people, "id" => $id, "data" => $data]);
     }
+
+    public function viewVotes(){
+
+        $dim_cities = DB::select('
+            SELECT DISTINCT dc.id as value, dc.description as label 
+            from fact_polling_stations fps
+                inner join dim_cities dc on ( fps.fk_dim_cities = dc.id )
+                inner join fact_permits fp on ( fps.id = fp.fk_fact_polling_stations )
+            where fp.fk_users = ? ;
+        ', [Auth::user()->id]);
+
+        $data = [
+            'dim_cities' => $dim_cities,
+            'status' => 200
+        ];
+        return view('factvote/viewvotes', ["data" => $data]);
+
+    }
+
+    public function SearchLocationView($id)
+    {
+        try {
+
+            $dim_locations = DB::select('
+            SELECT DISTINCT dl.id as value, dl.description as label
+            from fact_polling_stations fps
+                inner join dim_locations dl on ( fps.fk_dim_locations = dl.id )
+                inner join fact_permits fp on ( fps.id = fp.fk_fact_polling_stations )
+            where fps.fk_dim_cities = ?
+                and fp.fk_users = ? ;
+            ', [$id, Auth::user()->id]);
+
+            if ($dim_locations) {
+                return response()->json($dim_locations, 200);
+            } else {
+                return response()->json(['message' => 'No se encontró locaciones'], 302);
+            }
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function SearchTableView($id)
+    {
+        try {
+
+            $dim_tablesfcv = DB::select('
+            SELECT fps.id as value, 
+            CASE 
+                WHEN (fps.fk_dim_elections = 1) THEN CONCAT(dt.description," Alcaldia")
+                WHEN (fps.fk_dim_elections = 2) THEN CONCAT(dt.description," Gobernación")
+            END as label 
+            from fact_polling_stations fps
+            inner join fact_permits fp on ( fps.id = fp.fk_fact_polling_stations )
+            inner join dim_tables dt on ( fps.fk_dim_tables = dt.id )
+            where fk_dim_locations = ?
+            and fp.fk_users = ?;
+            ', [$id, Auth::user()->id]);
+
+            if ($dim_tablesfcv) {
+                return response()->json($dim_tablesfcv, 200);
+            } else {
+                return response()->json(['message' => 'No se encontró locaciones'], 302);
+            }
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function searche14View($id){
+
+        try {
+
+            $dim_url = DB::select('
+            select url_photo_e4 as url from fact_polling_stations where id = ?;
+            ', [$id]);
+
+            if ($dim_url) {
+                return response()->json($dim_url, 200);
+            } else {
+                return response()->json(['message' => 'No se encontró imagen'], 302);
+            }
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+
+
+
+    }
+
+
+
 }

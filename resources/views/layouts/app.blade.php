@@ -85,8 +85,16 @@
                                 </li>
                             @endif
                             @if (in_array(Auth::user()->fk_roles, [1, 2, 3]))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('format') }}">{{ __('E-14') }}</a>
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        {{ __('E-14') }}
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="nav-link" href="{{ route('format') }}">{{ __('Registrar E-14') }}</a>
+                                        <a class="nav-link"
+                                            href="{{ route('factvote.viewvotes') }}">{{ __('Imagen E-14') }}</a>
+                                    </div>
                                 </li>
                             @endif
                             @if (in_array(Auth::user()->fk_roles, [1, 2, 3]))
@@ -121,7 +129,7 @@
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                                                  document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ __('Cerrar Sesión') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
