@@ -213,7 +213,7 @@ class HomeController extends Controller
 
             $cantable = DB::select('
             select count(*) as cant from fact_polling_stations fps 
-            where fps.fk_dim_locations = ?  
+            where fps.fk_dim_locations = ? and fk_dim_elections = 2; 
             ', [$id]);
 
 
