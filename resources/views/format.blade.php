@@ -19,22 +19,26 @@
   
       <hr>
   
-      <p class="fs-4 text-center">
+      <p class="fs-4 text-center mb-3">
         PROCESO DE REPORTE FORMULARIO E-14 POR CANDIDATO
       </p>
-  
+      
+      @if($name == 'arauca' || $name == 'admin')
       <div class="col-12 text-center mt-3">
         <a href="{{ route('factvote.votes',1) }}" class="btn btn-primary btn-lg" style="background-color: purple;inline-size: -webkit-fill-available;">Alcaldia</a>
       </div>
+      @endif
   
   
       <div class="col-12 text-center mt-3">
         <a href="{{ route('factvote.votes',2) }}" class="btn btn-primary btn-lg" style="background-color: orange;inline-size: -webkit-fill-available;">Gobernación</a>
       </div>
-  
-      <p class="fs-4 text-center">
+      
+      @if($name == 'arauca' || $name == 'admin')
+      <p class="fs-4 text-center mt-3">
         Seleccione la tarjeta electoral que va a reportar
       </p>
+      @endif
   
     </div>
   </div>

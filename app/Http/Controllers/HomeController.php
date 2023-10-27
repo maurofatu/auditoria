@@ -48,7 +48,10 @@ class HomeController extends Controller
 
     public function Format(){
 
-        return view('format');
+        $name = Auth::user()->name;
+        $locuser = preg_replace('/[0-9]+/', '', $name);
+
+        return view('format', ["name" => $locuser]);
     }
 
     public function CountVotes()
