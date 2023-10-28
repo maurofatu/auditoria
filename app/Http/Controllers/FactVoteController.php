@@ -68,6 +68,7 @@ class FactVoteController extends Controller
         // return "hooola";
 
         $election = $validado['election'];
+        $id = "";
 
         $dim_people = DB::select('
         SELECT fc.id as id  FROM fact_candidates fc
@@ -79,26 +80,60 @@ class FactVoteController extends Controller
 
         try {
 
-            foreach ($dim_people as $item) {
+            if ($validado['datoscargados'] == 'N') {
 
-                $iid = "vote" . $item->id . "";
-                FactVote::create([
-                    'fk_fact_polling_stations' => $validado['mesvot'],
-                    'fk_fact_candidates' => $item->id,
-                    'ip' => request()->ip(),
-                    'amount' => $validado['vote' . $item->id],
-                    'fk_users' => Auth::user()->id,
-                    'fk_dim_elections' => $election
-                ]);
+                foreach ($dim_people as $item) {
+
+                    $iid = "vote" . $item->id . "";
+                    FactVote::create([
+                        'fk_fact_polling_stations' => $validado['mesvot'],
+                        'fk_fact_candidates' => $item->id,
+                        'ip' => request()->ip(),
+                        'amount' => $validado['vote' . $item->id],
+                        'fk_users' => Auth::user()->id,
+                        'fk_dim_elections' => $election
+                    ]);
+                }
+            } elseif ($validado['datoscargados'] == 'S') {
+
+                $fact_polling = DB::select('
+            select de.description as election, dc.description as city, dl.description as location, dt.description as mesa, fps.fk_dim_elections as id
+            from fact_polling_stations fps
+            inner join dim_elections de on (de.id = fps.fk_dim_elections)
+            inner join dim_cities dc on (dc.id = fps.fk_dim_cities)
+            inner join dim_locations dl on (dl.id = fps.fk_dim_locations)
+            inner join dim_tables dt on (dt.id = fps.fk_dim_tables)
+            where fps.id = ?
+            ', [$validado['mesvot']]);
+
+                foreach ($fact_polling as $item) {
+                    $election = $item->election;
+                    $city = $item->city;
+                    $location = $item->location;
+                    $mesa = $item->mesa;
+                    $id = $item->id;
+                }
+
+                // return $request->file('imagen');
+
+                $ruta = 'public/E-14/' . $election . '/' . $city . '/' . $location;
+                $file = $request->file('imagen');
+                $file->storeAs($ruta, $mesa . "." . $file->extension());
+                $ruta = 'storage/E-14/' . $election . '/' . $city . '/' . $location;
+                $name = $ruta . "/" . $mesa . "." . $file->extension();
+                $registro = FactPollingStation::find($validado['mesvot']);
+                $registro->url_photo_e4 = $name;
+                $registro->save();
             }
 
+            $election = $validado['datoscargados'] == 'S' ? $id : $election;
 
             DB::commit();
 
             return redirect()->route('factvote.votes', $election)->with(['message' => 'Success']);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->route('factvote.votes', $election)->with(['message' => 'Error', 'Code' => $e->getMessage()]);
+            return redirect()->route('format')->with(['message' => 'Error', 'Code' => $e->getMessage()]);
         }
     }
 
@@ -171,10 +206,12 @@ class FactVoteController extends Controller
                         inner join fact_permits fp2 on ( fps2.id = fp2.fk_fact_polling_stations )
                         inner join dim_tables dt on ( fps2.fk_dim_tables = dt.id )
                     where fk_dim_locations = dl.id
-                        and fk_fact_polling_stations not in ( select fk_fact_polling_stations from fact_votes where fk_dim_elections = ?)
+                    and (url_photo_e4 is null
+                    or fk_fact_polling_stations not in ( select fk_fact_polling_stations from fact_votes where fk_dim_elections = ?))
                         and fp2.fk_users = fp.fk_users) > 0
                 and fp.fk_users = ? ;
             ', [$id, $election, Auth::user()->id]);
+
 
             if ($dim_locations) {
                 return response()->json($dim_locations, 200);
@@ -306,9 +343,14 @@ class FactVoteController extends Controller
                 // Actualiza otros campos según sea necesario
                 $registro->save();
 
-                return redirect()->back()->with(['message' => 'Success']);
+                //     return redirect()->back()->with(['message' => 'Success']);
+                // } else {
+                //     return redirect()->back()->with(['message' => 'Error']);
+                // }
+
+                return response()->json(['success' => true, 'message' => 'El archivo se ha cargado correctamente.', 'election' => $id]);
             } else {
-                return redirect()->back()->with(['message' => 'Error']);
+                return response()->json(['success' => false, 'message' => 'No se ha seleccionado ningún archivo.']);
             }
         } catch (\Illuminate\Database\QueryException $e) {
             return response()->json(['message' => $e->getMessage()], 500);
@@ -324,7 +366,7 @@ class FactVoteController extends Controller
                 inner join dim_cities dc on ( fps.fk_dim_cities = dc.id )
                 inner join fact_permits fp on ( fps.id = fp.fk_fact_polling_stations )
             where fp.fk_users = ? and fps.fk_dim_elections = ?;
-        ', [Auth::user()->id,$id]);
+        ', [Auth::user()->id, $id]);
 
         $data = [
             'dim_cities' => $dim_cities,
@@ -339,4 +381,96 @@ class FactVoteController extends Controller
 
         return view('factvote.votes', ["dim_people" => $dim_people, "id" => $id, "data" => $data]);
     }
+
+    public function viewVotes(){
+
+        $dim_cities = DB::select('
+            SELECT DISTINCT dc.id as value, dc.description as label 
+            from fact_polling_stations fps
+                inner join dim_cities dc on ( fps.fk_dim_cities = dc.id )
+                inner join fact_permits fp on ( fps.id = fp.fk_fact_polling_stations )
+            where fp.fk_users = ? ;
+        ', [Auth::user()->id]);
+
+        $data = [
+            'dim_cities' => $dim_cities,
+            'status' => 200
+        ];
+        return view('factvote/viewvotes', ["data" => $data]);
+
+    }
+
+    public function SearchLocationView($id)
+    {
+        try {
+
+            $dim_locations = DB::select('
+            SELECT DISTINCT dl.id as value, dl.description as label
+            from fact_polling_stations fps
+                inner join dim_locations dl on ( fps.fk_dim_locations = dl.id )
+                inner join fact_permits fp on ( fps.id = fp.fk_fact_polling_stations )
+            where fps.fk_dim_cities = ?
+                and fp.fk_users = ? ;
+            ', [$id, Auth::user()->id]);
+
+            if ($dim_locations) {
+                return response()->json($dim_locations, 200);
+            } else {
+                return response()->json(['message' => 'No se encontró locaciones'], 302);
+            }
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function SearchTableView($id)
+    {
+        try {
+
+            $dim_tablesfcv = DB::select('
+            SELECT fps.id as value, 
+            CASE 
+                WHEN (fps.fk_dim_elections = 1) THEN CONCAT(dt.description," Alcaldia")
+                WHEN (fps.fk_dim_elections = 2) THEN CONCAT(dt.description," Gobernación")
+            END as label 
+            from fact_polling_stations fps
+            inner join fact_permits fp on ( fps.id = fp.fk_fact_polling_stations )
+            inner join dim_tables dt on ( fps.fk_dim_tables = dt.id )
+            where fk_dim_locations = ?
+            and fp.fk_users = ?;
+            ', [$id, Auth::user()->id]);
+
+            if ($dim_tablesfcv) {
+                return response()->json($dim_tablesfcv, 200);
+            } else {
+                return response()->json(['message' => 'No se encontró locaciones'], 302);
+            }
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function searche14View($id){
+
+        try {
+
+            $dim_url = DB::select('
+            select url_photo_e4 as url from fact_polling_stations where id = ?;
+            ', [$id]);
+
+            if ($dim_url) {
+                return response()->json($dim_url, 200);
+            } else {
+                return response()->json(['message' => 'No se encontró imagen'], 302);
+            }
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+
+
+
+    }
+
+
+
 }

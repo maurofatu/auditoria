@@ -2,16 +2,229 @@
 
 namespace Database\Seeders;
 
+use App\Models\FactPermit;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\FactPollingStation;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class FactPollingStationSeeder extends Seeder
 {
 
     private $pollingStations = [
+        // [
+        //     "id_election" => "1",
+        //     "id_municipio" => "1",
+        //     "municipio" => "ARAUCA",
+        //     "id_puesto" => "1",
+        //     "puesto" => "COLEGIO SIMON BOLIVAR",
+        //     "mesas" => "39",
+        //     "id_comuna" => "1",
+        //     "comuna" => "COMUNA 1 RAIMUNDO CISNEROS O."
+        // ],
+        // [
+        //     "id_election" => "1",
+        //     "id_municipio" => "1",
+        //     "municipio" => "ARAUCA",
+        //     "id_puesto" => "2",
+        //     "puesto" => "CONCENTRACION CAMILO TORRES",
+        //     "mesas" => "22",
+        //     "id_comuna" => "2",
+        //     "comuna" => "COMUNA 2 JOSEFA CANELONES"
+        // ],
+        // [
+        //     "id_election" => "1",
+        //     "id_municipio" => "1",
+        //     "municipio" => "ARAUCA",
+        //     "id_puesto" => "3",
+        //     "puesto" => "ESCUELA LOS LIBERTADORES",
+        //     "mesas" => "7",
+        //     "id_comuna" => "1",
+        //     "comuna" => "COMUNA 1 RAIMUNDO CISNEROS O."
+        // ],
+        // [
+        //     "id_election" => "1",
+        //     "id_municipio" => "1",
+        //     "municipio" => "ARAUCA",
+        //     "id_puesto" => "4",
+        //     "puesto" => "ESCUELA JOSE MARIA CORDOBA",
+        //     "mesas" => "4",
+        //     "id_comuna" => "2",
+        //     "comuna" => "COMUNA 2 JOSEFA CANELONES"
+        // ],
+        // [
+        //     "id_election" => "1",
+        //     "id_municipio" => "1",
+        //     "municipio" => "ARAUCA",
+        //     "id_puesto" => "5",
+        //     "puesto" => "NORMAL MARIA INMACULADA",
+        //     "mesas" => "24",
+        //     "id_comuna" => "4",
+        //     "comuna" => "COMUNA 4 JOSE LAURENCIO OSIO"
+        // ],
+        // [
+        //     "id_election" => "1",
+        //     "id_municipio" => "1",
+        //     "municipio" => "ARAUCA",
+        //     "id_puesto" => "6",
+        //     "puesto" => "COLEGIO TEC. CRISTO REY",
+        //     "mesas" => "36",
+        //     "id_comuna" => "4",
+        //     "comuna" => "COMUNA 4 JOSE LAURENCIO OSIO"
+        // ],
+        // [
+        //     "id_election" => "1",
+        //     "id_municipio" => "1",
+        //     "municipio" => "ARAUCA",
+        //     "id_puesto" => "7",
+        //     "puesto" => "ESCUELA FLOR DE MI LLANO",
+        //     "mesas" => "27",
+        //     "id_comuna" => "5",
+        //     "comuna" => "COMUNA 5 JUAN JOSE RONDON"
+        // ],
+        // [
+        //     "id_election" => "1",
+        //     "id_municipio" => "1",
+        //     "municipio" => "ARAUCA",
+        //     "id_puesto" => "8",
+        //     "puesto" => "UNIDAD DE SALUD MENTAL ARAUCA",
+        //     "mesas" => "1",
+        //     "id_comuna" => "4",
+        //     "comuna" => "COMUNA 4 JOSE LAURENCIO OSIO"
+        // ],
+        // [
+        //     "id_election" => "1",
+        //     "id_municipio" => "1",
+        //     "municipio" => "ARAUCA",
+        //     "id_puesto" => "9",
+        //     "puesto" => "COLEGIO SANTANDER PRIMARIA",
+        //     "mesas" => "22",
+        //     "id_comuna" => "3",
+        //     "comuna" => "COMUNA 3 JOSE ANTONIO BENITEZ"
+        // ],
+        // [
+        //     "id_election" => "1",
+        //     "id_municipio" => "1",
+        //     "municipio" => "ARAUCA",
+        //     "id_puesto" => "10",
+        //     "puesto" => "CONC.ESCOLAR LAS COROCORAS",
+        //     "mesas" => "14",
+        //     "id_comuna" => "3",
+        //     "comuna" => "COMUNA 3 JOSE ANTONIO BENITEZ"
+        // ],
+        // [
+        //     "id_election" => "1",
+        //     "id_municipio" => "1",
+        //     "municipio" => "ARAUCA",
+        //     "id_puesto" => "11",
+        //     "puesto" => "CONC.ESCOLAR DIVINO NIÑO",
+        //     "mesas" => "27",
+        //     "id_comuna" => "3",
+        //     "comuna" => "COMUNA 3 JOSE ANTONIO BENITEZ"
+        // ],
+        // [
+        //     "id_election" => "1",
+        //     "id_municipio" => "1",
+        //     "municipio" => "ARAUCA",
+        //     "id_puesto" => "12",
+        //     "puesto" => "COL TEC SANTA TERESITA",
+        //     "mesas" => "12",
+        //     "id_comuna" => "3",
+        //     "comuna" => "COMUNA 3 JOSE ANTONIO BENITEZ"
+        // ],
+        // [
+        //     "id_election" => "1",
+        //     "id_municipio" => "1",
+        //     "municipio" => "ARAUCA",
+        //     "id_puesto" => "13",
+        //     "puesto" => "CARCEL",
+        //     "mesas" => "1",
+        //     "id_comuna" => "11",
+        //     "comuna" => "SIN COMUNA"
+        // ],
+        // [
+        //     "id_election" => "1",
+        //     "id_municipio" => "1",
+        //     "municipio" => "ARAUCA",
+        //     "id_puesto" => "14",
+        //     "puesto" => "CAÑAS BRAVAS",
+        //     "mesas" => "2",
+        //     "id_comuna" => "6",
+        //     "comuna" => "CORREGIMIENTO CAÑAS BRAVAS"
+        // ],
+        // [
+        //     "id_election" => "1",
+        //     "id_municipio" => "1",
+        //     "municipio" => "ARAUCA",
+        //     "id_puesto" => "15",
+        //     "puesto" => "MAPORILLAL",
+        //     "mesas" => "1",
+        //     "id_comuna" => "7",
+        //     "comuna" => "CORREGIMIENTO MAPORILLAL"
+        // ],
+        // [
+        //     "id_election" => "1",
+        //     "id_municipio" => "1",
+        //     "municipio" => "ARAUCA",
+        //     "id_puesto" => "16",
+        //     "puesto" => "SANTA BARBARA",
+        //     "mesas" => "4",
+        //     "id_comuna" => "8",
+        //     "comuna" => "CORREGIMIENTO SANTA BARBARA"
+        // ],
+        // [
+        //     "id_election" => "1",
+        //     "id_municipio" => "1",
+        //     "municipio" => "ARAUCA",
+        //     "id_puesto" => "17",
+        //     "puesto" => "CARACOL",
+        //     "mesas" => "2",
+        //     "id_comuna" => "9",
+        //     "comuna" => "CORREGIMIENTO CARACOL"
+        // ],
+        // [
+        //     "id_election" => "1",
+        //     "id_municipio" => "1",
+        //     "municipio" => "ARAUCA",
+        //     "id_puesto" => "18",
+        //     "puesto" => "TODOS LOS SANTOS",
+        //     "mesas" => "3",
+        //     "id_comuna" => "10",
+        //     "comuna" => "CORREGIMIENTO TODOS LOS SANTOS"
+        // ],
+        // [
+        //     "id_election" => "1",
+        //     "id_municipio" => "1",
+        //     "municipio" => "ARAUCA",
+        //     "id_puesto" => "19",
+        //     "puesto" => "LAS NUBES",
+        //     "mesas" => "2",
+        //     "id_comuna" => "10",
+        //     "comuna" => "CORREGIMIENTO TODOS LOS SANTOS"
+        // ],
+        // [
+        //     "id_election" => "1",
+        //     "id_municipio" => "1",
+        //     "municipio" => "ARAUCA",
+        //     "id_puesto" => "20",
+        //     "puesto" => "FELICIANO",
+        //     "mesas" => "1",
+        //     "id_comuna" => "9",
+        //     "comuna" => "CORREGIMIENTO CARACOL"
+        // ],
+        // [
+        //     "id_election" => "1",
+        //     "id_municipio" => "1",
+        //     "municipio" => "ARAUCA",
+        //     "id_puesto" => "21",
+        //     "puesto" => "CLARINETERO",
+        //     "mesas" => "1",
+        //     "id_comuna" => "8",
+        //     "comuna" => "CORREGIMIENTO SANTA BARBARA"
+        // ],
         [
-            "id_election" => "1",
+            "id_election" => "2",
             "id_municipio" => "1",
             "municipio" => "ARAUCA",
             "id_puesto" => "1",
@@ -21,7 +234,7 @@ class FactPollingStationSeeder extends Seeder
             "comuna" => "COMUNA 1 RAIMUNDO CISNEROS O."
         ],
         [
-            "id_election" => "1",
+            "id_election" => "2",
             "id_municipio" => "1",
             "municipio" => "ARAUCA",
             "id_puesto" => "2",
@@ -31,7 +244,7 @@ class FactPollingStationSeeder extends Seeder
             "comuna" => "COMUNA 2 JOSEFA CANELONES"
         ],
         [
-            "id_election" => "1",
+            "id_election" => "2",
             "id_municipio" => "1",
             "municipio" => "ARAUCA",
             "id_puesto" => "3",
@@ -41,7 +254,7 @@ class FactPollingStationSeeder extends Seeder
             "comuna" => "COMUNA 1 RAIMUNDO CISNEROS O."
         ],
         [
-            "id_election" => "1",
+            "id_election" => "2",
             "id_municipio" => "1",
             "municipio" => "ARAUCA",
             "id_puesto" => "4",
@@ -51,7 +264,7 @@ class FactPollingStationSeeder extends Seeder
             "comuna" => "COMUNA 2 JOSEFA CANELONES"
         ],
         [
-            "id_election" => "1",
+            "id_election" => "2",
             "id_municipio" => "1",
             "municipio" => "ARAUCA",
             "id_puesto" => "5",
@@ -61,7 +274,7 @@ class FactPollingStationSeeder extends Seeder
             "comuna" => "COMUNA 4 JOSE LAURENCIO OSIO"
         ],
         [
-            "id_election" => "1",
+            "id_election" => "2",
             "id_municipio" => "1",
             "municipio" => "ARAUCA",
             "id_puesto" => "6",
@@ -71,7 +284,7 @@ class FactPollingStationSeeder extends Seeder
             "comuna" => "COMUNA 4 JOSE LAURENCIO OSIO"
         ],
         [
-            "id_election" => "1",
+            "id_election" => "2",
             "id_municipio" => "1",
             "municipio" => "ARAUCA",
             "id_puesto" => "7",
@@ -81,7 +294,7 @@ class FactPollingStationSeeder extends Seeder
             "comuna" => "COMUNA 5 JUAN JOSE RONDON"
         ],
         [
-            "id_election" => "1",
+            "id_election" => "2",
             "id_municipio" => "1",
             "municipio" => "ARAUCA",
             "id_puesto" => "8",
@@ -91,7 +304,7 @@ class FactPollingStationSeeder extends Seeder
             "comuna" => "COMUNA 4 JOSE LAURENCIO OSIO"
         ],
         [
-            "id_election" => "1",
+            "id_election" => "2",
             "id_municipio" => "1",
             "municipio" => "ARAUCA",
             "id_puesto" => "9",
@@ -101,7 +314,7 @@ class FactPollingStationSeeder extends Seeder
             "comuna" => "COMUNA 3 JOSE ANTONIO BENITEZ"
         ],
         [
-            "id_election" => "1",
+            "id_election" => "2",
             "id_municipio" => "1",
             "municipio" => "ARAUCA",
             "id_puesto" => "10",
@@ -111,17 +324,17 @@ class FactPollingStationSeeder extends Seeder
             "comuna" => "COMUNA 3 JOSE ANTONIO BENITEZ"
         ],
         [
-            "id_election" => "1",
+            "id_election" => "2",
             "id_municipio" => "1",
             "municipio" => "ARAUCA",
             "id_puesto" => "11",
-            "puesto" => "CONC.ESCOLAR DIVINO NI\u00d1O",
+            "puesto" => "CONC.ESCOLAR DIVINO NIÑO",
             "mesas" => "27",
             "id_comuna" => "3",
             "comuna" => "COMUNA 3 JOSE ANTONIO BENITEZ"
         ],
         [
-            "id_election" => "1",
+            "id_election" => "2",
             "id_municipio" => "1",
             "municipio" => "ARAUCA",
             "id_puesto" => "12",
@@ -131,7 +344,7 @@ class FactPollingStationSeeder extends Seeder
             "comuna" => "COMUNA 3 JOSE ANTONIO BENITEZ"
         ],
         [
-            "id_election" => "1",
+            "id_election" => "2",
             "id_municipio" => "1",
             "municipio" => "ARAUCA",
             "id_puesto" => "13",
@@ -141,17 +354,17 @@ class FactPollingStationSeeder extends Seeder
             "comuna" => "SIN COMUNA"
         ],
         [
-            "id_election" => "1",
+            "id_election" => "2",
             "id_municipio" => "1",
             "municipio" => "ARAUCA",
             "id_puesto" => "14",
-            "puesto" => "CA\u00d1AS BRAVAS",
+            "puesto" => "CAÑAS BRAVAS",
             "mesas" => "2",
             "id_comuna" => "6",
-            "comuna" => "CORREGIMIENTO CA\u00d1AS BRAVAS"
+            "comuna" => "CORREGIMIENTO CAÑAS BRAVAS"
         ],
         [
-            "id_election" => "1",
+            "id_election" => "2",
             "id_municipio" => "1",
             "municipio" => "ARAUCA",
             "id_puesto" => "15",
@@ -161,7 +374,7 @@ class FactPollingStationSeeder extends Seeder
             "comuna" => "CORREGIMIENTO MAPORILLAL"
         ],
         [
-            "id_election" => "1",
+            "id_election" => "2",
             "id_municipio" => "1",
             "municipio" => "ARAUCA",
             "id_puesto" => "16",
@@ -171,7 +384,7 @@ class FactPollingStationSeeder extends Seeder
             "comuna" => "CORREGIMIENTO SANTA BARBARA"
         ],
         [
-            "id_election" => "1",
+            "id_election" => "2",
             "id_municipio" => "1",
             "municipio" => "ARAUCA",
             "id_puesto" => "17",
@@ -181,7 +394,7 @@ class FactPollingStationSeeder extends Seeder
             "comuna" => "CORREGIMIENTO CARACOL"
         ],
         [
-            "id_election" => "1",
+            "id_election" => "2",
             "id_municipio" => "1",
             "municipio" => "ARAUCA",
             "id_puesto" => "18",
@@ -191,7 +404,7 @@ class FactPollingStationSeeder extends Seeder
             "comuna" => "CORREGIMIENTO TODOS LOS SANTOS"
         ],
         [
-            "id_election" => "1",
+            "id_election" => "2",
             "id_municipio" => "1",
             "municipio" => "ARAUCA",
             "id_puesto" => "19",
@@ -201,7 +414,7 @@ class FactPollingStationSeeder extends Seeder
             "comuna" => "CORREGIMIENTO TODOS LOS SANTOS"
         ],
         [
-            "id_election" => "1",
+            "id_election" => "2",
             "id_municipio" => "1",
             "municipio" => "ARAUCA",
             "id_puesto" => "20",
@@ -211,7 +424,7 @@ class FactPollingStationSeeder extends Seeder
             "comuna" => "CORREGIMIENTO CARACOL"
         ],
         [
-            "id_election" => "1",
+            "id_election" => "2",
             "id_municipio" => "1",
             "municipio" => "ARAUCA",
             "id_puesto" => "21",
@@ -565,7 +778,7 @@ class FactPollingStationSeeder extends Seeder
             "id_municipio" => "5",
             "municipio" => "FORTUL",
             "id_puesto" => "56",
-            "puesto" => "CA\u00d1O FLOREZ",
+            "puesto" => "CAÑO FLOREZ",
             "mesas" => "3",
             "id_comuna" => "11",
             "comuna" => "SIN COMUNA"
@@ -585,7 +798,7 @@ class FactPollingStationSeeder extends Seeder
             "id_municipio" => "5",
             "municipio" => "FORTUL",
             "id_puesto" => "58",
-            "puesto" => "MATECA\u00d1A",
+            "puesto" => "MATECAÑA",
             "mesas" => "2",
             "id_comuna" => "11",
             "comuna" => "SIN COMUNA"
@@ -675,7 +888,7 @@ class FactPollingStationSeeder extends Seeder
             "id_municipio" => "7",
             "municipio" => "SARAVENA",
             "id_puesto" => "66",
-            "puesto" => "PUERTO NARI\u00d1O",
+            "puesto" => "PUERTO NARIÑO",
             "mesas" => "9",
             "id_comuna" => "11",
             "comuna" => "SIN COMUNA"
@@ -700,216 +913,6 @@ class FactPollingStationSeeder extends Seeder
             "id_comuna" => "11",
             "comuna" => "SIN COMUNA"
         ],
-        [
-            "id_election" => "2",
-            "id_municipio" => "1",
-            "municipio" => "ARAUCA",
-            "id_puesto" => "1",
-            "puesto" => "COLEGIO SIMON BOLIVAR",
-            "mesas" => "39",
-            "id_comuna" => "1",
-            "comuna" => "COMUNA 1 RAIMUNDO CISNEROS O."
-        ],
-        [
-            "id_election" => "2",
-            "id_municipio" => "1",
-            "municipio" => "ARAUCA",
-            "id_puesto" => "2",
-            "puesto" => "CONCENTRACION CAMILO TORRES",
-            "mesas" => "22",
-            "id_comuna" => "2",
-            "comuna" => "COMUNA 2 JOSEFA CANELONES"
-        ],
-        [
-            "id_election" => "2",
-            "id_municipio" => "1",
-            "municipio" => "ARAUCA",
-            "id_puesto" => "3",
-            "puesto" => "ESCUELA LOS LIBERTADORES",
-            "mesas" => "7",
-            "id_comuna" => "1",
-            "comuna" => "COMUNA 1 RAIMUNDO CISNEROS O."
-        ],
-        [
-            "id_election" => "2",
-            "id_municipio" => "1",
-            "municipio" => "ARAUCA",
-            "id_puesto" => "4",
-            "puesto" => "ESCUELA JOSE MARIA CORDOBA",
-            "mesas" => "4",
-            "id_comuna" => "2",
-            "comuna" => "COMUNA 2 JOSEFA CANELONES"
-        ],
-        [
-            "id_election" => "2",
-            "id_municipio" => "1",
-            "municipio" => "ARAUCA",
-            "id_puesto" => "5",
-            "puesto" => "NORMAL MARIA INMACULADA",
-            "mesas" => "24",
-            "id_comuna" => "4",
-            "comuna" => "COMUNA 4 JOSE LAURENCIO OSIO"
-        ],
-        [
-            "id_election" => "2",
-            "id_municipio" => "1",
-            "municipio" => "ARAUCA",
-            "id_puesto" => "6",
-            "puesto" => "COLEGIO TEC. CRISTO REY",
-            "mesas" => "36",
-            "id_comuna" => "4",
-            "comuna" => "COMUNA 4 JOSE LAURENCIO OSIO"
-        ],
-        [
-            "id_election" => "2",
-            "id_municipio" => "1",
-            "municipio" => "ARAUCA",
-            "id_puesto" => "7",
-            "puesto" => "ESCUELA FLOR DE MI LLANO",
-            "mesas" => "27",
-            "id_comuna" => "5",
-            "comuna" => "COMUNA 5 JUAN JOSE RONDON"
-        ],
-        [
-            "id_election" => "2",
-            "id_municipio" => "1",
-            "municipio" => "ARAUCA",
-            "id_puesto" => "8",
-            "puesto" => "UNIDAD DE SALUD MENTAL ARAUCA",
-            "mesas" => "1",
-            "id_comuna" => "4",
-            "comuna" => "COMUNA 4 JOSE LAURENCIO OSIO"
-        ],
-        [
-            "id_election" => "2",
-            "id_municipio" => "1",
-            "municipio" => "ARAUCA",
-            "id_puesto" => "9",
-            "puesto" => "COLEGIO SANTANDER PRIMARIA",
-            "mesas" => "22",
-            "id_comuna" => "3",
-            "comuna" => "COMUNA 3 JOSE ANTONIO BENITEZ"
-        ],
-        [
-            "id_election" => "2",
-            "id_municipio" => "1",
-            "municipio" => "ARAUCA",
-            "id_puesto" => "10",
-            "puesto" => "CONC.ESCOLAR LAS COROCORAS",
-            "mesas" => "14",
-            "id_comuna" => "3",
-            "comuna" => "COMUNA 3 JOSE ANTONIO BENITEZ"
-        ],
-        [
-            "id_election" => "2",
-            "id_municipio" => "1",
-            "municipio" => "ARAUCA",
-            "id_puesto" => "11",
-            "puesto" => "CONC.ESCOLAR DIVINO NI\u00d1O",
-            "mesas" => "27",
-            "id_comuna" => "3",
-            "comuna" => "COMUNA 3 JOSE ANTONIO BENITEZ"
-        ],
-        [
-            "id_election" => "2",
-            "id_municipio" => "1",
-            "municipio" => "ARAUCA",
-            "id_puesto" => "12",
-            "puesto" => "COL TEC SANTA TERESITA",
-            "mesas" => "12",
-            "id_comuna" => "3",
-            "comuna" => "COMUNA 3 JOSE ANTONIO BENITEZ"
-        ],
-        [
-            "id_election" => "2",
-            "id_municipio" => "1",
-            "municipio" => "ARAUCA",
-            "id_puesto" => "13",
-            "puesto" => "CARCEL",
-            "mesas" => "1",
-            "id_comuna" => "11",
-            "comuna" => "SIN COMUNA"
-        ],
-        [
-            "id_election" => "2",
-            "id_municipio" => "1",
-            "municipio" => "ARAUCA",
-            "id_puesto" => "14",
-            "puesto" => "CA\u00d1AS BRAVAS",
-            "mesas" => "2",
-            "id_comuna" => "6",
-            "comuna" => "CORREGIMIENTO CA\u00d1AS BRAVAS"
-        ],
-        [
-            "id_election" => "2",
-            "id_municipio" => "1",
-            "municipio" => "ARAUCA",
-            "id_puesto" => "15",
-            "puesto" => "MAPORILLAL",
-            "mesas" => "1",
-            "id_comuna" => "7",
-            "comuna" => "CORREGIMIENTO MAPORILLAL"
-        ],
-        [
-            "id_election" => "2",
-            "id_municipio" => "1",
-            "municipio" => "ARAUCA",
-            "id_puesto" => "16",
-            "puesto" => "SANTA BARBARA",
-            "mesas" => "4",
-            "id_comuna" => "8",
-            "comuna" => "CORREGIMIENTO SANTA BARBARA"
-        ],
-        [
-            "id_election" => "2",
-            "id_municipio" => "1",
-            "municipio" => "ARAUCA",
-            "id_puesto" => "17",
-            "puesto" => "CARACOL",
-            "mesas" => "2",
-            "id_comuna" => "9",
-            "comuna" => "CORREGIMIENTO CARACOL"
-        ],
-        [
-            "id_election" => "2",
-            "id_municipio" => "1",
-            "municipio" => "ARAUCA",
-            "id_puesto" => "18",
-            "puesto" => "TODOS LOS SANTOS",
-            "mesas" => "3",
-            "id_comuna" => "10",
-            "comuna" => "CORREGIMIENTO TODOS LOS SANTOS"
-        ],
-        [
-            "id_election" => "2",
-            "id_municipio" => "1",
-            "municipio" => "ARAUCA",
-            "id_puesto" => "19",
-            "puesto" => "LAS NUBES",
-            "mesas" => "2",
-            "id_comuna" => "10",
-            "comuna" => "CORREGIMIENTO TODOS LOS SANTOS"
-        ],
-        [
-            "id_election" => "2",
-            "id_municipio" => "1",
-            "municipio" => "ARAUCA",
-            "id_puesto" => "20",
-            "puesto" => "FELICIANO",
-            "mesas" => "1",
-            "id_comuna" => "9",
-            "comuna" => "CORREGIMIENTO CARACOL"
-        ],
-        [
-            "id_election" => "2",
-            "id_municipio" => "1",
-            "municipio" => "ARAUCA",
-            "id_puesto" => "21",
-            "puesto" => "CLARINETERO",
-            "mesas" => "1",
-            "id_comuna" => "8",
-            "comuna" => "CORREGIMIENTO SANTA BARBARA"
-        ]
     ];
     /**
      * Run the database seeds.
@@ -919,15 +922,75 @@ class FactPollingStationSeeder extends Seeder
     public function run()
     {
         $id = 1;
+        $id_user = 13;
+        $coordinadores = 1;
+        $consecutivo_nombres = [
+            "ARAUCA" => 1,
+            "TAME" => 1,
+            "ARAUQUITA" => 1,
+            "CRAVO NORTE" => 1,
+            "FORTUL" => 1,
+            "PUERTO RONDON" => 1,
+            "SARAVENA" => 1,
+        ];
         foreach ($this->pollingStations as $pollingStation) {
+            $name = "coor_" . strtolower(str_replace(' ', '', $pollingStation['municipio'])) . (($coordinadores <= 9) ? '00' : (($coordinadores <= 99) ? '0' : '')) . $coordinadores;
+            $id_coordinador = $id_user;
+            $coordinadores++;
+            User::create([
+                'id' => $id_user++,
+                'name' => $name,
+                'email' => $name . '@galaxia.com',
+                'password' => Hash::make($name),
+                'descripcion' => 'COORDINADOR: '. $pollingStation['municipio'] . "; PUESTO: " .$pollingStation['puesto'],
+                'fk_roles' => 3
+            ]);
             for ($i = 1; $i <= intval($pollingStation['mesas']); $i++) {
+
+                $temp = $consecutivo_nombres[$pollingStation['municipio']];
+                $name =  strtolower(str_replace(' ', '', $pollingStation['municipio'])) . (($temp <= 9) ? '00' : (($temp <= 99) ? '0' : '')) . $temp;
+                $consecutivo_nombres[$pollingStation['municipio']] += 1;
+                User::create([
+                    'id' => $id_user,
+                    'name' => $name,
+                    'email' => $name . '@galaxia.com',
+                    'descripcion' => 'DIGITADOR: '. $pollingStation['municipio'] . "; PUESTO: " .$pollingStation['puesto'] . "; Mesa: " . $i,
+                    'password' => Hash::make($name),
+                    'fk_roles' => 2
+                ]);
+                if ($pollingStation['id_municipio'] == 1) {
+                    FactPollingStation::create([
+                        "id" => $id,
+                        "fk_dim_cities" => $pollingStation['id_municipio'],
+                        "fk_dim_communes" => $pollingStation['id_comuna'],
+                        "fk_dim_locations" => $pollingStation['id_puesto'],
+                        "fk_dim_elections" => 1,
+                        "fk_dim_tables" => $i,
+                    ]);
+                    FactPermit::create([
+                        'fk_users' => $id_coordinador,
+                        'fk_fact_polling_stations' => $id
+                    ]);
+                    FactPermit::create([
+                        'fk_users' => $id_user,
+                        'fk_fact_polling_stations' => $id++
+                    ]);
+                }
                 FactPollingStation::create([
-                    "id" => $id++,
+                    "id" => $id,
                     "fk_dim_cities" => $pollingStation['id_municipio'],
                     "fk_dim_communes" => $pollingStation['id_comuna'],
                     "fk_dim_locations" => $pollingStation['id_puesto'],
-                    "fk_dim_elections" => $pollingStation['id_election'],
+                    "fk_dim_elections" => 2,
                     "fk_dim_tables" => $i,
+                ]);
+                FactPermit::create([
+                    'fk_users' => $id_coordinador,
+                    'fk_fact_polling_stations' => $id
+                ]);
+                FactPermit::create([
+                    'fk_users' => $id_user++,
+                    'fk_fact_polling_stations' => $id++
                 ]);
             }
         }

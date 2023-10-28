@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FactCountVotesController;
+use App\Http\Controllers\FactNewsController;
 use App\Http\Controllers\FactVoteController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
@@ -42,13 +43,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/searchvotes', [HomeController::class, 'searchvotes'])->name('home.searchvotes');
 
     // PROCESS FOR STORE IMG
-    Route::post('/factvoteimg', [FactvoteController::class, 'img'])->name('factvote.img');
-    Route::get('/searchimg/{id}/{election}', [FactvoteController::class, 'searchimg'])->name('factvote.searchimg');
+    Route::get('/searchimg/{id}/{election}', [FactVoteController::class, 'searchimg'])->name('factvote.searchimg');
+    Route::post('/searchimg', [FactvoteController::class, 'img'])->name('factvote.img');
     
     // PROCESS FOR NEWS
     Route::get('/news', [FactCountVotesController::class, 'news'])->name('factcountvote.news');
     Route::post('/news', [FactCountVotesController::class, 'storenews'])->name('factcountvote.storenews');
     Route::post('/news/find', [FactCountVotesController::class, 'newsFind'])->name('news.find');
+    Route::get('/coordinators_new', [FactNewsController::class, 'index'])->name('coordinators.news');
+    Route::get('/coordinators_new/edit/{id}', [FactNewsController::class, 'edit'])->name('coordinators.edit');
+    Route::put('/coordinators_new/update/{id}', [FactNewsController::class, 'update'])->name('coordinators.update');
+    Route::get('/coordinators_new/{city}/{location}/{table}', [FactNewsController::class, 'find'])->name('coordinators.find');
 
     // PROCESS FOR COUNT VOTES
     Route::get('/searchlocationfcv/{id}', [FactCountVotesController::class, 'searchlocationfcv'])->name('factcountvote.searchlocationfcv');
@@ -86,5 +91,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/searchlocationcountvotesdash/{id}', [HomeController::class, 'searchlocationcountvotesdash'])->name('home.searchlocationcountvotesdash');
     Route::get('/searchcountvotesdash/{id}', [HomeController::class, 'searchcountvotesdash'])->name('home.searchcountvotesdash');
     
-    
+    // PROCESS FOR VIEW E-14
+    Route::get('/searchlocationview/{id}', [FactVoteController::class, 'searchlocationview'])->name('factvote.searchlocationview');
+    Route::get('/searchtableview/{id}', [FactVoteController::class, 'searchtableview'])->name('factvote.searchtableview');
+    Route::get('/viewvotes', [FactvoteController::class, 'viewvotes'])->name('factvote.viewvotes');
+    Route::get('/searche14view/{id}', [FactvoteController::class, 'searche14view'])->name('factvote.searche14view');
 });

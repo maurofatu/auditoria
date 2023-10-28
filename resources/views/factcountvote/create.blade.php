@@ -151,7 +151,7 @@
                     <div class="col-xl-2 col-4">Hora</div>
                 </div>
                 <div class="row justify-content-center" id="foreachcountvotes">
-
+                    <div class="col-12 mt-3" style="text-align: center;">No hay datos</div>
                 </div>
             </div>
         </div>
