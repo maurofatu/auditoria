@@ -361,6 +361,8 @@ function potentialVoters(id) {
 function searchLocationCountVotesDash(e) {
     var dimlocation = e.target.value;
 
+    searchDataCountVotesDepDash(e);
+
     if (dimlocation == "") {
         return false;
     }
@@ -386,6 +388,122 @@ function searchLocationCountVotesDash(e) {
                     "  </option>  "
                 );
             });
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swal.fire({
+                title: XMLHttpRequest.statusText,
+                text: XMLHttpRequest.responseJSON.message,
+                icon: "error",
+            });
+        },
+    });
+}
+
+function searchDataCountVotesDepDash(e) {
+    var dimlocation = e.target.value;
+
+    $.ajax({
+        method: "GET",
+        url: "/searchcountvotesdepdash/" + dimlocation,
+        success: function (response) {
+            if (response) {
+                let range1 = 0;
+                let range2 = 0;
+                let range3 = 0;
+                let range4 = 0;
+                let range5 = 0;
+
+                let potential = response["potential"][0]["potential"];
+
+                document.getElementById("tablesinstaller").innerHTML =
+                    response["cantable"][0]["cant"];
+                document.getElementById("potential").innerHTML = potential;
+
+                response["cvotesdash"].forEach((item) => {
+                    if (item.hora <= 9) range1 += item.hora;
+                    if (item.hora <= 10) range2 += item.hora;
+                    if (item.hora <= 12) range3 += item.hora;
+                    if (item.hora <= 14) range4 += item.hora;
+                    range5 += item.hora;
+                });
+
+                document.getElementById("range1").innerHTML = range1;
+                document.getElementById("range2").innerHTML = range2;
+                document.getElementById("range3").innerHTML = range3;
+                document.getElementById("range4").innerHTML = range4;
+                document.getElementById("range5").innerHTML = range5;
+
+                let pernumbervotes = Math.round((range5 * 100) / potential);
+                let abstention = potential - range5;
+                let perabstention = Math.round((abstention * 100) / potential);
+
+                document.getElementById("numbervotes").innerHTML = range5;
+                document.getElementById("pernumbervotes").innerHTML =
+                    pernumbervotes + "%";
+                document.getElementById("abstention").innerHTML = abstention;
+                document.getElementById("perabstention").innerHTML =
+                    perabstention + "%";
+
+                graphicscountvotes(range1, range2, range3, range4, range5);
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swal.fire({
+                title: XMLHttpRequest.statusText,
+                text: XMLHttpRequest.responseJSON.message,
+                icon: "error",
+            });
+        },
+    });
+}
+
+function searchDataCountVotesFDash(e) {
+    
+
+    $.ajax({
+        method: "GET",
+        url: "/searchcountvotesfdash/",
+        success: function (response) {
+            if (response) {
+                let range1 = 0;
+                let range2 = 0;
+                let range3 = 0;
+                let range4 = 0;
+                let range5 = 0;
+
+                let potential = response["potential"][0]["potential"];
+
+                document.getElementById("tablesinstaller").innerHTML =
+                    response["cantable"][0]["cant"];
+                document.getElementById("potential").innerHTML = potential;
+
+                response["cvotesdash"].forEach((item) => {
+                    if (item.hora <= 9) range1 += item.hora;
+                    if (item.hora <= 10) range2 += item.hora;
+                    if (item.hora <= 12) range3 += item.hora;
+                    if (item.hora <= 14) range4 += item.hora;
+                    range5 += item.hora;
+                });
+
+                document.getElementById("range1").innerHTML = range1;
+                document.getElementById("range2").innerHTML = range2;
+                document.getElementById("range3").innerHTML = range3;
+                document.getElementById("range4").innerHTML = range4;
+                document.getElementById("range5").innerHTML = range5;
+
+                let pernumbervotes = Math.round((range5 * 100) / potential);
+                let abstention = potential - range5;
+                let perabstention = Math.round((abstention * 100) / potential);
+
+                document.getElementById("numbervotes").innerHTML = range5;
+                document.getElementById("pernumbervotes").innerHTML =
+                    pernumbervotes + "%";
+                document.getElementById("abstention").innerHTML = abstention;
+                document.getElementById("perabstention").innerHTML =
+                    perabstention + "%";
+
+                graphicscountvotes(range1, range2, range3, range4, range5);
+            }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             swal.fire({
@@ -1011,16 +1129,11 @@ function searchE14view(e){
         return false;
     }
 
-    console.log(dimlocation,"  Hoola");
-
     $.ajax({
         method: "GET",
         url: "/searche14view/" + dimlocation,
         success: function (response) {
 
-                console.log(response);
-                console.log(response['0']['url']);
-                
                 if(response['0']['url']){
 
                 $("#divImge14").empty();
