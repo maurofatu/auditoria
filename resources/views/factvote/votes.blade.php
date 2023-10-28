@@ -252,6 +252,8 @@
                         if (result.isConfirmed) {
                             // Si el usuario confirmó, envía el formulario
                             this.submit();
+                        }else{
+                            $("#enviar").prop("disabled", false);
                         }
                     });
                 } else {
