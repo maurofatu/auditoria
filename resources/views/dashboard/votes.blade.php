@@ -73,7 +73,7 @@
         </p>
         @endif
         <p class="m-0">
-            Circulo con A a la izquierda: Alcaldia
+            Circulo con A a la derecha: Alcaldia
         </p>
         <p class="m-0">
             Circulo de color rojo, se cargaron los votos pero sin foto del E-14
