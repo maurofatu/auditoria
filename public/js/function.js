@@ -413,11 +413,14 @@ function searchDataCountVotesDepDash(e) {
                 let range4 = 0;
                 let range5 = 0;
 
+                let potentialreal = response['potentialreal'];
+                
+
                 let potential = response["potential"][0]["potential"];
 
                 document.getElementById("tablesinstaller").innerHTML =
                     response["cantable"][0]["cant"];
-                document.getElementById("potential").innerHTML = potential;
+                document.getElementById("potential").innerHTML = new Intl.NumberFormat().format(potentialreal);
 
                 response["cvotesdash"].forEach((item) => {
                     if (item.hora <= 9) range1 += item.hora;
@@ -437,10 +440,10 @@ function searchDataCountVotesDepDash(e) {
                 let abstention = potential - range5;
                 let perabstention = Math.round((abstention * 100) / potential);
 
-                document.getElementById("numbervotes").innerHTML = range5;
+                document.getElementById("numbervotes").innerHTML = new Intl.NumberFormat().format(range5);
                 document.getElementById("pernumbervotes").innerHTML =
                     pernumbervotes + "%";
-                document.getElementById("abstention").innerHTML = abstention;
+                document.getElementById("abstention").innerHTML = new Intl.NumberFormat().format(abstention);
                 document.getElementById("perabstention").innerHTML =
                     perabstention + "%";
 
@@ -473,9 +476,12 @@ function searchDataCountVotesFDash(e) {
 
                 let potential = response["potential"][0]["potential"];
 
+                let potentialreal = response['potentialreal']; 
+
+
                 document.getElementById("tablesinstaller").innerHTML =
                     response["cantable"][0]["cant"];
-                document.getElementById("potential").innerHTML = potential;
+                document.getElementById("potential").innerHTML = new Intl.NumberFormat().format(potentialreal);
 
                 response["cvotesdash"].forEach((item) => {
                     if (item.hora <= 9) range1 += item.hora;
@@ -491,14 +497,14 @@ function searchDataCountVotesFDash(e) {
                 document.getElementById("range4").innerHTML = range4;
                 document.getElementById("range5").innerHTML = range5;
 
-                let pernumbervotes = Math.round((range5 * 100) / potential);
-                let abstention = potential - range5;
-                let perabstention = Math.round((abstention * 100) / potential);
+                let pernumbervotes = Math.round((range5 * 100) / potentialreal);
+                let abstention = potentialreal - range5;
+                let perabstention = Math.round((abstention * 100) / potentialreal);
 
-                document.getElementById("numbervotes").innerHTML = range5;
+                document.getElementById("numbervotes").innerHTML = new Intl.NumberFormat().format(range5);
                 document.getElementById("pernumbervotes").innerHTML =
                     pernumbervotes + "%";
-                document.getElementById("abstention").innerHTML = abstention;
+                document.getElementById("abstention").innerHTML = new Intl.NumberFormat().format(abstention);
                 document.getElementById("perabstention").innerHTML =
                     perabstention + "%";
 
@@ -529,11 +535,13 @@ function searchDataCountVotesDash(e) {
                 let range4 = 0;
                 let range5 = 0;
 
+                let potentialreal = response['potentialreal'];
+
                 let potential = response["potential"][0]["potential"];
 
                 document.getElementById("tablesinstaller").innerHTML =
                     response["cantable"][0]["cant"];
-                document.getElementById("potential").innerHTML = potential;
+                document.getElementById("potential").innerHTML = potentialreal;
 
                 response["cvotesdash"].forEach((item) => {
                     if (item.hora <= 9) range1 += item.hora;
@@ -549,9 +557,9 @@ function searchDataCountVotesDash(e) {
                 document.getElementById("range4").innerHTML = range4;
                 document.getElementById("range5").innerHTML = range5;
 
-                let pernumbervotes = Math.round((range5 * 100) / potential);
-                let abstention = potential - range5;
-                let perabstention = Math.round((abstention * 100) / potential);
+                let pernumbervotes = Math.round((range5 * 100) / potentialreal);
+                let abstention = potentialreal - range5;
+                let perabstention = Math.round((abstention * 100) / potentialreal);
 
                 document.getElementById("numbervotes").innerHTML = range5;
                 document.getElementById("pernumbervotes").innerHTML =
