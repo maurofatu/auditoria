@@ -18,6 +18,8 @@
           </div>
   
       <hr>
+
+      @if($hora)
   
       <p class="fs-4 text-center mb-3">
         PROCESO DE REPORTE FORMULARIO E-14 POR CANDIDATO
@@ -38,6 +40,14 @@
       <p class="fs-4 text-center mt-3">
         Seleccione la tarjeta electoral que va a reportar
       </p>
+      @endif
+
+      @else
+
+      <p class="fs-4 text-center mt-5">
+        EL PROCESO SE ACTIVARÁ A LAS 4:00 PM - Hora Actual {{ $ha }}
+      </p>
+
       @endif
   
     </div>
