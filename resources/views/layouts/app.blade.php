@@ -94,6 +94,10 @@
                                         <a class="nav-link" href="{{ route('format') }}">{{ __('Registrar E-14') }}</a>
                                         <a class="nav-link"
                                             href="{{ route('factvote.viewvotes') }}">{{ __('Imagen E-14') }}</a>
+                                        @if (in_array(Auth::user()->fk_roles, [3]))
+                                            <a class="nav-link"
+                                                href="{{ route('dashboard.votes') }}">{{ __('Seguimiento E-14') }}</a>
+                                        @endif
                                     </div>
                                 </li>
                             @endif
