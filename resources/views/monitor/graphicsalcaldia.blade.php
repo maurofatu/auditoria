@@ -50,13 +50,13 @@
     <div class="col-6">
         <div class="row">
             <div class="col-2">Total Potencial</div>
-            <div id="potentialvotealcal" class="col-1"></div>
+            <div id="potentialvotealcal" class="col-2"></div>
 
             <div class="col-2">Total Votos</div>
-            <div id="totalvotesalcal"class="col-1"></div>
+            <div id="totalvotesalcal"class="col-2"></div>
 
             <div class="col-2">Abstencion</div>
-            <div id="abstentionalcal"class="col-1" style="color: red;"></div>
+            <div id="abstentionalcal"class="col-2" style="color: red;"></div>
         </div>
     </div>
 

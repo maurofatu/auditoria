@@ -412,10 +412,20 @@ class HomeController extends Controller
             where fps.fk_dim_locations = ?  
             ', [$id]);
 
+            $potentialr = DB::select('
+            select distinct fk_dim_cities as city, fk_dim_locations as local from fact_polling_stations fps 
+            where fps.fk_dim_locations = ? 
+            ', [$id]);
+
+            $x = $potentialr['0']->city;
+            $y = $potentialr['0']->local;
+            
+            $datapotential = $this->potentialreal[$x.$y];
+
           
    
                if ($gobvotedash) {
-                   return response()->json(["gobvotedash" => $gobvotedash, "potential" => $potential,"cantable" => $cantable, 200]);
+                   return response()->json(["gobvotedash" => $gobvotedash, "potential" => $potential,"gobpotentialreal" => $datapotential, "cantable" => $cantable, 200]);
                } else {
                    return response()->json(['message' => 'No se encontró registros'], 302);
                }
@@ -448,10 +458,12 @@ class HomeController extends Controller
             where fps.fk_dim_cities = ?  
             ', [$id]);
 
+            $datapotential = $this->potentialreal[$id];
+
 
    
                if ($gobvotedash) {
-                   return response()->json(["gobvotedash" => $gobvotedash, "potential" => $potential,"cantable" => $cantable, 200]);
+                   return response()->json(["gobvotedash" => $gobvotedash, "potential" => $potential,"gobpotentialreal" => $datapotential,"cantable" => $cantable, 200]);
                } else {
                    return response()->json(['message' => 'No se encontró registros'], 302);
                }
@@ -482,10 +494,12 @@ class HomeController extends Controller
             select count(*) as cant from fact_polling_stations fps 
             ');
 
+            $datapotential = $this->potentialreal['00'];
+
 
    
                if ($gobvotedash) {
-                   return response()->json(["gobvotedash" => $gobvotedash, "potential" => $potential,"cantable" => $cantable, 200]);
+                   return response()->json(["gobvotedash" => $gobvotedash, "potential" => $potential,"gobpotentialreal" => $datapotential,"cantable" => $cantable, 200]);
                } else {
                    return response()->json(['message' => 'No se encontró registros'], 302);
                }
@@ -518,10 +532,20 @@ class HomeController extends Controller
             where fps.fk_dim_locations = ?  
             ', [$id]);
 
+            $potentialr = DB::select('
+            select distinct fk_dim_cities as city, fk_dim_locations as local from fact_polling_stations fps 
+            where fps.fk_dim_locations = ? 
+            ', [$id]);
+
+            $x = $potentialr['0']->city;
+            $y = $potentialr['0']->local;
+            
+            $datapotential = $this->potentialreal[$x.$y];
+
 
    
                if ($alcvotedash) {
-                   return response()->json(["alcvotedash" => $alcvotedash, "alcpotential" => $alcpotential,"alccantable" => $cantable, 200]);
+                   return response()->json(["alcvotedash" => $alcvotedash, "alcpotential" => $alcpotential,"alcpotentialreal" => $datapotential,"alccantable" => $cantable, 200]);
                } else {
                    return response()->json(['message' => 'No se encontró registros'], 302);
                }
@@ -554,10 +578,12 @@ class HomeController extends Controller
             where fps.fk_dim_cities = 1  
             ');
 
+            $datapotential = $this->potentialreal['1'];
+
 
    
                if ($alcvotedash) {
-                   return response()->json(["alcvotedash" => $alcvotedash, "alcpotential" => $alcpotential,"alccantable" => $cantable, 200]);
+                   return response()->json(["alcvotedash" => $alcvotedash, "alcpotential" => $alcpotential,"alcpotentialreal" => $datapotential,"alccantable" => $cantable, 200]);
                } else {
                    return response()->json(['message' => 'No se encontró registros'], 302);
                }
