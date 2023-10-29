@@ -1,27 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+<div class="container">
 
-        <div class="row">
-            <div class="col-xl-12 col-md-12 col-sm-12 mb-xl-0 mb-2">
-                <div class="card">
-                    <div class="card-body p-3" style="
+    <div class="row">
+        <div class="col-xl-12 col-md-12 col-sm-12 mb-xl-0 mb-2">
+            <div class="card">
+                <div class="card-body p-3" style="
   background-color: red; color:white;">
-                        <div class="row">
-                            <div class="col-12 text-center">
-                                @if ($id == 1)
-                                    <b>Elecciones Regionales 2023 - Alcaldia</b>
-                                @else
-                                    <b>Elecciones Regionales 2023 - Gobernación</b>
-                                @endif
-                            </div>
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            @if ($id == 1)
+                            <b>Elecciones Regionales 2023 - Alcaldia</b>
+                            @else
+                            <b>Elecciones Regionales 2023 - Gobernación</b>
+                            @endif
                         </div>
                     </div>
                 </div>
-                <hr>
             </div>
+            <hr>
         </div>
+    </div>
 
         <form action="{{ route('factvote.store') }}" method="post" name="factvote" id="factvote"
             enctype="multipart/form-data">
@@ -72,27 +72,25 @@
                 </div>
             </div>
 
-            <div id="ndivcandidatesVotes" class="row align-items-start d-flex align-items-center">
+        <div id="ndivcandidatesVotes" class="row align-items-start d-flex align-items-center">
 
-                @foreach ($dim_people as $item)
-                    @if ($item->id != 17 and $item->id != 31)
-                        <div class="col-2">
-                            <span style="padding-right:3px; padding-top: 3px; display:inline-block;">
-                                <img src="{{ asset('/img/usericon.png') }}" width="40px" alt="...">
-                            </span>
-                        </div>
-                        <div class="col-7">{{ $item->name }}</div>
-                        <div class="col-3">
-                            <input type="number" class="form-control" id="vote{{ $item->id }}"
-                                name="vote{{ $item->id }}" aria-describedby="vote" placeholder="#" pattern="[0-9]*"
-                                inputmode="numeric" required>
-                        </div>
-                    @else
-                        <input type="hidden" id="vote{{ $item->id }}" name="vote{{ $item->id }}">
-                    @endif
-                @endforeach
+            @foreach ($dim_people as $item)
+            @if ($item->id != 17 and $item->id != 31)
+            <div class="col-2">
+                <span style="padding-right:3px; padding-top: 3px; display:inline-block;">
+                    <img src="{{ asset('/img/usericon.png') }}" width="40px" alt="...">
+                </span>
+            </div>
+            <div class="col-7">{{ $item->name }}</div>
+            <div class="col-3">
+                <input type="number" class="form-control" id="vote{{ $item->id }}" name="vote{{ $item->id }}" aria-describedby="vote" placeholder="#" pattern="[0-9]*" inputmode="numeric" required>
+            </div>
+            @else
+            <input type="hidden" id="vote{{ $item->id }}" name="vote{{ $item->id }}">
+            @endif
+            @endforeach
 
-                <div class="col-md-12 mt-4 mb-4 text-center">
+            <div class="col-md-12 mt-4 mb-4 text-center">
 
                     <button type="submit" class="btn btn-success" id="enviar" name="enviar"
                         value="enviar">Enviar</button>
@@ -128,14 +126,14 @@
             {{-- <form  action="{{ route('factvote.img') }}" id="imgfacvote" name="imgfacvote" method="POST" enctype="multipart/form-data">
                 @csrf
 
-                <div class="form-group">
-                    <label for="imagen">Selecciona una imagen</label>
-                    <input type="file" name="imagen" id="imagen" class="form-control-file" accept="image/*">
-                    @error('imagen')
-                        <small clas="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
-                <input type="hidden" name="mesvotimg" id="mesvotimg">
+            <div class="form-group">
+                <label for="imagen">Selecciona una imagen</label>
+                <input type="file" name="imagen" id="imagen" class="form-control-file" accept="image/*">
+                @error('imagen')
+                <small clas="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+            <input type="hidden" name="mesvotimg" id="mesvotimg">
 
                 <button type="submit" class="btn btn-primary">Cargar Imagen</button>
             </form> --}}
@@ -148,16 +146,16 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ asset('js/function.js') }}"></script>
 
-    <script>
-        $(document).ready(function() {
-            $('.js-example-basic-single').select2();
-            document.getElementById('ndivImgVotes').style.visibility = "hidden";
+<script>
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+        document.getElementById('ndivImgVotes').style.visibility = "hidden";
 
-            $("form").on("submit", function() {
-                $("#enviar").prop("disabled", true);
-            });
-
+        $("form").on("submit", function() {
+            $("#enviar").prop("disabled", true);
         });
+
+    });
 
         // document.addEventListener('DOMContentLoaded', function() {
         //     document.getElementById('btn-cargar').addEventListener('click', function() {
@@ -214,9 +212,9 @@
         //     });
         // });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('factvote').addEventListener('submit', function(e) {
-                e.preventDefault(); // Evita que el formulario se envíe de inmediato
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('factvote').addEventListener('submit', function(e) {
+            e.preventDefault(); // Evita que el formulario se envíe de inmediato
 
                 var butt = $('#datoscargados').val();
 
