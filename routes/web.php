@@ -72,6 +72,7 @@ Route::group(['middleware' => 'auth'], function () {
     
     // PROCESS DASHBOARD
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('monitor.dashboard');
+    Route::get('/dashboard_votes', [FactNewsController::class, 'dashboard_votes'])->name('dashboard.votes');
 
 
     Route::get('/graphicscountvotes', function () {

@@ -136,15 +136,51 @@ class FactNewsController extends Controller
         ]);
         $polling_station =  $fact_new->factPollingStation;
         DB::beginTransaction();
-        try{
+        try {
             DB::commit();
             $fact_new->management_description = $data['management_description'];
             $fact_new->status = $data['status'];
             $fact_new->save();
             return redirect()->route('coordinators.find', ['city' => $polling_station->fk_dim_cities, 'location' => $polling_station->fk_dim_locations, 'table' => $polling_station->fk_dim_tables])->with(['messagefcv' => 'Success']);
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             return redirect()->route('coordinators.find', ['city' => $polling_station->fk_dim_cities, 'location' => $polling_station->fk_dim_locations, 'table' => $polling_station->fk_dim_tables])->with(['messagefcv' => 'Error', 'Codefcv' => $e->getMessage()]);
         }
+    }
+
+    /** Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function dashboard_votes()
+    {
+        $fact_permits = FactPermit::firstWhere('fk_users', Auth::user()->id);
+
+        $fact_polling_station = DB::select('
+        SELECT
+            fps.fk_dim_cities,
+            fps.fk_dim_locations,
+            fps.fk_dim_tables,
+            MAX(CASE WHEN fps.fk_dim_elections = 1 THEN ft1.amount ELSE 0 END) AS amount_dim_elections_1,
+            MAX(CASE WHEN fps.fk_dim_elections = 2 THEN ft1.amount ELSE 0 END) AS amount_dim_elections_2,
+            MAX(CASE WHEN fps.fk_dim_elections = 1 THEN fps.url_photo_e4 ELSE NULL END) AS url_photo_e4_dim_elections_1,
+            MAX(CASE WHEN fps.fk_dim_elections = 2 THEN fps.url_photo_e4 ELSE NULL END) AS url_photo_e4_dim_elections_2
+        FROM fact_polling_stations fps
+        LEFT JOIN fact_votes ft1 ON fps.id = ft1.fk_fact_polling_stations 
+        WHERE fps.fk_dim_cities = ?
+        AND fps.fk_dim_locations = ?
+        GROUP BY
+            fps.fk_dim_cities,
+            fps.fk_dim_locations,
+            fps.fk_dim_tables;', [
+            $fact_permits->factPollingStation->fk_dim_cities,
+            $fact_permits->factPollingStation->fk_dim_locations
+        ]);
+
+        $data = [
+            'fact_permits' => $fact_permits,
+            'fact_polling_station' => $fact_polling_station
+        ];
+        return view('dashboard.votes', ["data" => $data]);
     }
 }
