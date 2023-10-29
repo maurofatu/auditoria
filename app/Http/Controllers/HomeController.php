@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class HomeController extends Controller
 {
@@ -131,8 +132,12 @@ class HomeController extends Controller
 
         $name = Auth::user()->name;
         $locuser = preg_replace('/[0-9]+/', '', $name);
+        $horaActual = Carbon::now();
+        $horaComparacion = Carbon::createFromTime(16, 0, 0); // Crear una instancia de Carbon para las 16:00
 
-        return view('format', ["name" => $locuser]);
+        $bool = $horaActual->greaterThan($horaComparacion) ? true : false;
+
+        return view('format', ["name" => $locuser, "hora" => $bool, "ha" => $horaActual]);
     }
 
     public function CountVotes()
