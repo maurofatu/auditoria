@@ -32,17 +32,17 @@
             @forelse ($data['fact_polling_station'] as $polling_station)
             <button type="button" class="btn btn-outline-dark position-relative m-3 px-3 rounded-pill">
                 {{ ($polling_station->fk_dim_tables <= 9 ? '0' : '') . $polling_station->fk_dim_tables }}
-                @if($polling_station->fk_dim_cities == 1)
-                    @if($polling_station->amount_dim_elections_2 > 0)
-                        <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill {{ ($polling_station->url_photo_e4_dim_elections_2) ? 'bg-success' : 'bg-danger' }}">
-                            G
-                        </span>
-                    @endif
+                @if($polling_station->amount_dim_elections_2 > 0)
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill {{ ($polling_station->url_photo_e4_dim_elections_2) ? 'bg-success' : 'bg-danger' }}">
+                    G
+                </span>
                 @endif
-                @if($polling_station->amount_dim_elections_1 > 0)
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill {{ ($polling_station->url_photo_e4_dim_elections_1) ? 'bg-success' : 'bg-danger' }}">
+                @if($polling_station->fk_dim_cities == 1)
+                    @if($polling_station->amount_dim_elections_1 > 0)
+                    <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill {{ ($polling_station->url_photo_e4_dim_elections_1) ? 'bg-success' : 'bg-danger' }}">
                         A
                     </span>
+                    @endif
                 @endif
             </button>
             @empty
@@ -54,27 +54,27 @@
         <p class="m-0">
             <button type="button" class="btn btn-outline-dark position-relative m-2 px-3 rounded-pill">
                 #
-                @if($data['fact_permits']->factPollingStation->fk_dim_cities == 1)
-                <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-success">
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
                     G
                 </span>
-                @endif
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                @if($data['fact_permits']->factPollingStation->fk_dim_cities == 1)
+                <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-danger">
                     A
                 </span>
+                @endif
             </button>
         </p>
         <p class="m-0">
             #: Número de mesa
         </p>
+        <p class="m-0">
+            Circulo con G a la derecha: Gobernación
+        </p>
         @if($data['fact_permits']->factPollingStation->fk_dim_cities == 1)
         <p class="m-0">
-            Circulo con G a la izquierda: Gobernación
+            Circulo con A a la izquierda: Alcaldia
         </p>
         @endif
-        <p class="m-0">
-            Circulo con A a la derecha: Alcaldia
-        </p>
         <p class="m-0">
             Circulo de color rojo, se cargaron los votos pero sin foto del E-14
         </p>
