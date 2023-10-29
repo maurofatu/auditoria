@@ -13,9 +13,90 @@ class HomeController extends Controller
      *
      * @return void
      */
+    protected $potentialreal;
+
     public function __construct()
     {
         // $this->middleware('role.typist');
+        $this->potentialreal = array(
+            '00' => '215756',
+            '1' => '81211',
+            '2' => '38250',
+            '3' => '35125',
+            '4' => '3795',
+            '5' => '13575',
+            '6' => '3974',
+            '7' => '39826',
+            '11' => '12742',
+            '12' => '7103',
+            '13' => '2053',
+            '14' => '1259',
+            '15' => '7951',
+            '16' => '11851',
+            '17' => '8764',
+            '18' => '31',
+            '19' => '7318',
+            '110' => '4500',
+            '111' => '8792',
+            '112' => '3979',
+            '113' => '241',
+            '114' => '687',
+            '115' => '265',
+            '116' => '1238',
+            '117' => '631',
+            '118' => '812',
+            '119' => '557',
+            '120' => '200',
+            '121' => '237',
+            '222' => '7313',
+            '223' => '7008',
+            '224' => '3894',
+            '225' => '6159',
+            '226' => '4173',
+            '227' => '1336',
+            '228' => '123',
+            '229' => '145',
+            '230' => '182',
+            '231' => '450',
+            '232' => '576',
+            '233' => '3696',
+            '234' => '52',
+            '235' => '2125',
+            '236' => '404',
+            '237' => '614',
+            '338' => '5500',
+            '339' => '5599',
+            '340' => '5140',
+            '341' => '5170',
+            '342' => '1814',
+            '343' => '3696',
+            '344' => '1222',
+            '345' => '1219',
+            '346' => '1508',
+            '347' => '501',
+            '348' => '189',
+            '349' => '54',
+            '350' => '31',
+            '351' => '3482',
+            '452' => '3766',
+            '453' => '29',
+            '554' => '6067',
+            '555' => '4544',
+            '556' => '842',
+            '557' => '1720',
+            '558' => '402',
+            '652' => '3974',
+            '759' => '6751',
+            '760' => '8577',
+            '761' => '5830',
+            '762' => '2248',
+            '763' => '4676',
+            '764' => '8091',
+            '765' => '253',
+            '766' => '2902',
+            '767' => '273',
+            '768' => '225',
+            );
     }
 
     /**
@@ -216,10 +297,89 @@ class HomeController extends Controller
             where fps.fk_dim_locations = ? and fk_dim_elections = 2; 
             ', [$id]);
 
+            $potentialr = DB::select('
+            select distinct fk_dim_cities as city, fk_dim_locations as local from fact_polling_stations fps 
+            where fps.fk_dim_locations = ? 
+            ', [$id]);
+
+            $x = $potentialr['0']->city;
+            $y = $potentialr['0']->local;
+            
+            $datapotential = $this->potentialreal[$x.$y];
+
 
    
                if ($cvotesdash) {
-                   return response()->json(["cvotesdash" => $cvotesdash, "potential" => $potential,"cantable" => $cantable, 200]);
+                   return response()->json(["cvotesdash" => $cvotesdash, "potential" => $potential,"cantable" => $cantable,"potentialreal" => $datapotential, 200]);
+               } else {
+                   return response()->json(['message' => 'No se encontró registros'], 302);
+               }
+           } catch (\Illuminate\Database\QueryException $e) {
+               return response()->json(['message' => $e->getMessage()], 500);
+           }
+    }
+
+    public function searchCountVotesDepDash($id){
+
+        try {
+
+            $cvotesdash = DB::select('
+            SELECT amount, HOUR(TIME(created_at)) as hora  from fact_count_votes fcv 
+            where fk_fact_polling_stations in (select id from fact_polling_stations where fk_dim_cities = ?)
+            order by created_at  
+            ', [$id]);
+
+            $potential = DB::select('
+            select sum(amount) as potential from fact_potential_voters fpv 
+            inner join fact_polling_stations fps on (fps.id = fpv.fk_fact_polling_stations)
+            where fps.fk_dim_cities = ?  
+            ', [$id]);
+
+            $cantable = DB::select('
+            select count(*) as cant from fact_polling_stations fps 
+            where fps.fk_dim_cities = ? and fk_dim_elections = 2; 
+            ', [$id]);
+
+            $datapotential = $this->potentialreal[$id];
+
+
+   
+               if ($cvotesdash) {
+                   return response()->json(["cvotesdash" => $cvotesdash, "potential" => $potential,"cantable" => $cantable,"potentialreal" => $datapotential, 200]);
+               } else {
+                   return response()->json(['message' => 'No se encontró registros'], 302);
+               }
+           } catch (\Illuminate\Database\QueryException $e) {
+               return response()->json(['message' => $e->getMessage()], 500);
+           }
+    }
+
+    public function searchCountVotesFDash(){
+
+        try {
+
+            $cvotesdash = DB::select('
+            SELECT amount, HOUR(TIME(created_at)) as hora  from fact_count_votes fcv 
+            where fk_fact_polling_stations in (select id from fact_polling_stations)
+            order by created_at  
+            ');
+
+            $potential = DB::select('
+            select sum(amount) as potential from fact_potential_voters fpv 
+            inner join fact_polling_stations fps on (fps.id = fpv.fk_fact_polling_stations)  
+            ');
+
+            $cantable = DB::select('
+            select count(*) as cant from fact_polling_stations fps 
+            where fk_dim_elections = 2; 
+            ');
+
+            $datapotential = $this->potentialreal['00'];
+
+
+   
+               if ($cvotesdash) {
+                   return response()->json(["cvotesdash" => $cvotesdash, "potential" => $potential, "potentialreal" => $datapotential, "cantable" => $cantable, 200]);
                } else {
                    return response()->json(['message' => 'No se encontró registros'], 302);
                }
@@ -252,10 +412,20 @@ class HomeController extends Controller
             where fps.fk_dim_locations = ?  
             ', [$id]);
 
+            $potentialr = DB::select('
+            select distinct fk_dim_cities as city, fk_dim_locations as local from fact_polling_stations fps 
+            where fps.fk_dim_locations = ? 
+            ', [$id]);
 
+            $x = $potentialr['0']->city;
+            $y = $potentialr['0']->local;
+            
+            $datapotential = $this->potentialreal[$x.$y];
+
+          
    
                if ($gobvotedash) {
-                   return response()->json(["gobvotedash" => $gobvotedash, "potential" => $potential,"cantable" => $cantable, 200]);
+                   return response()->json(["gobvotedash" => $gobvotedash, "potential" => $potential,"gobpotentialreal" => $datapotential, "cantable" => $cantable, 200]);
                } else {
                    return response()->json(['message' => 'No se encontró registros'], 302);
                }
@@ -288,10 +458,12 @@ class HomeController extends Controller
             where fps.fk_dim_cities = ?  
             ', [$id]);
 
+            $datapotential = $this->potentialreal[$id];
+
 
    
                if ($gobvotedash) {
-                   return response()->json(["gobvotedash" => $gobvotedash, "potential" => $potential,"cantable" => $cantable, 200]);
+                   return response()->json(["gobvotedash" => $gobvotedash, "potential" => $potential,"gobpotentialreal" => $datapotential,"cantable" => $cantable, 200]);
                } else {
                    return response()->json(['message' => 'No se encontró registros'], 302);
                }
@@ -322,10 +494,12 @@ class HomeController extends Controller
             select count(*) as cant from fact_polling_stations fps 
             ');
 
+            $datapotential = $this->potentialreal['00'];
+
 
    
                if ($gobvotedash) {
-                   return response()->json(["gobvotedash" => $gobvotedash, "potential" => $potential,"cantable" => $cantable, 200]);
+                   return response()->json(["gobvotedash" => $gobvotedash, "potential" => $potential,"gobpotentialreal" => $datapotential,"cantable" => $cantable, 200]);
                } else {
                    return response()->json(['message' => 'No se encontró registros'], 302);
                }
@@ -358,10 +532,20 @@ class HomeController extends Controller
             where fps.fk_dim_locations = ?  
             ', [$id]);
 
+            $potentialr = DB::select('
+            select distinct fk_dim_cities as city, fk_dim_locations as local from fact_polling_stations fps 
+            where fps.fk_dim_locations = ? 
+            ', [$id]);
+
+            $x = $potentialr['0']->city;
+            $y = $potentialr['0']->local;
+            
+            $datapotential = $this->potentialreal[$x.$y];
+
 
    
                if ($alcvotedash) {
-                   return response()->json(["alcvotedash" => $alcvotedash, "alcpotential" => $alcpotential,"alccantable" => $cantable, 200]);
+                   return response()->json(["alcvotedash" => $alcvotedash, "alcpotential" => $alcpotential,"alcpotentialreal" => $datapotential,"alccantable" => $cantable, 200]);
                } else {
                    return response()->json(['message' => 'No se encontró registros'], 302);
                }
@@ -394,10 +578,12 @@ class HomeController extends Controller
             where fps.fk_dim_cities = 1  
             ');
 
+            $datapotential = $this->potentialreal['1'];
+
 
    
                if ($alcvotedash) {
-                   return response()->json(["alcvotedash" => $alcvotedash, "alcpotential" => $alcpotential,"alccantable" => $cantable, 200]);
+                   return response()->json(["alcvotedash" => $alcvotedash, "alcpotential" => $alcpotential,"alcpotentialreal" => $datapotential,"alccantable" => $cantable, 200]);
                } else {
                    return response()->json(['message' => 'No se encontró registros'], 302);
                }

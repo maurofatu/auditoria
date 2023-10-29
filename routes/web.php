@@ -91,6 +91,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/searchlocationcountvotesdash/{id}', [HomeController::class, 'searchlocationcountvotesdash'])->name('home.searchlocationcountvotesdash');
     Route::get('/searchcountvotesdash/{id}', [HomeController::class, 'searchcountvotesdash'])->name('home.searchcountvotesdash');
+    Route::get('/searchcountvotesdepdash/{id}', [HomeController::class, 'searchcountvotesdepdash'])->name('home.searchcountvotesdepdash');
+    Route::get('/searchcountvotesfdash', [HomeController::class, 'searchcountvotesfdash'])->name('home.searchcountvotesfdash');
     
     // PROCESS FOR VIEW E-14
     Route::get('/searchlocationview/{id}', [FactVoteController::class, 'searchlocationview'])->name('factvote.searchlocationview');

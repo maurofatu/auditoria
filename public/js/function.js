@@ -362,8 +362,12 @@ function searchLocationCountVotesDash(e) {
     var dimlocation = e.target.value;
 
     if (dimlocation == "") {
-        return false;
+        searchDataCountVotesFDash();
+        return;
     }
+
+    searchDataCountVotesDepDash(e);
+
     const lugar = $("#lugvot");
     const mesa = $("#mesvot");
     $.ajax({
@@ -397,12 +401,12 @@ function searchLocationCountVotesDash(e) {
     });
 }
 
-function searchDataCountVotesDash(e) {
+function searchDataCountVotesDepDash(e) {
     var dimlocation = e.target.value;
 
     $.ajax({
         method: "GET",
-        url: "/searchcountvotesdash/" + dimlocation,
+        url: "/searchcountvotesdepdash/" + dimlocation,
         success: function (response) {
             if (response) {
                 let range1 = 0;
@@ -411,11 +415,14 @@ function searchDataCountVotesDash(e) {
                 let range4 = 0;
                 let range5 = 0;
 
+                let potentialreal = response['potentialreal'];
+                
+
                 let potential = response["potential"][0]["potential"];
 
                 document.getElementById("tablesinstaller").innerHTML =
                     response["cantable"][0]["cant"];
-                document.getElementById("potential").innerHTML = potential;
+                document.getElementById("potential").innerHTML = new Intl.NumberFormat().format(potentialreal);
 
                 response["cvotesdash"].forEach((item) => {
                     if (item.hora <= 9) range1 += item.hora;
@@ -435,10 +442,130 @@ function searchDataCountVotesDash(e) {
                 let abstention = potential - range5;
                 let perabstention = Math.round((abstention * 100) / potential);
 
-                document.getElementById("numbervotes").innerHTML = range5;
+                document.getElementById("numbervotes").innerHTML = new Intl.NumberFormat().format(range5);
                 document.getElementById("pernumbervotes").innerHTML =
                     pernumbervotes + "%";
-                document.getElementById("abstention").innerHTML = abstention;
+                document.getElementById("abstention").innerHTML = new Intl.NumberFormat().format(abstention);
+                document.getElementById("perabstention").innerHTML =
+                    perabstention + "%";
+
+                graphicscountvotes(range1, range2, range3, range4, range5);
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swal.fire({
+                title: XMLHttpRequest.statusText,
+                text: XMLHttpRequest.responseJSON.message,
+                icon: "error",
+            });
+        },
+    });
+}
+
+function searchDataCountVotesFDash() {
+    
+    $.ajax({
+        method: "GET",
+        url: "/searchcountvotesfdash/",
+        success: function (response) {
+            if (response) {
+                let range1 = 0;
+                let range2 = 0;
+                let range3 = 0;
+                let range4 = 0;
+                let range5 = 0;
+
+                let potential = response["potential"][0]["potential"];
+
+                let potentialreal = response['potentialreal']; 
+
+
+                document.getElementById("tablesinstaller").innerHTML =
+                    response["cantable"][0]["cant"];
+                document.getElementById("potential").innerHTML = new Intl.NumberFormat().format(potentialreal);
+
+                response["cvotesdash"].forEach((item) => {
+                    if (item.hora <= 9) range1 += item.hora;
+                    if (item.hora <= 10) range2 += item.hora;
+                    if (item.hora <= 12) range3 += item.hora;
+                    if (item.hora <= 14) range4 += item.hora;
+                    range5 += item.hora;
+                });
+
+                document.getElementById("range1").innerHTML = range1;
+                document.getElementById("range2").innerHTML = range2;
+                document.getElementById("range3").innerHTML = range3;
+                document.getElementById("range4").innerHTML = range4;
+                document.getElementById("range5").innerHTML = range5;
+
+                let pernumbervotes = Math.round((range5 * 100) / potentialreal);
+                let abstention = potentialreal - range5;
+                let perabstention = Math.round((abstention * 100) / potentialreal);
+
+                document.getElementById("numbervotes").innerHTML = new Intl.NumberFormat().format(range5);
+                document.getElementById("pernumbervotes").innerHTML =
+                    pernumbervotes + "%";
+                document.getElementById("abstention").innerHTML = new Intl.NumberFormat().format(abstention);
+                document.getElementById("perabstention").innerHTML =
+                    perabstention + "%";
+
+                graphicscountvotes(range1, range2, range3, range4, range5);
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swal.fire({
+                title: XMLHttpRequest.statusText,
+                text: XMLHttpRequest.responseJSON.message,
+                icon: "error",
+            });
+        },
+    });
+}
+
+function searchDataCountVotesDash(e) {
+    var dimlocation = e.target.value;
+
+    $.ajax({
+        method: "GET",
+        url: "/searchcountvotesdash/" + dimlocation,
+        success: function (response) {
+            if (response) {
+                let range1 = 0;
+                let range2 = 0;
+                let range3 = 0;
+                let range4 = 0;
+                let range5 = 0;
+
+                let potentialreal = response['potentialreal'];
+
+                let potential = response["potential"][0]["potential"];
+
+                document.getElementById("tablesinstaller").innerHTML =
+                    response["cantable"][0]["cant"];
+                document.getElementById("potential").innerHTML = new Intl.NumberFormat().format(potentialreal);
+
+                response["cvotesdash"].forEach((item) => {
+                    if (item.hora <= 9) range1 += item.hora;
+                    if (item.hora <= 10) range2 += item.hora;
+                    if (item.hora <= 12) range3 += item.hora;
+                    if (item.hora <= 14) range4 += item.hora;
+                    range5 += item.hora;
+                });
+
+                document.getElementById("range1").innerHTML = range1;
+                document.getElementById("range2").innerHTML = range2;
+                document.getElementById("range3").innerHTML = range3;
+                document.getElementById("range4").innerHTML = range4;
+                document.getElementById("range5").innerHTML = range5;
+
+                let pernumbervotes = Math.round((range5 * 100) / potentialreal);
+                let abstention = potentialreal - range5;
+                let perabstention = Math.round((abstention * 100) / potentialreal);
+
+                document.getElementById("numbervotes").innerHTML = new Intl.NumberFormat().format(range5);
+                document.getElementById("pernumbervotes").innerHTML =
+                    pernumbervotes + "%";
+                document.getElementById("abstention").innerHTML = new Intl.NumberFormat().format(abstention);
                 document.getElementById("perabstention").innerHTML =
                     perabstention + "%";
 
@@ -460,11 +587,14 @@ function searchDataCountVotesDash(e) {
 function searchLocationGobernacionDash(e) {
     var dimlocation = e.target.value;
 
+    if (dimlocation == "") {
+        searchDataGobernacionDepDash();
+        return;
+    }
+
     searchDataGobernacionFDash(dimlocation);
 
-    if (dimlocation == "") {
-        return false;
-    }
+    
     const lugar = $("#lugvotdashgo");
     const mesa = $("#mesvotdashgo");
     $.ajax({
@@ -549,15 +679,16 @@ function searchDataGobernacionDash(e) {
                 $("#tablegobervote tbody").append(htmlTagsdata);
 
                 let potential = response["potential"][0]["potential"];
+                let potentialreal = response['gobpotentialreal'];
 
-                let abstention = potential - totvotgober;
+                let abstention = potentialreal - totvotgober;
 
                 document.getElementById("potentialvotegober").innerHTML =
-                    potential;
+                new Intl.NumberFormat().format(potentialreal);;
                 document.getElementById("totalvotesgober").innerHTML =
-                    totvotgober;
+                new Intl.NumberFormat().format(totvotgober);;
                 document.getElementById("abstentiongober").innerHTML =
-                    abstention;
+                new Intl.NumberFormat().format(abstention);;
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -623,15 +754,16 @@ function searchDataGobernacionFDash(e) {
                 $("#tablegobervote tbody").append(htmlTagsdata);
 
                 let potential = response["potential"][0]["potential"];
+                let potentialreal = response['gobpotentialreal'];
 
-                let abstention = potential - totvotgober;
+                let abstention = potentialreal - totvotgober;
 
                 document.getElementById("potentialvotegober").innerHTML =
-                    potential;
+                new Intl.NumberFormat().format(potentialreal);
                 document.getElementById("totalvotesgober").innerHTML =
-                    totvotgober;
+                new Intl.NumberFormat().format(totvotgober);
                 document.getElementById("abstentiongober").innerHTML =
-                    abstention;
+                new Intl.NumberFormat().format(abstention);
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -681,6 +813,11 @@ function searchLocationAlcaldiaDash() {
 function searchDataAlcaldiaDash(e) {
     var dimlocation = e.target.value;
 
+    if(dimlocation == ''){
+        searchDataAlcaldiaFDash();
+        return;
+    }
+
     $.ajax({
         method: "GET",
         url: "/searchalcaldiadash/" + dimlocation,
@@ -729,15 +866,16 @@ function searchDataAlcaldiaDash(e) {
                 $("#tablealcalvote tbody").append(htmlTagsdata);
 
                 let alcpotential = response["alcpotential"][0]["potential"];
+                let alcpotentialreal = response['alcpotentialreal'];
 
-                let alcabstention = alcpotential - totvotalcal;
+                let alcabstention = alcpotentialreal - totvotalcal;
 
                 document.getElementById("potentialvotealcal").innerHTML =
-                    alcpotential;
+                new Intl.NumberFormat().format(alcpotentialreal);
                 document.getElementById("totalvotesalcal").innerHTML =
-                    totvotalcal;
+                new Intl.NumberFormat().format(totvotalcal);
                 document.getElementById("abstentionalcal").innerHTML =
-                    alcabstention;
+                new Intl.NumberFormat().format(alcabstention);
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -799,15 +937,16 @@ function searchDataAlcaldiaFDash() {
                 $("#tablealcalvote tbody").append(htmlTagsdata);
 
                 let alcpotential = response["alcpotential"][0]["potential"];
+                let alcpotentialreal = response['alcpotentialreal']
 
-                let alcabstention = alcpotential - totvotalcal;
+                let alcabstention = alcpotentialreal - totvotalcal;
 
                 document.getElementById("potentialvotealcal").innerHTML =
-                    alcpotential;
+                new Intl.NumberFormat().format(alcpotentialreal);
                 document.getElementById("totalvotesalcal").innerHTML =
-                    totvotalcal;
+                new Intl.NumberFormat().format(totvotalcal);
                 document.getElementById("abstentionalcal").innerHTML =
-                    alcabstention;
+                new Intl.NumberFormat().format(alcabstention);
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -869,15 +1008,16 @@ function searchDataGobernacionDepDash() {
                 $("#tablegobervote tbody").append(htmlTagsdata);
 
                 let potential = response["potential"][0]["potential"];
+                let potentialreal = response['gobpotentialreal'];
 
-                let abstention = potential - totvotgober;
+                let abstention = potentialreal - totvotgober;
 
                 document.getElementById("potentialvotegober").innerHTML =
-                    potential;
+                new Intl.NumberFormat().format(potentialreal);
                 document.getElementById("totalvotesgober").innerHTML =
-                    totvotgober;
+                new Intl.NumberFormat().format(totvotgober);
                 document.getElementById("abstentiongober").innerHTML =
-                    abstention;
+                new Intl.NumberFormat().format(abstention);
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -1011,16 +1151,11 @@ function searchE14view(e){
         return false;
     }
 
-    console.log(dimlocation,"  Hoola");
-
     $.ajax({
         method: "GET",
         url: "/searche14view/" + dimlocation,
         success: function (response) {
 
-                console.log(response);
-                console.log(response['0']['url']);
-                
                 if(response['0']['url']){
 
                 $("#divImge14").empty();
