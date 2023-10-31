@@ -135,7 +135,8 @@ class HomeController extends Controller
         $horaActual = Carbon::now();
         $horaComparacion = Carbon::createFromTime(16, 0, 0); // Crear una instancia de Carbon para las 16:00
 
-        $bool = $horaActual->greaterThan($horaComparacion) ? true : false;
+        // $bool = $horaActual->greaterThan($horaComparacion) ? true : false;
+        $bool = true;
 
         return view('format', ["name" => $locuser, "hora" => $bool, "ha" => $horaActual]);
     }
